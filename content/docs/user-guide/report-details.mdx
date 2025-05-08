@@ -1,0 +1,147 @@
+---
+title: Report Details
+description: Understand the contents of a validation report, including result types, file metadata, and NFT Proof information.
+---
+
+## Verification Information
+
+This section provides information about the verification result, the date of verification, and the method used.
+
+## Result
+
+- **Full match**: The entire file content was found on the blockchain.
+- **Partial match**: Only parts of the file were found.
+- **No match**: No matching data was found.
+
+## Verification Methods
+
+- **Full file**:
+  The file was verified using its complete hash.
+
+- **Timestamp**:
+  Used when validating TAR files that contain both source and JSON proof files. The system checks the timestamp recorded on the blockchain against the timestamp proof inside the JSON file.
+
+- **Random**:
+  The system checked different segments to detect partial matches.
+
+- **Standard**:
+  The file was split using predefined configurations for verification.
+
+- **Unknown**:
+  Validation was cancelled or failed due to an error.
+
+## File Details
+
+This section provides key information about the uploaded file:
+
+- **Last modified** – The date when the file was last changed before upload.
+- **Hash** – The computed value representing the entire file’s content.
+
+<Callout
+  title='Integritas MiniDapp - My Uploads / Details'
+  type='warning'
+  className='w-[600px] overflow-hidden'
+>
+  <ImageZoom
+    width={600}
+    height={600}
+    alt='Integritas MiniDapp - My Uploads / Details'
+    src='/guide-dapp/file-details.png'
+  />
+</Callout>
+
+## NFT Proof
+
+This serves as a verifiable proof of authenticity for the report.
+
+- If multiple reports are verified at the same time, they share the same **NFT proof**, with an **index reference** linking each report to its proof.
+- A **direct link** to the NFT is provided to view the details on the **Minima Block Explorer**.
+
+  <Callout
+    title='Integritas MiniDapp - My Uploads / Details'
+    type='warning'
+    className='w-[600px] overflow-hidden'
+  >
+    <ImageZoom
+      width={600}
+      height={600}
+      alt='Integritas MiniDapp - My Uploads / Details'
+      src='/guide-dapp/nft-proof.png'
+    />
+  </Callout>
+
+## Block Dates for Data Matches
+
+Lists the dates when matching data was found on-chain, along with the **number of instances** detected on each date within the corresponding block.  
+This helps track when a file or its segments were recorded on the blockchain.
+
+<Callout
+  title='Integritas MiniDapp - My Uploads / Details'
+  type='warning'
+  className='w-[600px] overflow-hidden'
+>
+  <ImageZoom
+    width={600}
+    height={600}
+    alt='Integritas MiniDapp - My Uploads / Details'
+    src='/guide-dapp/block-matches.png'
+  />
+</Callout>
+
+## File Segments of Data Matches
+
+- **Total Size** – The combined size of all detected segments.
+- **Pattern Match** – The number of distinct segments found in the data.
+- **Match Result** – Expressed as a multiplier, where the first value is the number of times a segment repeats, and the second is the size of the matched segment.
+
+This breakdown helps identify patterns in file sizes and highlights whether certain size patterns occur frequently.
+
+<Callout
+  title='Integritas MiniDapp - My Uploads / Details'
+  type='warning'
+  className='w-[600px] overflow-hidden'
+>
+  <ImageZoom
+    width={600}
+    height={600}
+    alt='Integritas MiniDapp - My Uploads / Details'
+    src='/guide-dapp/block-matches.png'
+  />
+</Callout>
+
+## Unique Hashes from Specific Byte Ranges
+
+This table shows:
+
+- **Start and End Byte Positions** – The location in the file where matches have been found.
+- **Hash** – The computed hash for that specific byte range.
+
+This helps pinpoint exactly which portions of the file correspond to each hash, providing a detailed map of where specific data is located within the file.
+
+<Callout
+  title='Integritas MiniDapp - My Uploads / Details'
+  type='warning'
+>
+  <ImageZoom
+    width={800}
+    height={800}
+    alt='Integritas MiniDapp - My Uploads / Details'
+    src='/guide-dapp/unique-ranges.png'
+  />
+</Callout>
+
+## All Hash Instances Found on the Blockchain
+
+This table lists all instances where a hash was found on the blockchain. Each entry includes the date, block number, and Proof of Work (PoW) - Transaction ID where the hash was recorded. This enables users to verify the hash's authenticity and trace its history on the blockchain.
+
+<Callout
+  title='Integritas MiniDapp - My Uploads / Details'
+  type='warning'
+>
+  <ImageZoom
+    width={800}
+    height={800}
+    alt='Integritas MiniDapp - My Uploads / Details'
+    src='/guide-dapp/hash-instances.png'
+  />
+</Callout>

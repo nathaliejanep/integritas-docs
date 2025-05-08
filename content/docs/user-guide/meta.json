@@ -4,11 +4,13 @@
   "icon": "Sparkles",
   "description": "Welcome to Integritas",
   "pages": [
-    "---Technical Documentation---",
+    "---User Guide---",
     "index",
-    "upload-data",
-    "manage-files",
+    "access",
+    "upload",
+    "managing-files",
     "verification",
-    "reports"
+    "find-reports",
+    "report-details"
   ]
 }

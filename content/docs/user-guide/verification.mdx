@@ -1,0 +1,20 @@
+---
+title: Verification
+description: Understand how Integritas analyzes uploaded data and interprets results based on blockchain comparisons.
+---
+
+## Data Validation
+
+Once the uploaded data is sent to the backend for processing, a pattern recognition algorithm compares data hashes with blockchain records. The system then generates a match report with one of the following outcomes:
+
+- **Full match**  
+  The full file’s computed data hash matches a blockchain record.  
+  This confirms that the file has not been altered in any way since it was recorded, offering the strongest level of authenticity.
+
+- **Partial match**  
+  Some parts of the file’s computed data hash match blockchain records.  
+  This means the file contains some verified matches but has undergone alterations. Further investigation may be needed to understand the differences.
+
+- **No match**  
+  The file’s computed data hashes do not match any hash recorded on the blockchain.  
+  This suggests the file may have not been uploaded to the blockchain or have been modified significantly, resulting in a completely different digital fingerprint.
