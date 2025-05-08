@@ -1,0 +1,14 @@
+{
+  "title": "Introduction",
+  "root": true,
+  "icon": "Sparkles",
+  "description": "Welcome to Integritas",
+  "pages": [
+    "---Technical Documentation---",
+    "index",
+    "blockchain-integration",
+    "api-docs",
+    "report-generation",
+    "timestamping"
+  ]
+}

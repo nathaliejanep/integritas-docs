@@ -2,8 +2,8 @@ import { DocsHomePage } from '@/components/homepage';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Minima Docs',
-  description: 'The official documentation for Minima',
+  title: 'Integritas Docs',
+  description: 'The official documentation for Integritas',
 };
 
 export default function HomePage() {

@@ -1,0 +1,14 @@
+{
+  "title": "User Guide",
+  "root": true,
+  "icon": "Sparkles",
+  "description": "Welcome to Integritas",
+  "pages": [
+    "---Technical Documentation---",
+    "index",
+    "upload-data",
+    "manage-files",
+    "verification",
+    "reports"
+  ]
+}

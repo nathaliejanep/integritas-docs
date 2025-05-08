@@ -52,7 +52,7 @@ const Cards = () => {
   const features = [
     {
       title: 'Introduction',
-      description: 'Learn about Minima and how to get involved.',
+      description: 'Learn about Integritas',
       link: '/docs/about',
       icon: (
         <svg
@@ -69,9 +69,9 @@ const Cards = () => {
       ),
     },
     {
-      title: 'Run a node',
-      description: 'Install and run a full Minima node on your device.',
-      link: '/docs/run-a-node',
+      title: 'User Guide',
+      description: 'How to use Integritas dapp',
+      link: '/docs/user-guide',
       icon: (
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -91,9 +91,10 @@ const Cards = () => {
       ),
     },
     {
-      title: 'User Guides',
-      description: 'Guidance for using and managing your Minima node',
-      link: '/docs/user-guides',
+      title: 'Technical Documentation',
+      description:
+        'For developers, engineers, and blockchain integrators working with  Integritas',
+      link: '/docs/technical-docs',
       icon: (
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -109,68 +110,68 @@ const Cards = () => {
         </svg>
       ),
     },
-    {
-      title: 'Knowledge Base',
-      description: 'A deep dive into Minima and Maxima',
-      link: '/docs/learn',
-      icon: (
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          version='1.1'
-          id='Layer_1'
-          x='0px'
-          y='0px'
-          viewBox='0 0 32 32'
-          className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors'
-        >
-          <path d='M10.7,21.3V10.7h10.7V0H32v32H0V21.3H10.7z' />
-        </svg>
-      ),
-    },
-    {
-      title: 'Developer Tutorials',
-      description:
-        'Build decentralized applications and create smart contracts on Minima',
-      link: '/docs/development',
-      icon: (
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          version='1.1'
-          id='Layer_1'
-          x='0px'
-          y='0px'
-          viewBox='0 0 32 32'
-          className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors'
-        >
-          <path d='M16,16H0v16h16V16z' />
-          <path d='M32,0H16v16h16V0z' />
-        </svg>
-      ),
-    },
-    {
-      title: 'Tokenomics',
-      description:
-        "Understand Minima's token allocation and distribution schedule",
-      link: '/docs/core/tokenomics',
-      icon: (
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          version='1.1'
-          id='Layer_1'
-          x='0px'
-          y='0px'
-          viewBox='0 0 32 32'
-          className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors'
-        >
-          <g>
-            <path d='M24.7,14.4c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C17.6,11.2,20.8,14.4,24.7,14.4z' />
-            <path d='M7.3,14.4c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C0.1,11.2,3.3,14.4,7.3,14.4z' />
-            <path d='M24.7,31.9c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C17.6,28.7,20.8,31.9,24.7,31.9z' />
-            <path d='M7.3,31.9c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C0.1,28.7,3.3,31.9,7.3,31.9z' />
-          </g>
-        </svg>
-      ),
-    },
+    // {
+    //   title: 'Knowledge Base',
+    //   description: 'A deep dive into Minima and Maxima',
+    //   link: '/docs/learn',
+    //   icon: (
+    //     <svg
+    //       xmlns='http://www.w3.org/2000/svg'
+    //       version='1.1'
+    //       id='Layer_1'
+    //       x='0px'
+    //       y='0px'
+    //       viewBox='0 0 32 32'
+    //       className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors'
+    //     >
+    //       <path d='M10.7,21.3V10.7h10.7V0H32v32H0V21.3H10.7z' />
+    //     </svg>
+    //   ),
+    // },
+    // {
+    //   title: 'Developer Tutorials',
+    //   description:
+    //     'Build decentralized applications and create smart contracts on Minima',
+    //   link: '/docs/development',
+    //   icon: (
+    //     <svg
+    //       xmlns='http://www.w3.org/2000/svg'
+    //       version='1.1'
+    //       id='Layer_1'
+    //       x='0px'
+    //       y='0px'
+    //       viewBox='0 0 32 32'
+    //       className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors'
+    //     >
+    //       <path d='M16,16H0v16h16V16z' />
+    //       <path d='M32,0H16v16h16V0z' />
+    //     </svg>
+    //   ),
+    // },
+    // {
+    //   title: 'Tokenomics',
+    //   description:
+    //     "Understand Minima's token allocation and distribution schedule",
+    //   link: '/docs/core/tokenomics',
+    //   icon: (
+    //     <svg
+    //       xmlns='http://www.w3.org/2000/svg'
+    //       version='1.1'
+    //       id='Layer_1'
+    //       x='0px'
+    //       y='0px'
+    //       viewBox='0 0 32 32'
+    //       className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors'
+    //     >
+    //       <g>
+    //         <path d='M24.7,14.4c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C17.6,11.2,20.8,14.4,24.7,14.4z' />
+    //         <path d='M7.3,14.4c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C0.1,11.2,3.3,14.4,7.3,14.4z' />
+    //         <path d='M24.7,31.9c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C17.6,28.7,20.8,31.9,24.7,31.9z' />
+    //         <path d='M7.3,31.9c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C0.1,28.7,3.3,31.9,7.3,31.9z' />
+    //       </g>
+    //     </svg>
+    //   ),
+    // },
   ];
   return (
     <motion.div

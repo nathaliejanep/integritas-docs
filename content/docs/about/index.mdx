@@ -1,11 +1,41 @@
 ---
-title: Hello World
-description: Your first document
+title: Integritas
+description: Data that has been hashed on a blockchain is immutable and intrinsically more valuable.
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+## What is Integritas?
 
-## What is Next?
+Integritas is a middleware solution designed to provide real-time data
+verification and validation from any minima powered source. Users can upload data, validate it, and generate reports in NFT and PDF formats.
+
+## Key Features
+
+- **Data Validation:** Verifies authenticity of uploaded data.
+- **Blockchain Integration:** Uses Minima’s Blockchain for secure validation of data.
+- **Time Stamping:** Ensures tamper-proof on-chain verification of data.
+- **NFT & PDF Reports:** Users receive verified reports.
+
+## How it works PROOF READ and indent
+
+**1. Data Source**  
+When data is generated on the edge (device), it is hashed and recorded on the Minima blockchain in real time. The hash is unique to the data and any changes to the data would generate a new hash, thereby enforcing immutability of the data.
+
+**2. Verification & Matching**  
+Users can verify datasets by checking hashes on the blockchain against their own uploaded data. Integritas determines if the uploaded data generates hashes corresponding to hashes on the blockchain.
+
+- A **full match** corresponds to the entire dataset generating a hash on the blockchain.
+- A **partial match** specifies which part of the uploaded data has been found.
+- **No match** is returned when the dataset does not generate a corresponding hash on the blockchain.
+
+**3. Report Generation**  
+Integritas generates detailed validation reports that include timestamps, hash records, and generates an NFT and PDF as backed proof of authenticity.
+
+## Why use Integritas?
+
+- **Tamper-proof:** Leverages blockchain technology to ensure data integrity and prevent manipulation of data.
+- **Automated Accuracy Checks:** Compares data against stored records providing real-time verification.
+- **Simplicity:** A seamless App that makes it simple to upload data, view past uploads, and access detailed validation reports.
+- **Secure & Verifiable Reports:** Generates verifiable reports stored immutably on the blockchain for trust and compliance.
 
 <Cards>
   <Card

@@ -1,0 +1,78 @@
+---
+title: Blockchain Integration
+description: The Integritas system uses a variety of techniques to compare and validate data using cryptographic hashing methods. These methods ensure integrity and allow for flexible validation approaches.
+---
+
+## Hash Comparison Methods
+
+- **Hashing method**  
+  Utilizes SHA3-256 to generate a cryptographic hash.
+
+- **Full data dump hashing**  
+  Hashes the entire dataset.
+
+- **Config values**  
+  Hashes and compares segments of data according to predefined packets specified in the configuration.
+
+- **Byte-by-byte**  
+  Performs a binary-level comparison, starting with exponential segment sizes and refining with increasing segment sizes.
+
+- **Data-by-reference**  
+  Matches uploaded data against stored references recorded on Minima’s blockchain.
+
+---
+
+## Validation Process
+
+The validation process ensures the authenticity of uploaded data by comparing it with blockchain records.
+
+**Validation results fall into three categories:**
+
+- **Full match**: The data fully corresponds with an existing record.
+
+- **Partial match**: Some segments match existing records, but not entirely.
+
+- **No match**: The data does not correlate with any stored records.
+
+---
+
+## Step-by-Step Process
+
+### 1. User Uploads Data
+
+The user can upload one of the following:
+
+- **Source file(s)**
+- **A JSON file with proof and a source file**
+- **A TAR file** containing both a JSON file with proof and a source file
+
+The system automatically detects the uploaded file type and determines whether to verify the data against the **blockchain** or the **on-chain timestamp server**.
+
+---
+
+### 2. **System Computes Cryptographic Hashes**
+
+The system performs a series of verification methods in sequence:
+
+#### a. **Full Data Match**
+
+- Computes the **SHA3-256 hash** of the entire file
+- Checks for an **exact match** on the blockchain
+
+#### b. **Config-Based Packet Size Verification**
+
+- If no full match is found, the system **segments the file** based on the configured packet size
+- Computes hashes for each segment
+- Compares **segment-wise hashes** against blockchain records
+
+#### c. **Byte-by-Byte Pattern Matching**
+
+- If config-based matching fails, an in-depth **pattern check** is triggered
+- The file is examined using **exponential segment sizes**: 1, 2, 4, 8, 16, 32, and 64 bytes
+- If no match is found, remaining bytes are checked **sequentially up to 64 bytes**
+
+**Note:**
+
+- **Partial matches** are only checked for segments **up to 64 bytes**
+- Any data segment **larger than 64 bytes** is **not validated**
+- At every stage, the system **verifies the data against blockchain records**

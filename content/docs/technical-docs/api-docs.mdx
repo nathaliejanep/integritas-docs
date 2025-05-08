@@ -1,0 +1,101 @@
+---
+title: API Docs
+description: This documentation provides a detailed overview of the Integritas API, which enables file and data verification against the blockchain. It supports optional NFT traceability and returns structured results that include on-chain validation details. Use this guide to understand endpoints, request formats, and how to interpret the verification responses.
+---
+
+---
+
+## Base URL
+
+All API requests are made to the following base URL:
+
+[Visit Integritas API Documentation](https://integritas.minima.global/integritas/api/v1)
+
+---
+
+## Authentication
+
+Authentication is required for API access to ensure secure transactions and data integrity.
+
+---
+
+## NFT Proof Trace (Optional Feature)
+
+The **NFT Proof Trace** is an optional feature in the API that allows you to request an NFT trace of the verification process.
+
+When enabled:
+
+- It provides an **immutable, on-chain record** of the validation.
+- The verification is **linked to a unique NFT**, ensuring transparency and traceability.
+
+---
+
+## Endpoints
+
+### `/verify/data`
+
+| Attribute       | Details                                                                                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                                                                                           |
+| **Description** | This endpoint is used to submit a file or raw data for verification against the blockchain. It processes the provided data and returns the verification results. |
+| **Endpoint**    | `/verify/data`                                                                                                                                                   |
+
+---
+
+## Request Headers
+
+| Header                | Value                | Description                                                                                    |
+| --------------------- | -------------------- | ---------------------------------------------------------------------------------------------- |
+| **Content-Type**      | `application/json`   | Specifies the content type as JSON                                                             |
+| **Authorization**     | `Basic Auth`         | Required for authentication. For testing, ask for username and password credentials in Discord |
+| **x-report-required** | `"true"` / `"false"` | Request NFT trace from the verification process                                                |
+
+---
+
+## Request Body
+
+| Request Type | Content-Type       | Body Type   | Keys                | Description                                   |
+| ------------ | ------------------ | ----------- | ------------------- | --------------------------------------------- |
+| File upload  | `file`             | `form-data` | `file`              | Validate a source file or `.tar` file         |
+| File upload  | `file + file`      | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file |
+| Raw data     | `application/json` | `JSON`      | `data`              | Validate raw data as a string                 |
+
+---
+
+## API Response
+
+The response from the API contains information about a file and its results from on-chain verification. Below is an explanation of the key fields in the response:
+
+| Field                    | Type     | Description                                                                                                                 |
+| ------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `fileHash`               | `string` | The unique hash value of the file that was submitted for verification. Used to identify it on-chain.                        |
+| `result`                 | `string` | The result of the verification process. Possible values: `exact match`, `partial match`, or `no match`.                     |
+| `method`                 | `string` | The method used to verify the file.                                                                                         |
+| `hash_instances_onchain` | `number` | Number of times this file’s hash appears on the blockchain.                                                                 |
+| `unique_hashes`          | `number` | Number of unique hashes related to this file found on the blockchain.                                                       |
+| `blockchain_data`        | `array`  | Array of found blocks related to the file. See [Breakdown of `blockchain_data`](#breakdown-of-blockchain_data) for details. |
+| `fileSegments`           | `array`  | Array of matched segments in the file. See [Breakdown of `fileSegments`](#breakdown-of-filesegments) for details.           |
+
+---
+
+### Breakdown of `blockchain_data`
+
+| Field             | Type     | Description                                                             |
+| ----------------- | -------- | ----------------------------------------------------------------------- |
+| `block_number`    | `string` | Block number where the hash was found.                                  |
+| `block_date`      | `string` | Timestamp in `YYYY-MM-DD HH:mm:ss` format when the hash was recorded.   |
+| `txpow_id`        | `string` | Transaction ID of the Proof-of-Work where the hash was included.        |
+| `transactionid`   | `string` | Unique ID of the blockchain transaction that contains the matched hash. |
+| `numberOfResults` | `number` | Number of times the hash appeared in the transaction.                   |
+| `matched_hash`    | `string` | The matched hash value found in the block.                              |
+
+---
+
+### Breakdown of `fileSegments`
+
+| Field                | Type     | Description                                                  |
+| -------------------- | -------- | ------------------------------------------------------------ |
+| `hash`               | `string` | Hash value of a specific segment of the file.                |
+| `arrayOfChunkLength` | `number` | Length in bytes of the matching chunk.                       |
+| `arrayOfIndex`       | `number` | Index of the chunk within the file.                          |
+| `arrayOfOffset`      | `number` | Offset of the chunk in the file (position in original file). |

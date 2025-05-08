@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     default: 'Docs',
     template: '%s | Docs',
   },
-  description: 'The official documentation for Minima',
+  description: 'The official documentation for Integritas',
   twitter: {
     card: 'summary_large_image',
   },
