@@ -9,22 +9,23 @@ description: This documentation provides a detailed overview of the Integritas A
 
 All upload API requests are made to the following base URL:
 
-`{{BASE_URL_UPLOAD}}`
-
 ```
 https://integritas.minima.global/mmapi
 
 ```
 
+Referenced as:
+`{{BASE_URL_UPLOAD}}`
+
 All verification API requests are made to the following base URL:
 
-`{{BASE_URL_VERIFY}}`
-
 ```
-
 https://integritas.minima.global/integritas-api
 
 ```
+
+Referenced as:
+`{{BASE_URL_VERIFY}}`
 
 ---
 
@@ -44,11 +45,11 @@ There are three endpoints. One for uploading hashed data, one for retrieving pro
 
 To upload data using the timestamp server, (a) hash it, (b) send it, and (c) ask for proof.
 
-(a) Hash the data using SHA3-256 method.
+(a) Before using upload "Endpoint 1", prepare by hashing the data you want to send - using SHA3-256 method.
 
-(b) Send the hash by adding a 0x infront of it. You will receive a UID in the response.
+(b) Use "Endpoint 1" to send the hash. You will receive a UID in the response.
 
-(c) Use the UID from the response to retrieve the proof.
+(c) Use "Endpoint 2" to send the UID from the response to retrieve the proof.
 
 ---
 
@@ -110,7 +111,7 @@ The response from the API contains a UID which you will need to retrieve proof o
 | --------------- | ---------------------------------------------------------------------------------------- |
 | **Method**      | `POST`                                                                                   |
 | **Description** | This endpoint is used to collect the proof from one or multiple blockchain transactions. |
-| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/timestamp/post`                                                  |
+| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/timestamp/status`                                                |
 
 ---
 
@@ -140,6 +141,30 @@ Example:
 ---
 
 API Response
+
+If the blockchain transaction was not yet completed you will get a response that `"onchain": false` and you need to wait a moment and try again, maximum wait time for a blockchain transaction to be completed is 3 minutes.
+
+```
+
+{
+    "message": "UID statuses fetched",
+    "results": [
+        {
+        "uid": "0x9A1EBC7ED85F482EFBD1",
+        "status": "success",
+        "data": {
+            "status": true,
+            "uid": "0x9A1EBC7ED85F482EFBD1",
+            "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6X",
+            "number": 56,
+            "datecreated": "2025-05-09 13:19:47",
+            "onchain": false
+            }
+        }
+    ]
+}
+
+```
 
 The response from the API contains everything needed to verify that the data was sent to the blockchain. These fields are used in the verification process: "data", "root", "proof", "address". Save them in a json file, see example below the response example.
 
@@ -190,46 +215,20 @@ Fields and format to be saved for verification in a json file:
 
 ```
 
-{
-    [
-        {
-        "address": "0xFFEEDD"
-        "data": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
-        "proof": "0x0001000001010000000020EAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404000100",
-        "root": "0xBC5D573EE53485FE59F49182EDA7AB164FF582141E9186FD2AF25F2F71009501",
-        },
-        {
-        "address": "0xFFEEDD"
-        "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A",
-        "proof": "0x000100000100",
-        "root": "0xEAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404",
-        }
-    ]
-}
-
-```
-
-If the blockchain transaction was not yet completed you will get a response that `"onchain": false` and you need to wait a moment and try again, maximum wait time for a blockchain transaction to be completed is 3 minutes.
-
-```
-
-{
-    "message": "UID statuses fetched",
-    "results": [
-        {
-        "uid": "0x9A1EBC7ED85F482EFBD1",
-        "status": "success",
-        "data": {
-            "status": true,
-            "uid": "0x9A1EBC7ED85F482EFBD1",
-            "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6X",
-            "number": 56,
-            "datecreated": "2025-05-09 13:19:47",
-            "onchain": false
-            }
-        }
-    ]
-}
+[
+    {
+    "address": "0xFFEEDD"
+    "data": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
+    "proof": "0x0001000001010000000020EAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404000100",
+    "root": "0xBC5D573EE53485FE59F49182EDA7AB164FF582141E9186FD2AF25F2F71009501",
+    },
+    {
+    "address": "0xFFEEDD"
+    "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A",
+    "proof": "0x000100000100",
+    "root": "0xEAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404",
+    }
+]
 
 ```
 
