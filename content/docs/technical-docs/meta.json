@@ -1,8 +1,8 @@
 {
-  "title": "Introduction",
+  "title": "Technical Documentation",
   "root": true,
   "icon": "Sparkles",
-  "description": "Welcome to Integritas",
+  "description": "Developer-focused documentation",
   "pages": [
     "---Technical Documentation---",
     "index",

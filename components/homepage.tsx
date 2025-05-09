@@ -3,6 +3,7 @@ import { cn } from '@/app/lib/utils';
 import Link from 'next/link';
 import { SparklesCore } from './sparkles';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 
 export function DocsHomePage() {
   return (
@@ -27,18 +28,25 @@ export function DocsHomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className='text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-primary-foreground'
+            className='flex flex-col items-center text-xl lg:text-3xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-primary-foreground'
           >
-            Welcome to the Integritas Docs
+            <Image
+              src='/logos/integritas-gradient.svg'
+              alt='Integritas Logo'
+              className='h-12 w-auto'
+              height={8}
+              width={8}
+            />
+            documentation
           </motion.h4>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className='text-lg lg:text-xl  max-w-2xl  my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300'
+            className='text-lg lg:text-lg  max-w-2xl  my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300'
           >
-            Learn all there is to know about Integritas
+            Explore the full power of Integritas
           </motion.p>
 
           <Cards />
@@ -56,15 +64,18 @@ const Cards = () => {
       link: '/docs/about',
       icon: (
         <svg
+          width='331'
+          height='372'
+          viewBox='0 0 331 372'
+          fill='none'
           xmlns='http://www.w3.org/2000/svg'
-          version='1.1'
-          id='Layer_1'
-          x='0px'
-          y='0px'
-          viewBox='0 0 32 32'
           className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630]'
         >
-          <path d='M25.6,9.3l-1.4,6.3L22.4,8l-6.3-2.6L14.4,13l-1.5-8.9L6.5,1.6L0,30.4h6.9l2-8.9l1.5,8.9h6.9l1.7-7.6l1.8,7.6h6.9L32,11.9  L25.6,9.3z' />
+          <path
+            fillRule='evenodd'
+            clipRule='evenodd'
+            d='M9.07654 84.9058L108.951 142.563L156.127 115.333V-0.000183105L99.8683 32.4799C99.8683 50.2095 80.6854 61.2724 65.3355 52.4076L9.07654 84.9058ZM174.296 0V115.315L221.473 142.545L321.347 84.8878L265.088 52.4077C249.738 61.2725 230.555 50.1915 230.555 32.4801L174.296 0ZM99.8745 212.768L0 270.426V205.466C15.3499 196.601 15.3499 174.457 0 165.592V100.632L99.8745 158.29V212.768ZM230.562 158.29L330.436 100.632V165.593C315.086 174.457 315.086 196.601 330.436 205.466V270.426L230.562 212.769V158.29ZM156.127 255.732V371.047L99.8683 338.567C99.8683 320.856 80.6854 309.775 65.3355 318.64L9.07654 286.16L108.951 228.502L156.127 255.732ZM221.473 228.503L321.347 286.16L265.088 318.64C249.738 309.775 230.555 320.838 230.555 338.568L174.296 371.048V255.733L221.473 228.503Z'
+          />
         </svg>
       ),
     },
@@ -110,68 +121,6 @@ const Cards = () => {
         </svg>
       ),
     },
-    // {
-    //   title: 'Knowledge Base',
-    //   description: 'A deep dive into Minima and Maxima',
-    //   link: '/docs/learn',
-    //   icon: (
-    //     <svg
-    //       xmlns='http://www.w3.org/2000/svg'
-    //       version='1.1'
-    //       id='Layer_1'
-    //       x='0px'
-    //       y='0px'
-    //       viewBox='0 0 32 32'
-    //       className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors'
-    //     >
-    //       <path d='M10.7,21.3V10.7h10.7V0H32v32H0V21.3H10.7z' />
-    //     </svg>
-    //   ),
-    // },
-    // {
-    //   title: 'Developer Tutorials',
-    //   description:
-    //     'Build decentralized applications and create smart contracts on Minima',
-    //   link: '/docs/development',
-    //   icon: (
-    //     <svg
-    //       xmlns='http://www.w3.org/2000/svg'
-    //       version='1.1'
-    //       id='Layer_1'
-    //       x='0px'
-    //       y='0px'
-    //       viewBox='0 0 32 32'
-    //       className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors'
-    //     >
-    //       <path d='M16,16H0v16h16V16z' />
-    //       <path d='M32,0H16v16h16V0z' />
-    //     </svg>
-    //   ),
-    // },
-    // {
-    //   title: 'Tokenomics',
-    //   description:
-    //     "Understand Minima's token allocation and distribution schedule",
-    //   link: '/docs/core/tokenomics',
-    //   icon: (
-    //     <svg
-    //       xmlns='http://www.w3.org/2000/svg'
-    //       version='1.1'
-    //       id='Layer_1'
-    //       x='0px'
-    //       y='0px'
-    //       viewBox='0 0 32 32'
-    //       className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors'
-    //     >
-    //       <g>
-    //         <path d='M24.7,14.4c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C17.6,11.2,20.8,14.4,24.7,14.4z' />
-    //         <path d='M7.3,14.4c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C0.1,11.2,3.3,14.4,7.3,14.4z' />
-    //         <path d='M24.7,31.9c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C17.6,28.7,20.8,31.9,24.7,31.9z' />
-    //         <path d='M7.3,31.9c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1C0.1,28.7,3.3,31.9,7.3,31.9z' />
-    //       </g>
-    //     </svg>
-    //   ),
-    // },
   ];
   return (
     <motion.div

@@ -1,15 +1,8 @@
 {
   "title": "Introduction",
   "root": true,
-  "tag": ["abou"],
+  "tag": ["about"],
   "icon": "Sparkles",
   "description": "Welcome to Integritas",
-  "pages": [
-    "---About Minima---",
-    "index",
-    "introduction",
-    "key-features",
-    "how-it-works",
-    "why-use-integritas"
-  ]
+  "pages": ["---About---", "index"]
 }

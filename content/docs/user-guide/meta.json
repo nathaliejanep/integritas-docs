@@ -2,7 +2,7 @@
   "title": "User Guide",
   "root": true,
   "icon": "Sparkles",
-  "description": "Welcome to Integritas",
+  "description": "How to use dapp",
   "pages": [
     "---User Guide---",
     "index",
