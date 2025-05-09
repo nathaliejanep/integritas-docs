@@ -9,28 +9,28 @@ description: This documentation provides a detailed overview of the Integritas A
 
 All upload API requests are made to the following base URL:
 
-`https://integritas.minima.global/mmapi`
+`{{BASE_URL_UPLOAD}}`
+
+```
+https://integritas.minima.global/mmapi
+
+```
 
 All verification API requests are made to the following base URL:
 
-`https://integritas.minima.global/integritas-api`
+`{{BASE_URL_VERIFY}}`
+
+```
+
+https://integritas.minima.global/integritas-api
+
+```
 
 ---
 
 ## Authentication
 
-Authentication is required for API access to ensure secure transactions and data integrity.
-
----
-
-## NFT Proof Trace (Optional Feature)
-
-The **NFT Proof Trace** is an optional feature in the API that allows you to request an NFT trace of the verification process.
-
-When enabled:
-
-- It provides an **immutable, on-chain record** of the validation.
-- The verification is **linked to a unique NFT**, ensuring transparency and traceability.
+Authentication is required and done through the use of API-keys. Get yours at https://integritas.minima.global/.
 
 ---
 
@@ -42,15 +42,17 @@ There are three endpoints. One for uploading hashed data, one for retrieving pro
 
 ### Upload endpoints
 
-To upload data, (a) hash it, (b) send it, and (c) ask for proof.
+To upload data using the timestamp server, (a) hash it, (b) send it, and (c) ask for proof.
 
 (a) Hash the data using SHA3-256 method.
 
-(b) Send it by adding a 0x infront of the hash. You will receive a UID in the response.
+(b) Send the hash by adding a 0x infront of it. You will receive a UID in the response.
 
 (c) Use the UID from the response to retrieve the proof.
 
-#### Upload hashed data
+---
+
+#### Endpoint 1 - Upload hashed data
 
 | Attribute       | Details                                                                                                                                       |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -71,63 +73,265 @@ Request Headers
 
 Request Body
 
-| Request Type | Content-Type       | Body Type | Keys   | Description        |
-| ------------ | ------------------ | --------- | ------ | ------------------ |
-| Raw data     | `application/json` | `JSON`    | `data` | Upload hashed data |
+| Request Type | Content-Type       | Body Type | Keys   | Description                       |
+| ------------ | ------------------ | --------- | ------ | --------------------------------- |
+| Raw data     | `application/json` | `JSON`    | `hash` | Input hash of data with 0x prefix |
+
+Example:
+
+```
+
+{"hash": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A"}
+
+```
 
 ---
 
 API Response
 
-The response from the API contains information about a file and its results from on-chain verification. Below is an explanation of the key fields in the response:
+The response from the API contains a UID which you will need to retrieve proof of the blockchain transaction that is being done by the timestamp server:
 
-| Field                    | Type     | Description                                                                                                                 |
-| ------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `fileHash`               | `string` | The unique hash value of the file that was submitted for verification. Used to identify it on-chain.                        |
-| `result`                 | `string` | The result of the verification process. Possible values: `exact match`, `partial match`, or `no match`.                     |
-| `method`                 | `string` | The method used to verify the file.                                                                                         |
-| `hash_instances_onchain` | `number` | Number of times this file’s hash appears on the blockchain.                                                                 |
-| `unique_hashes`          | `number` | Number of unique hashes related to this file found on the blockchain.                                                       |
-| `blockchain_data`        | `array`  | Array of found blocks related to the file. See [Breakdown of `blockchain_data`](#breakdown-of-blockchain_data) for details. |
-| `fileSegments`           | `array`  | Array of matched segments in the file. See [Breakdown of `fileSegments`](#breakdown-of-filesegments) for details.           |
+```
+{
+    "message": "Hash forwarded successfully",
+    "data": {
+        "status": true,
+        "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6X",
+        "uid": "0x9A1EBC7ED85F482EFBD1"
+    }
+}
+```
 
 ---
 
-### Verification endpoint
+#### Endpoint 2 - Check status
 
-`{{BASE_URL}}/v1/verify/apidata`
-
-| Attribute       | Details                                                                                                                                                          |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Method**      | `POST`                                                                                                                                                           |
-| **Description** | This endpoint is used to submit a file or raw data for verification against the blockchain. It processes the provided data and returns the verification results. |
-| **Endpoint**    | `/verify/data`                                                                                                                                                   |
+| Attribute       | Details                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                   |
+| **Description** | This endpoint is used to collect the proof from one or multiple blockchain transactions. |
+| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/timestamp/post`                                                  |
 
 ---
 
 Request Headers
 
-| Header                | Value                | Description                                                                                    |
-| --------------------- | -------------------- | ---------------------------------------------------------------------------------------------- |
-| **Content-Type**      | `application/json`   | Specifies the content type as JSON                                                             |
-| **Authorization**     | `Basic Auth`         | Required for authentication. For testing, ask for username and password credentials in Discord |
-| **x-report-required** | `"true"` / `"false"` | Request NFT trace from the verification process                                                |
+| Header           | Value              | Description                                                             |
+| ---------------- | ------------------ | ----------------------------------------------------------------------- |
+| **Content-Type** | `application/json` | Specifies the content type as JSON                                      |
+| **x-api-key**    | `your-api-key`     | Add your API-key from your profile at https://integritas.minima.global/ |
 
 ---
 
 Request Body
 
-| Request Type | Content-Type       | Body Type   | Keys                | Description                                   |
-| ------------ | ------------------ | ----------- | ------------------- | --------------------------------------------- |
-| File upload  | `file`             | `form-data` | `file`              | Validate a source file or `.tar` file         |
-| File upload  | `file + file`      | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file |
-| Raw data     | `application/json` | `JSON`      | `data`              | Validate raw data as a string                 |
+| Request Type | Content-Type       | Body Type | Keys   | Description          |
+| ------------ | ------------------ | --------- | ------ | -------------------- |
+| Raw data     | `application/json` | `JSON`    | `uids` | Input array of uids. |
+
+Example:
+
+```
+
+{"uids": ["0x17F034B2E873BDAC837A", "0x25DD9325B05FE56ECE8A"]}
+
+```
 
 ---
 
 API Response
 
-The response from the API contains information about a file and its results from on-chain verification. Below is an explanation of the key fields in the response:
+The response from the API contains everything needed to verify that the data was sent to the blockchain. These fields are used in the verification process: "data", "root", "proof", "address". Save them in a json file, see example below the response example.
+
+Example response:
+
+```
+{
+    "message": "UID statuses fetched",
+    "results": [
+        {
+            "uid": "0x17F034B2E873BDAC837A",
+            "status": "success",
+            "data": {
+                "status": true,
+                "uid": "0x17F034B2E873BDAC837A",
+                "data": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
+                "number": 52,
+                "datecreated": "2025-05-07 15:12:08",
+                "onchain": true,
+                "datestamped": "2025-05-07 15:15:03",
+                "root": "0xBC5D573EE53485FE59F49182EDA7AB164FF582141E9186FD2AF25F2F71009501",
+                "proof": "0x0001000001010000000020EAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404000100",
+                "address": "0xFFEEDD"
+            }
+        },
+        {
+            "uid": "0x25DD9325B05FE56ECE8A",
+            "status": "success",
+            "data": {
+                "status": true,
+                "uid": "0x25DD9325B05FE56ECE8A",
+                "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A",
+                "number": 55,
+                "datecreated": "2025-05-09 12:53:35",
+                "onchain": true,
+                "datestamped": "2025-05-09 12:54:04",
+                "root": "0xEAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404",
+                "proof": "0x000100000100",
+                "address": "0xFFEEDD"
+            }
+        }
+    ]
+}
+
+```
+
+Fields and format to be saved for verification in a json file:
+
+```
+
+{
+    [
+        {
+        "address": "0xFFEEDD"
+        "data": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
+        "proof": "0x0001000001010000000020EAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404000100",
+        "root": "0xBC5D573EE53485FE59F49182EDA7AB164FF582141E9186FD2AF25F2F71009501",
+        },
+        {
+        "address": "0xFFEEDD"
+        "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A",
+        "proof": "0x000100000100",
+        "root": "0xEAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404",
+        }
+    ]
+}
+
+```
+
+If the blockchain transaction was not yet completed you will get a response that `"onchain": false` and you need to wait a moment and try again, maximum wait time for a blockchain transaction to be completed is 3 minutes.
+
+```
+
+{
+    "message": "UID statuses fetched",
+    "results": [
+        {
+        "uid": "0x9A1EBC7ED85F482EFBD1",
+        "status": "success",
+        "data": {
+            "status": true,
+            "uid": "0x9A1EBC7ED85F482EFBD1",
+            "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6X",
+            "number": 56,
+            "datecreated": "2025-05-09 13:19:47",
+            "onchain": false
+            }
+        }
+    ]
+}
+
+```
+
+---
+
+### Verification endpoint
+
+There are many ways to verify your data, but they are all done through the same endpoint. Depending on how you uploaded your hashed data and what file types you are using the request will be slightly different. Read more about the differences below.
+
+NFT Proof Trace (Optional Feature)
+
+The **NFT Proof Trace** is an optional feature in the API that allows you to request an NFT trace of the verification process.
+
+When enabled:
+
+- It provides an **immutable, on-chain record** of the validation.
+- The verification is **linked to a unique NFT**, ensuring transparency and traceability.
+
+---
+
+---
+
+#### Endpoint 3 - Verify data
+
+| Attribute       | Details                                                                                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                                                                                           |
+| **Description** | This endpoint is used to submit a file or raw data for verification against the blockchain. It processes the provided data and returns the verification results. |
+| **Endpoint**    | `{{BASE_URL_VERIFY}}/v1/verify/apidata`                                                                                                                          |
+
+---
+
+Request Headers
+
+| Header                | Value                | Description                                                             |
+| --------------------- | -------------------- | ----------------------------------------------------------------------- |
+| **Content-Type**      | `application/json`   | Specifies the content type as JSON                                      |
+| **x-api-key**         | `your-api-key`       | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-report-required** | `"true"` / `"false"` | Request NFT trace from the verification process                         |
+
+---
+
+Request Body
+
+| Request Type | Content-Type       | Body Type   | Keys                | Description                                                                                                |
+| ------------ | ------------------ | ----------- | ------------------- | ---------------------------------------------------------------------------------------------------------- |
+| File upload  | `file`             | `form-data` | `file`              | Validate a source file or `.tar` file. The .tar file should contain the source file and a JSON proof file. |
+| File upload  | `file + file`      | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file                                                              |
+| Raw data     | `application/json` | `JSON`      | `data`              | Validate raw data as a string                                                                              |
+
+---
+
+API Response
+
+The response from the API contains information about a file and its results from on-chain verification.
+
+Example response:
+
+```
+{
+    "api_version": "0.1",
+    "request_id": "c8cf8648-5dad-48d1-a56a-0f360419dbc2",
+    "response_time": "15846.94 ms",
+    "response": {
+        "fileHash": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
+        "fileName": "testA.md",
+        "fileSize": 22,
+        "result": "full match",
+        "nftcoinid": "0x70065601A51031804A687BE3431183B4D272D940C4753D65955B50FD28507D5D",
+        "nfttxnid": "0x00000B7B3BE26DA6F209E852FCA87223C880C6176851AF8D0D62979B26CEEDD0",
+        "method": "timestamp",
+        "hash_instances_onchain": 2,
+        "unique_hashes": 1,
+        "blockchain_data": [
+            {
+                "block_number": 1460168,
+                "block_date": "2025-05-07 15:17:35",
+                "txpow_id": "0x0000001F7D602B6935F4AF9AB037F56F0AB0EED8C2D4ACA04DCD4AEB1FCDDD46",
+                "transactionid": "0x3FC70F82C2ED1926CF5C26BEF5C4F59818BC44BE33AB2498F2660A9B951A351E",
+                "matched_hash": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A"
+            },
+            {
+                "block_number": 1460168,
+                "block_date": "2025-05-07 15:17:35",
+                "txpow_id": "0x0000001F7D602B6935F4AF9AB037F56F0AB0EED8C2D4ACA04DCD4AEB1FCDDD46",
+                "transactionid": "0x3FC70F82C2ED1926CF5C26BEF5C4F59818BC44BE33AB2498F2660A9B951A351E",
+                "matched_hash": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A"
+            }
+        ],
+        "fileSegments": [
+            {
+                "matched_hash": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
+                "index": 0,
+                "offset": 0,
+                "packetSize": 22
+            }
+        ]
+    }
+}
+```
+
+Below is an explanation of the key fields in the response:
 
 | Field                    | Type     | Description                                                                                                                 |
 | ------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
