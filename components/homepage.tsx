@@ -37,7 +37,6 @@ export function DocsHomePage() {
               height={8}
               width={8}
             />
-            documentation
           </motion.h4>
 
           <motion.p
@@ -46,7 +45,7 @@ export function DocsHomePage() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className='text-lg lg:text-lg  max-w-2xl  my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300'
           >
-            Explore the full power of Integritas
+            Integritas Documentation. Explore the full power of Integritas.
           </motion.p>
 
           <Cards />
