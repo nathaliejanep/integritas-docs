@@ -31,7 +31,7 @@ export function DocsHomePage() {
             className='flex flex-col items-center text-xl lg:text-3xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-primary-foreground'
           >
             <Image
-              src='/logos/integritas-gradient.svg'
+              src='/docs/logos/integritas-gradient.svg'
               alt='Integritas Logo'
               className='h-12 w-auto'
               height={8}
@@ -45,7 +45,9 @@ export function DocsHomePage() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className='text-lg lg:text-lg  max-w-2xl  my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300'
           >
-            Integritas Documentation. Explore the full power of Integritas.
+            Integritas Documentation provides an in-depth look at the systems
+            full capabilities and robust features, designed to deliver trust,
+            transparency, and integrity.
           </motion.p>
 
           <Cards />
@@ -59,7 +61,8 @@ const Cards = () => {
   const features = [
     {
       title: 'Introduction',
-      description: 'Learn about Integritas',
+      description:
+        'Get a comprehensive overview of what Integritas is, its core principles, and how it empowers users through blockchain technology.',
       link: '/docs/about',
       icon: (
         <svg
@@ -80,7 +83,8 @@ const Cards = () => {
     },
     {
       title: 'User Guide',
-      description: 'How to use Integritas dapp',
+      description:
+        'Step-by-step instructions and practical guidance on how to navigate and utilize the Integritas dApp.',
       link: '/docs/user-guide',
       icon: (
         <svg
