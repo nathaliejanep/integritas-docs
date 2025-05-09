@@ -1,15 +1,19 @@
 ---
 title: API Docs
-description: This documentation provides a detailed overview of the Integritas API, which enables file and data verification against the blockchain. It supports optional NFT traceability and returns structured results that include on-chain validation details. Use this guide to understand endpoints, request formats, and how to interpret the verification responses.
+description: This documentation provides a detailed overview of the Integritas API, which enables both uploading and verification of data hashes against the blockchain. It supports optional NFT traceability and returns structured results that include on-chain validation details. Use this guide to understand endpoints, request formats, and how to interpret the verification responses.
 ---
 
 ---
 
 ## Base URL
 
-All API requests are made to the following base URL:
+All upload API requests are made to the following base URL:
 
-[Visit Integritas API Documentation](https://integritas.minima.global/integritas/api/v1)
+`https://integritas.minima.global/mmapi`
+
+All verification API requests are made to the following base URL:
+
+`https://integritas.minima.global/integritas-api`
 
 ---
 
@@ -32,37 +36,48 @@ When enabled:
 
 ## Endpoints
 
-### `/verify/data`
-
-| Attribute       | Details                                                                                                                                                          |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Method**      | `POST`                                                                                                                                                           |
-| **Description** | This endpoint is used to submit a file or raw data for verification against the blockchain. It processes the provided data and returns the verification results. |
-| **Endpoint**    | `/verify/data`                                                                                                                                                   |
+There are three endpoints. One for uploading hashed data, one for retrieving proof of uploaded data and one for verifying data.
 
 ---
 
-## Request Headers
+### Upload endpoints
 
-| Header                | Value                | Description                                                                                    |
-| --------------------- | -------------------- | ---------------------------------------------------------------------------------------------- |
-| **Content-Type**      | `application/json`   | Specifies the content type as JSON                                                             |
-| **Authorization**     | `Basic Auth`         | Required for authentication. For testing, ask for username and password credentials in Discord |
-| **x-report-required** | `"true"` / `"false"` | Request NFT trace from the verification process                                                |
+To upload data, (a) hash it, (b) send it, and (c) ask for proof.
+
+(a) Hash the data using SHA3-256 method.
+
+(b) Send it by adding a 0x infront of the hash. You will receive a UID in the response.
+
+(c) Use the UID from the response to retrieve the proof.
+
+#### Upload hashed data
+
+| Attribute       | Details                                                                                                                                       |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                                                                        |
+| **Description** | This endpoint is used to submit hashed data using SHA3-256 method. Send the hash as raw JSON data in the body, add a "0x" prefix to the hash. |
+| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/timestamp/post`                                                                                                       |
 
 ---
 
-## Request Body
+Request Headers
 
-| Request Type | Content-Type       | Body Type   | Keys                | Description                                   |
-| ------------ | ------------------ | ----------- | ------------------- | --------------------------------------------- |
-| File upload  | `file`             | `form-data` | `file`              | Validate a source file or `.tar` file         |
-| File upload  | `file + file`      | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file |
-| Raw data     | `application/json` | `JSON`      | `data`              | Validate raw data as a string                 |
+| Header           | Value              | Description                                                             |
+| ---------------- | ------------------ | ----------------------------------------------------------------------- |
+| **Content-Type** | `application/json` | Specifies the content type as JSON                                      |
+| **x-api-key**    | `your-api-key`     | Add your API-key from your profile at https://integritas.minima.global/ |
 
 ---
 
-## API Response
+Request Body
+
+| Request Type | Content-Type       | Body Type | Keys   | Description        |
+| ------------ | ------------------ | --------- | ------ | ------------------ |
+| Raw data     | `application/json` | `JSON`    | `data` | Upload hashed data |
+
+---
+
+API Response
 
 The response from the API contains information about a file and its results from on-chain verification. Below is an explanation of the key fields in the response:
 
@@ -78,7 +93,55 @@ The response from the API contains information about a file and its results from
 
 ---
 
-### Breakdown of `blockchain_data`
+### Verification endpoint
+
+`{{BASE_URL}}/v1/verify/apidata`
+
+| Attribute       | Details                                                                                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                                                                                           |
+| **Description** | This endpoint is used to submit a file or raw data for verification against the blockchain. It processes the provided data and returns the verification results. |
+| **Endpoint**    | `/verify/data`                                                                                                                                                   |
+
+---
+
+Request Headers
+
+| Header                | Value                | Description                                                                                    |
+| --------------------- | -------------------- | ---------------------------------------------------------------------------------------------- |
+| **Content-Type**      | `application/json`   | Specifies the content type as JSON                                                             |
+| **Authorization**     | `Basic Auth`         | Required for authentication. For testing, ask for username and password credentials in Discord |
+| **x-report-required** | `"true"` / `"false"` | Request NFT trace from the verification process                                                |
+
+---
+
+Request Body
+
+| Request Type | Content-Type       | Body Type   | Keys                | Description                                   |
+| ------------ | ------------------ | ----------- | ------------------- | --------------------------------------------- |
+| File upload  | `file`             | `form-data` | `file`              | Validate a source file or `.tar` file         |
+| File upload  | `file + file`      | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file |
+| Raw data     | `application/json` | `JSON`      | `data`              | Validate raw data as a string                 |
+
+---
+
+API Response
+
+The response from the API contains information about a file and its results from on-chain verification. Below is an explanation of the key fields in the response:
+
+| Field                    | Type     | Description                                                                                                                 |
+| ------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `fileHash`               | `string` | The unique hash value of the file that was submitted for verification. Used to identify it on-chain.                        |
+| `result`                 | `string` | The result of the verification process. Possible values: `exact match`, `partial match`, or `no match`.                     |
+| `method`                 | `string` | The method used to verify the file.                                                                                         |
+| `hash_instances_onchain` | `number` | Number of times this file’s hash appears on the blockchain.                                                                 |
+| `unique_hashes`          | `number` | Number of unique hashes related to this file found on the blockchain.                                                       |
+| `blockchain_data`        | `array`  | Array of found blocks related to the file. See [Breakdown of `blockchain_data`](#breakdown-of-blockchain_data) for details. |
+| `fileSegments`           | `array`  | Array of matched segments in the file. See [Breakdown of `fileSegments`](#breakdown-of-filesegments) for details.           |
+
+---
+
+Breakdown of `blockchain_data`
 
 | Field             | Type     | Description                                                             |
 | ----------------- | -------- | ----------------------------------------------------------------------- |
@@ -91,7 +154,7 @@ The response from the API contains information about a file and its results from
 
 ---
 
-### Breakdown of `fileSegments`
+Breakdown of `fileSegments`
 
 | Field                | Type     | Description                                                  |
 | -------------------- | -------- | ------------------------------------------------------------ |
