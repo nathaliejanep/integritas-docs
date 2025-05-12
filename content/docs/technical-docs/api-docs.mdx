@@ -336,6 +336,8 @@ Below is an explanation of the key fields in the response:
 | ------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `fileHash`               | `string` | The unique hash value of the file that was submitted for verification. Used to identify it on-chain.                        |
 | `result`                 | `string` | The result of the verification process. Possible values: `exact match`, `partial match`, or `no match`.                     |
+| `nftcoinid`              | `string` | Unique id of the NFT on the blockchain.                                                                                     |
+| `nfttxnid`               | `string` | Unique TxPoW id of the transaction that made the NFT.                                                                       |
 | `method`                 | `string` | The method used to verify the file.                                                                                         |
 | `hash_instances_onchain` | `number` | Number of times this file’s hash appears on the blockchain.                                                                 |
 | `unique_hashes`          | `number` | Number of unique hashes related to this file found on the blockchain.                                                       |
@@ -346,22 +348,21 @@ Below is an explanation of the key fields in the response:
 
 Breakdown of `blockchain_data`
 
-| Field             | Type     | Description                                                             |
-| ----------------- | -------- | ----------------------------------------------------------------------- |
-| `block_number`    | `string` | Block number where the hash was found.                                  |
-| `block_date`      | `string` | Timestamp in `YYYY-MM-DD HH:mm:ss` format when the hash was recorded.   |
-| `txpow_id`        | `string` | Transaction ID of the Proof-of-Work where the hash was included.        |
-| `transactionid`   | `string` | Unique ID of the blockchain transaction that contains the matched hash. |
-| `numberOfResults` | `number` | Number of times the hash appeared in the transaction.                   |
-| `matched_hash`    | `string` | The matched hash value found in the block.                              |
+| Field           | Type     | Description                                                             |
+| --------------- | -------- | ----------------------------------------------------------------------- |
+| `block_number`  | `string` | Block number where the hash was found.                                  |
+| `block_date`    | `string` | Timestamp in `YYYY-MM-DD HH:mm:ss` format when the hash was recorded.   |
+| `txpow_id`      | `string` | Transaction ID of the Proof-of-Work where the hash was included.        |
+| `transactionid` | `string` | Unique ID of the blockchain transaction that contains the matched hash. |
+| `matched_hash`  | `string` | The matched hash value found in the block.                              |
 
 ---
 
 Breakdown of `fileSegments`
 
-| Field                | Type     | Description                                                  |
-| -------------------- | -------- | ------------------------------------------------------------ |
-| `hash`               | `string` | Hash value of a specific segment of the file.                |
-| `arrayOfChunkLength` | `number` | Length in bytes of the matching chunk.                       |
-| `arrayOfIndex`       | `number` | Index of the chunk within the file.                          |
-| `arrayOfOffset`      | `number` | Offset of the chunk in the file (position in original file). |
+| Field          | Type     | Description                                                  |
+| -------------- | -------- | ------------------------------------------------------------ |
+| `matched_hash` | `string` | Hash value of a specific segment of the file (chunk).        |
+| `index`        | `number` | Index of the chunk within the file.                          |
+| `offset`       | `number` | Offset of the chunk in the file (position in original file). |
+| `packetsize`   | `number` | Length in bytes of the matching chunk.                       |
