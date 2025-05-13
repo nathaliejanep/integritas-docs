@@ -31,7 +31,7 @@ export function DocsHomePage() {
             className='flex flex-col items-center text-xl lg:text-3xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-primary-foreground'
           >
             <Image
-              src='/docs/logos/integritas-gradient.svg'
+              src='/logos/integritas-gradient.svg'
               alt='Integritas Logo'
               className='h-12 w-auto'
               height={8}
@@ -63,7 +63,7 @@ const Cards = () => {
       title: 'Introduction',
       description:
         'Get a comprehensive overview of what Integritas is, its core principles, and how it empowers users through blockchain technology.',
-      link: '/docs/about',
+      link: '/about',
       icon: (
         <svg
           width='331'
@@ -85,7 +85,7 @@ const Cards = () => {
       title: 'User Guide',
       description:
         'Step-by-step instructions and practical guidance on how to navigate and utilize the Integritas dApp.',
-      link: '/docs/user-guide',
+      link: '/user-guide',
       icon: (
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -108,7 +108,7 @@ const Cards = () => {
       title: 'Technical Documentation',
       description:
         'For developers, engineers, and blockchain integrators working with  Integritas',
-      link: '/docs/technical-docs',
+      link: '/technical-docs',
       icon: (
         <svg
           xmlns='http://www.w3.org/2000/svg'
