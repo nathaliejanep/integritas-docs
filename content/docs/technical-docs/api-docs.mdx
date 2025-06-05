@@ -10,7 +10,7 @@ description: This documentation provides a detailed overview of the Integritas A
 All upload API requests are made to the following base URL:
 
 ```
-https://integritas.minima.global/mmapi
+https://integritas.minima.global/core
 
 ```
 
@@ -37,7 +37,11 @@ Authentication is required and done through the use of API-keys. Get yours at ht
 
 ## Endpoints
 
-There are three endpoints. One for uploading hashed data, one for retrieving proof of uploaded data and one for verifying data.
+There are four available endpoints.
+
+Three endpoints in `{{BASE_URL_UPLOAD}}`, for hashing data (1), uploading hashed data (2) and retrieving proof of uploaded data (3).
+
+One endpoint in `{{BASE_URL_VERIFY}}` for verifying data.
 
 ---
 
@@ -45,21 +49,21 @@ There are three endpoints. One for uploading hashed data, one for retrieving pro
 
 To upload data using the timestamp server, (a) hash it, (b) send it, and (c) ask for proof.
 
-(a) Before using upload "Endpoint 1", prepare by hashing the data you want to send - using SHA3-256 method.
+(a) Use "Endpoint 1", to send the file. You will receive the SHA3-256 hash of the data in the response.
 
-(b) Use "Endpoint 1" to send the hash. You will receive a UID in the response.
+(b) Use "Endpoint 2" to send the hash. You will receive a UID in the response.
 
-(c) Use "Endpoint 2" to send the UID from the response to retrieve the proof.
+(c) Use "Endpoint 3" to send the UID from the response to retrieve the proof of the time stamping.
 
 ---
 
-#### Endpoint 1 - Upload hashed data
+#### Endpoint 1 - Get hash
 
-| Attribute       | Details                                                                                                        |
-| --------------- | -------------------------------------------------------------------------------------------------------------- |
-| **Method**      | `POST`                                                                                                         |
-| **Description** | This endpoint is used to submit hashed data using SHA3-256 method. Send the hash as raw JSON data in the body. |
-| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/timestamp/post`                                                                        |
+| Attribute       | Details                                                                        |
+| --------------- | ------------------------------------------------------------------------------ |
+| **Method**      | `POST`                                                                         |
+| **Description** | This endpoint is used to submit a file. Send the file as formdata in the body. |
+| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/file/hash`                                             |
 
 ---
 
@@ -69,6 +73,58 @@ Request Headers
 | ---------------- | ------------------ | ----------------------------------------------------------------------- |
 | **Content-Type** | `application/json` | Specifies the content type as JSON                                      |
 | **x-api-key**    | `your-api-key`     | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-request-id** | `your-choice`      | Add a request id to trace every step of the process                     |
+
+---
+
+Request Body
+
+| Request Type | Content-Type          | Body Type   | Keys   | Description |
+| ------------ | --------------------- | ----------- | ------ | ----------- |
+| File upload  | `multipart/form-data` | `form-data` | `file` | Send file   |
+
+---
+
+API Response
+
+The response from the API contains the hash of the file.
+
+Example response:
+
+```
+{
+    "api_version": 1,
+    "request_id": "my-test-reqest-id",
+    "status": "success",
+    "message": "Hash computed",
+    "timestamp": "2025-06-05T10:51:40.646Z",
+    "data": {
+        "hash": "C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+        "filename": "small.docx",
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    }
+}
+```
+
+---
+
+#### Endpoint 2 - Upload hashed data
+
+| Attribute       | Details                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                   |
+| **Description** | This endpoint is used to submit hashed data. Send the hash as raw JSON data in the body. |
+| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/timestamp/post`                                                  |
+
+---
+
+Request Headers
+
+| Header           | Value              | Description                                                             |
+| ---------------- | ------------------ | ----------------------------------------------------------------------- |
+| **Content-Type** | `application/json` | Specifies the content type as JSON                                      |
+| **x-api-key**    | `your-api-key`     | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-request-id** | `your-choice`      | Add a request id to trace every step of the process                     |
 
 ---
 
@@ -82,7 +138,7 @@ Example:
 
 ```
 
-{"hash": "44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A"}
+{"hash": "C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427"}
 
 ```
 
@@ -92,20 +148,26 @@ API Response
 
 The response from the API contains a UID which you will need to retrieve proof of the blockchain transaction that is being done by the timestamp server:
 
+Example response:
+
 ```
 {
+    "api_version": 1,
+    "request_id": "my-test-reqest-id",
+    "status": "success",
     "message": "Hash forwarded successfully",
+    "timestamp": "2025-06-05T10:56:24.283Z",
     "data": {
         "status": true,
-        "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6X",
-        "uid": "0x9A1EBC7ED85F482EFBD1"
+        "data": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+        "uid": "0x702E15682CCBAD167B7C"
     }
 }
 ```
 
 ---
 
-#### Endpoint 2 - Check status
+#### Endpoint 3 - Check status
 
 | Attribute       | Details                                                                                  |
 | --------------- | ---------------------------------------------------------------------------------------- |
@@ -121,6 +183,7 @@ Request Headers
 | ---------------- | ------------------ | ----------------------------------------------------------------------- |
 | **Content-Type** | `application/json` | Specifies the content type as JSON                                      |
 | **x-api-key**    | `your-api-key`     | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-request-id** | `your-choice`      | Add a request id to trace every step of the process                     |
 
 ---
 
@@ -134,7 +197,7 @@ Example:
 
 ```
 
-{"uids": ["0x17F034B2E873BDAC837A", "0x25DD9325B05FE56ECE8A"]}
+{"uids": ["0xFD6C5E119105643FF6DF"]}
 
 ```
 
@@ -147,21 +210,27 @@ If the blockchain transaction was not yet completed you will get a response that
 ```
 
 {
+    "api_version": 1,
+    "request_id": "my-test-reqest-id",
+    "status": "success",
     "message": "UID statuses fetched",
-    "results": [
-        {
-        "uid": "0x9A1EBC7ED85F482EFBD1",
-        "status": "success",
-        "data": {
-            "status": true,
-            "uid": "0x9A1EBC7ED85F482EFBD1",
-            "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6X",
-            "number": 56,
-            "datecreated": "2025-05-09 13:19:47",
-            "onchain": false
+    "timestamp": "2025-06-05T10:57:51.674Z",
+    "data": {
+        "results": [
+            {
+                "uid": "0xFD6C5E119105643FF6DF",
+                "status": "success",
+                "data": {
+                    "status": true,
+                    "uid": "0xFD6C5E119105643FF6DF",
+                    "data": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+                    "number": 28,
+                    "datecreated": "2025-06-05 10:57:45",
+                    "onchain": false
+                }
             }
-        }
-    ]
+        ]
+    }
 }
 
 ```
@@ -172,41 +241,31 @@ Example response:
 
 ```
 {
+    "api_version": 1,
+    "request_id": "my-test-reqest-id",
+    "status": "success",
     "message": "UID statuses fetched",
-    "results": [
-        {
-            "uid": "0x17F034B2E873BDAC837A",
-            "status": "success",
-            "data": {
-                "status": true,
-                "uid": "0x17F034B2E873BDAC837A",
-                "data": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
-                "number": 52,
-                "datecreated": "2025-05-07 15:12:08",
-                "onchain": true,
-                "datestamped": "2025-05-07 15:15:03",
-                "root": "0xBC5D573EE53485FE59F49182EDA7AB164FF582141E9186FD2AF25F2F71009501",
-                "proof": "0x0001000001010000000020EAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404000100",
-                "address": "0xFFEEDD"
+    "timestamp": "2025-06-05T10:58:04.112Z",
+    "data": {
+        "results": [
+            {
+                "uid": "0xFD6C5E119105643FF6DF",
+                "status": "success",
+                "data": {
+                    "status": true,
+                    "uid": "0xFD6C5E119105643FF6DF",
+                    "data": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+                    "number": 28,
+                    "datecreated": "2025-06-05 10:57:45",
+                    "onchain": true,
+                    "datestamped": "2025-06-05 10:58:03",
+                    "root": "0x894D4D9B47C622BAD8D77A78871B25FA699523D9BE3B0AA70485814A00A90BD6",
+                    "proof": "0x000100000100",
+                    "address": "0xFFEEDD"
+                }
             }
-        },
-        {
-            "uid": "0x25DD9325B05FE56ECE8A",
-            "status": "success",
-            "data": {
-                "status": true,
-                "uid": "0x25DD9325B05FE56ECE8A",
-                "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A",
-                "number": 55,
-                "datecreated": "2025-05-09 12:53:35",
-                "onchain": true,
-                "datestamped": "2025-05-09 12:54:04",
-                "root": "0xEAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404",
-                "proof": "0x000100000100",
-                "address": "0xFFEEDD"
-            }
-        }
-    ]
+        ]
+    }
 }
 
 ```
@@ -221,12 +280,6 @@ Fields and format to be saved for verification in a json file:
     "data": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
     "proof": "0x0001000001010000000020EAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404000100",
     "root": "0xBC5D573EE53485FE59F49182EDA7AB164FF582141E9186FD2AF25F2F71009501",
-    },
-    {
-    "address": "0xFFEEDD"
-    "data": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A",
-    "proof": "0x000100000100",
-    "root": "0xEAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404",
     }
 ]
 
@@ -268,6 +321,7 @@ Request Headers
 | **Content-Type**      | `application/json`   | Specifies the content type as JSON                                      |
 | **x-api-key**         | `your-api-key`       | Add your API-key from your profile at https://integritas.minima.global/ |
 | **x-report-required** | `"true"` / `"false"` | Request NFT trace from the verification process                         |
+| **x-request-id**      | `your-choice`        | Add a request id to trace every step of the process                     |
 
 ---
 
@@ -289,41 +343,34 @@ Example response:
 
 ```
 {
-    "api_version": "0.1",
-    "request_id": "c8cf8648-5dad-48d1-a56a-0f360419dbc2",
-    "response_time": "15846.94 ms",
+    "api_version": 1,
+    "request_id": "d431f4e6-2419-4767-b1ea-ea9a1c1360c1",
+    "response_time": "5722.03 ms",
     "response": {
-        "fileHash": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
-        "fileName": "testA.md",
-        "fileSize": 22,
+        "fileHash": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+        "fileName": "small.docx",
+        "fileSize": 279151,
         "result": "full match",
-        "nftcoinid": "0x70065601A51031804A687BE3431183B4D272D940C4753D65955B50FD28507D5D",
-        "nfttxnid": "0x00000B7B3BE26DA6F209E852FCA87223C880C6176851AF8D0D62979B26CEEDD0",
+        "nftcoinid": "0x05AE9679FB7A00CA382DFF901155E54D019AA94CE503C4073BBE5D1DB4A8F4CD",
+        "nfttxnid": "0x00001DA4C144E73600C2DD1B85E159528D69065FBD2B4789763599E70630D4A3",
         "method": "timestamp",
-        "hash_instances_onchain": 2,
+        "hash_instances_onchain": 1,
         "unique_hashes": 1,
         "blockchain_data": [
             {
-                "block_number": 1460168,
-                "block_date": "2025-05-07 15:17:35",
-                "txpow_id": "0x0000001F7D602B6935F4AF9AB037F56F0AB0EED8C2D4ACA04DCD4AEB1FCDDD46",
-                "transactionid": "0x3FC70F82C2ED1926CF5C26BEF5C4F59818BC44BE33AB2498F2660A9B951A351E",
-                "matched_hash": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A"
-            },
-            {
-                "block_number": 1460168,
-                "block_date": "2025-05-07 15:17:35",
-                "txpow_id": "0x0000001F7D602B6935F4AF9AB037F56F0AB0EED8C2D4ACA04DCD4AEB1FCDDD46",
-                "transactionid": "0x3FC70F82C2ED1926CF5C26BEF5C4F59818BC44BE33AB2498F2660A9B951A351E",
-                "matched_hash": "0x44467AB2CC6A10C56847AACC9464FEB1E73CF7AE9F0D16627470F5C2D0019B6A"
+                "block_number": "1509887",
+                "block_date": "2025-06-05 12:58:56",
+                "txpow_id": "0x000000295BE80B8019363F0A17FE32D242A1806E361C22EE6071DAF76BC636D2",
+                "transactionid": "0x9857DB060E8006F4DB3572D84717CFFDFF2B6C9A4E075D2EEEB3E2232D800EAC",
+                "matched_hash": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427"
             }
         ],
         "fileSegments": [
             {
-                "matched_hash": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
+                "matched_hash": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
                 "index": 0,
                 "offset": 0,
-                "packetSize": 22
+                "packetSize": 279151
             }
         ]
     }
