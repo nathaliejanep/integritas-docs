@@ -47,17 +47,17 @@ One endpoint in `{{BASE_URL_VERIFY}}` for verifying data.
 
 ### Upload endpoints
 
-To upload data using the timestamp server, (a) hash it, (b) send it, and (c) ask for proof.
+To upload data using the timestamp server, hash it, send it, and ask for proof.
 
-(a) Use "Endpoint 1", to send the file. You will receive the SHA3-256 hash of the data in the response.
+- Use "Endpoint 1", to send the file. You will receive the SHA3-256 hash of the data in the response.
 
-(b) Use "Endpoint 2" to send the hash. You will receive a UID in the response.
+- Use "Endpoint 2" to send the hash. You will receive a UID in the response.
 
-(c) Use "Endpoint 3" to send the UID from the response to retrieve the proof of the time stamping.
+- Use "Endpoint 3" to send the UID from the response to retrieve the proof of the time stamping.
 
 ---
 
-#### Endpoint 1 - Get hash
+#### Endpoint 1 - Send file and get hash
 
 | Attribute       | Details                                                                        |
 | --------------- | ------------------------------------------------------------------------------ |
@@ -69,11 +69,11 @@ To upload data using the timestamp server, (a) hash it, (b) send it, and (c) ask
 
 Request Headers
 
-| Header           | Value              | Description                                                             |
-| ---------------- | ------------------ | ----------------------------------------------------------------------- |
-| **Content-Type** | `application/json` | Specifies the content type as JSON                                      |
-| **x-api-key**    | `your-api-key`     | Add your API-key from your profile at https://integritas.minima.global/ |
-| **x-request-id** | `your-choice`      | Add a request id to trace every step of the process                     |
+| Header           | Value                 | Description                                                             |
+| ---------------- | --------------------- | ----------------------------------------------------------------------- |
+| **Content-Type** | `multipart/form-data` | Specifies the content type as JSON                                      |
+| **x-api-key**    | `your-api-key`        | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-request-id** | `your-choice`         | Add a request id to trace every step of the process                     |
 
 ---
 
@@ -82,6 +82,17 @@ Request Body
 | Request Type | Content-Type          | Body Type   | Keys   | Description |
 | ------------ | --------------------- | ----------- | ------ | ----------- |
 | File upload  | `multipart/form-data` | `form-data` | `file` | Send file   |
+
+---
+
+cURL example:
+
+```
+curl -X POST {{BASE_URL_UPLOAD}}/v1/file/hash \
+  -H "x-api-key: your-api-key" \
+  -H "x-request-id: test-123" \
+  -F "file=@path/to/yourfile.docx"
+```
 
 ---
 
@@ -94,7 +105,7 @@ Example response:
 ```
 {
     "api_version": 1,
-    "request_id": "my-test-reqest-id",
+    "request_id": "my-test-request-id",
     "status": "success",
     "message": "Hash computed",
     "timestamp": "2025-06-05T10:51:40.646Z",
@@ -108,7 +119,7 @@ Example response:
 
 ---
 
-#### Endpoint 2 - Upload hashed data
+#### Endpoint 2 - Send hash and get UID
 
 | Attribute       | Details                                                                                  |
 | --------------- | ---------------------------------------------------------------------------------------- |
@@ -153,7 +164,7 @@ Example response:
 ```
 {
     "api_version": 1,
-    "request_id": "my-test-reqest-id",
+    "request_id": "my-test-request-id",
     "status": "success",
     "message": "Hash forwarded successfully",
     "timestamp": "2025-06-05T10:56:24.283Z",
@@ -167,7 +178,7 @@ Example response:
 
 ---
 
-#### Endpoint 3 - Check status
+#### Endpoint 3 - Send UID and get proof
 
 | Attribute       | Details                                                                                  |
 | --------------- | ---------------------------------------------------------------------------------------- |
@@ -211,7 +222,7 @@ If the blockchain transaction was not yet completed you will get a response that
 
 {
     "api_version": 1,
-    "request_id": "my-test-reqest-id",
+    "request_id": "my-test-request-id",
     "status": "success",
     "message": "UID statuses fetched",
     "timestamp": "2025-06-05T10:57:51.674Z",
@@ -242,7 +253,7 @@ Example response:
 ```
 {
     "api_version": 1,
-    "request_id": "my-test-reqest-id",
+    "request_id": "my-test-request-id",
     "status": "success",
     "message": "UID statuses fetched",
     "timestamp": "2025-06-05T10:58:04.112Z",
@@ -276,10 +287,10 @@ Fields and format to be saved for verification in a json file:
 
 [
     {
-    "address": "0xFFEEDD"
-    "data": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
-    "proof": "0x0001000001010000000020EAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404000100",
-    "root": "0xBC5D573EE53485FE59F49182EDA7AB164FF582141E9186FD2AF25F2F71009501",
+        "address": "0xFFEEDD"
+        "data": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
+        "proof": "0x0001000001010000000020EAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404000100",
+        "root": "0xBC5D573EE53485FE59F49182EDA7AB164FF582141E9186FD2AF25F2F71009501"
     }
 ]
 
@@ -304,7 +315,7 @@ When enabled:
 
 ---
 
-#### Endpoint 3 - Verify data
+#### Endpoint 4 - Verify data
 
 | Attribute       | Details                                                                                                                                                          |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
