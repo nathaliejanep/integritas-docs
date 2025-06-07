@@ -287,7 +287,7 @@ Fields and format to be saved for verification in a json file:
 
 [
     {
-        "address": "0xFFEEDD"
+        "address": "0xFFEEDD",
         "data": "0xA204C75128E4B48902061E2BA2752EB15F6D5D79540733B3BBEBE5689F1B870A",
         "proof": "0x0001000001010000000020EAF94F064F3AE270279EC7C167279C28088AB24EC07F343D1B5EAF166A507404000100",
         "root": "0xBC5D573EE53485FE59F49182EDA7AB164FF582141E9186FD2AF25F2F71009501"
@@ -300,7 +300,7 @@ Fields and format to be saved for verification in a json file:
 
 ### Verification endpoint
 
-There are many ways to verify your data, but they are all done through the same endpoint. Depending on how you uploaded your hashed data and what file types you are using the request will be slightly different. Read more about the differences below.
+Verify data by sending the the source file and the proof file to this endpoint.
 
 NFT Proof Trace (Optional Feature)
 
@@ -336,13 +336,12 @@ Request Headers
 
 ---
 
-Request Body
+Request Body (Choose one)
 
-| Request Type | Content-Type       | Body Type   | Keys                | Description                                                                                                |
-| ------------ | ------------------ | ----------- | ------------------- | ---------------------------------------------------------------------------------------------------------- |
-| File upload  | `file`             | `form-data` | `file`              | Validate a source file or `.tar` file. The .tar file should contain the source file and a JSON proof file. |
-| File upload  | `file + file`      | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file                                                              |
-| Raw data     | `application/json` | `JSON`      | `data`              | Validate raw data as a string                                                                              |
+| Request Type | Content-Type  | Body Type   | Keys                | Description                                                                                                |
+| ------------ | ------------- | ----------- | ------------------- | ---------------------------------------------------------------------------------------------------------- |
+| File upload  | `file`        | `form-data` | `file`              | Validate a source file or `.tar` file. The .tar file should contain the source file and a JSON proof file. |
+| File upload  | `file + file` | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file                                                              |
 
 ---
 
