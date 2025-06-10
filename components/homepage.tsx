@@ -31,7 +31,7 @@ export function DocsHomePage() {
             className='flex flex-col items-center text-xl lg:text-3xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-primary-foreground'
           >
             <Image
-              src='/docs/logos/integritas-gradient.svg'
+              src='/logos/integritas-gradient.svg'
               alt='Integritas Logo'
               className='h-12 w-auto'
               height={8}
@@ -82,9 +82,32 @@ const Cards = () => {
       ),
     },
     {
-      title: 'User Guide',
+      title: 'Web App User Guide',
       description:
-        'Step-by-step instructions and practical guidance on how to navigate and utilize the Integritas dApp.',
+        'Step-by-step instructions and practical guidance on how to navigate and utilize the Integritas Web App.',
+      link: '/docs/web-user-guide',
+      icon: (
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          version='1.1'
+          id='Layer_1'
+          x='0px'
+          y='0px'
+          viewBox='0 0 32 32'
+          className=' h-8 w-8 fill-neutral-500 group-hover:fill-[#FF8630] transition-colors '
+        >
+          <circle
+            cx='16'
+            cy='16'
+            r='16'
+          />
+        </svg>
+      ),
+    },
+    {
+      title: 'MiniDapp User Guide',
+      description:
+        'Step-by-step instructions and practical guidance on how to navigate and utilize the Integritas MiniDapp.',
       link: '/docs/user-guide',
       icon: (
         <svg

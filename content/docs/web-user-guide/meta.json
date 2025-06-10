@@ -1,0 +1,16 @@
+{
+  "title": "Web App User Guide",
+  "root": true,
+  "icon": "Sparkles",
+  "description": "How to use web app",
+  "pages": [
+    "---User Guide---",
+    "index",
+    "access",
+    "upload-data",
+    "analyze-data",
+    "managing-files",
+    "stamping",
+    "report-details"
+  ]
+}
