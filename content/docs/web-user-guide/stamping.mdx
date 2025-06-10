@@ -1,0 +1,30 @@
+---
+title: Stamping
+description: Understand how Integritas stamps uploaded data.
+---
+
+## Stamp and Upload Data
+
+When data is uploaded to Integritas, a crucial process called stamping occurs. This involves several steps to ensure the integrity and verifiability of your data on the blockchain.
+
+## How Data Stamping Works
+
+Once your data is uploaded, it is sent to the backend for processing. Overview of the process:
+
+1. **Data Hashing**:
+
+   A unique hash of your data is generated. This hash acts as a digital fingerprint, uniquely identifying your data.
+
+2. **Blockchain Upload**:
+
+   The generated hash is then uploaded to the blockchain.
+
+3. **Metadata Storage**: To enable future verification, Integritas saves essential metadata:
+
+   - **Timestamp**: The exact time your data was stamped.
+
+   - **Hash**: This refers to the hash of the data itself.
+
+   - **Proof**: Cryptographic proof that links your data's hash to the blockchain record.
+
+This process ensures that your data's integrity can be verified at any point in the future by comparing the current data's hash against the stamped record on the blockchain.
