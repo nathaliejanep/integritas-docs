@@ -1,0 +1,52 @@
+---
+title: Report Details
+description: Understand the contents of a validation report, including result types, file metadata, and NFT Proof information.
+---
+
+## Verification Information
+
+This section provides information about the verification result, the date of verification, and the method used.
+
+## Result
+
+- **Full match**: The entire file content was found on the blockchain.
+- **No match**: No matching data was found.
+
+## Verification Method
+
+- **Timestamp**:
+  Used when validating JSON proof files. The system checks the stamp recorded on the blockchain against the stamp proof inside the JSON file.
+
+## File Details
+
+This section provides information about the uploaded file:
+
+- **Name** – The name of the JSON Proof file.
+- **Hash** – The computed value representing the entire file's content.
+
+## NFT Proof
+
+This serves as a verifiable proof of authenticity for the report.
+
+- A **direct link** to the NFT is provided to view the details on the **Minima Block Explorer**.
+
+## Blockchain Details
+
+This section provides detailed information about the blockchain transaction and its associated data.
+
+- **Block Number**
+
+  - This is the specific block in the Minima blockchain that contains the transaction. Each block is sequentially numbered and cryptographically linked to the one before it, ensuring immutability.
+  - A direct link to the block is provided to view the full details on the Minima Block Explorer.
+
+- **Transaction ID (TxPoW)**
+
+  - This is the unique identifier for the transaction, also known as the TxPoW ID (Transaction Proof of Work). It proves that this transaction was mined and added to the blockchain with the required proof of computational work.
+  - A direct link to the transaction is provided to view the full details on the Minima Block Explorer.
+
+- **Timestamp**
+
+  - This is the exact time the transaction was confirmed on the network. It serves as a timestamped proof for any time-sensitive records or agreements.
+
+- **Coin ID**
+  - This refers to the specific coin or token involved in the transaction. It can be used to trace the coin's origin and transaction history, providing full transparency of ownership and flow.
