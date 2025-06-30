@@ -1,0 +1,41 @@
+---
+title: Analyzation Information
+---
+
+This section displays the core verification details including the verification result, timestamp, and method used for validation.
+
+### Result
+
+The verification result indicates whether your file was successfully found on the blockchain:
+
+- **Full Match**: The entire file content was successfully located and verified on the blockchain.
+- **No Match**: No matching data was found on the blockchain. This could indicate the file hasn't been stamped yet or there's a mismatch in the verification process.
+
+<Callout
+  title='Tip'
+  type='info'
+>
+  A "Full Match" result provides cryptographic proof that your file's content is
+  exactly as it was when originally stamped, ensuring complete data integrity.
+</Callout>
+
+### Verification Method
+
+Integritas uses the **Timestamp** verification method for JSON proof files:
+
+- The system compares the stamp recorded on the blockchain against the stamp proof contained within your JSON file.
+- This ensures the proof file itself hasn't been tampered with and maintains the chain of trust.
+
+  <Callout
+    title='Integritas web app - Analyzation Information'
+    type='web'
+    className='w-full overflow-hidden'
+  >
+    <ImageZoom
+      width={380}
+      height={200}
+      alt='Integritas web app - analyzation information section'
+      src='/guide-web/analyzation-info.png'
+      className='w-full h-auto object-contain'
+    />
+  </Callout>{' '}
