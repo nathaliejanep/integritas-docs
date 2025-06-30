@@ -12,5 +12,31 @@
     "managing-files",
     "stamping",
     "report-details"
+  ],
+  "label": "Web User Guide",
+  "position": 1,
+  "children": [
+    {
+      "label": "Report Details",
+      "children": [
+        { "label": "Overview", "slug": "/web-user-guide/report-details/" },
+        {
+          "label": "Analyzation Information",
+          "slug": "/web-user-guide/report-details/analyzation-information"
+        },
+        {
+          "label": "File Information",
+          "slug": "/web-user-guide/report-details/file-information"
+        },
+        {
+          "label": "NFT Proof",
+          "slug": "/web-user-guide/report-details/nft-proof"
+        },
+        {
+          "label": "Blockchain Details",
+          "slug": "/web-user-guide/report-details/blockchain-details"
+        }
+      ]
+    }
   ]
 }
