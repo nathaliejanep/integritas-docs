@@ -1,52 +1,147 @@
 ---
 title: Report Details
-description: Understand the contents of a validation report, including result types, file metadata, and NFT Proof information.
+description: Explore the structure of a verification report
 ---
 
-## Verification Information
+## Report Details of a Verification
 
-This section provides information about the verification result, the date of verification, and the method used.
+When you analyze a proof file, Integritas generates a comprehensive verification report that provides detailed information about the verification process and results. This guide explains each section of the report.
 
-## Result
+## Analyzation Information
 
-- **Full match**: The entire file content was found on the blockchain.
-- **No match**: No matching data was found.
+This section displays the core verification details including the verification result, timestamp, and method used for validation.
 
-## Verification Method
+### Result
 
-- **Timestamp**:
-  Used when validating JSON proof files. The system checks the stamp recorded on the blockchain against the stamp proof inside the JSON file.
+The verification result indicates whether your file was successfully found on the blockchain:
 
-## File Details
+- **Full Match**: The entire file content was successfully located and verified on the blockchain.
+- **No Match**: No matching data was found on the blockchain. This could indicate the file hasn't been stamped yet or there's a mismatch in the verification process.
 
-This section provides information about the uploaded file:
+<Callout
+  title='Tip'
+  type='info'
+>
+  A "Full Match" result provides cryptographic proof that your file's content is
+  exactly as it was when originally stamped, ensuring complete data integrity.
+</Callout>
 
-- **Name** – The name of the JSON Proof file.
-- **Hash** – The computed value representing the entire file's content.
+### Verification Method
+
+Integritas uses the **Timestamp** verification method for JSON proof files:
+
+- The system compares the stamp recorded on the blockchain against the stamp proof contained within your JSON file.
+- This ensures the proof file itself hasn't been tampered with and maintains the chain of trust.
+
+  <Callout
+    title='Integritas web app - Analyzation Information'
+    type='web'
+    className='w-full overflow-hidden'
+  >
+    <ImageZoom
+      width={380}
+      height={200}
+      alt='Integritas web app - analyzation information section'
+      src='/guide-web/analyzation-info.png'
+      className='w-full h-auto object-contain'
+    />
+  </Callout>
+
+## File Information
+
+This section provides essential details about the file you analyzed:
+
+### Name
+
+The name of the JSON proof file you uploaded for verification.
+
+### Hash
+
+A unique cryptographic fingerprint (hash) that represents the entire file's content.
+
+<Callout
+  title='Integritas web app - File Details'
+  type='web'
+  className='w-full overflow-hidden'
+>
+  <ImageZoom
+    width={380}
+    height={200}
+    alt='Integritas web app - file details'
+    src='/guide-web/file-details.png'
+    className='w-full h-auto object-contain'
+  />
+</Callout>
 
 ## NFT Proof
 
-This serves as a verifiable proof of authenticity for the report.
+The NFT Proof serves as a verifiable certificate of authenticity for your validation report:
 
-- A **direct link** to the NFT is provided to view the details on the **Minima Block Explorer**.
+### Token ID
+
+The unique identifier for the NFT that represents your verification.
+
+### Link to NFT
+
+Click the provided link to view the complete NFT details on the Minima Block Explorer.
+
+<Callout
+  title='Integritas web app - NFT Proof'
+  type='web'
+  className='w-full overflow-hidden'
+>
+  <ImageZoom
+    width={380}
+    height={200}
+    alt='Integritas web app - NFT proof'
+    src='/guide-web/nft-proof.png'
+    className='w-full h-auto object-contain'
+  />
+</Callout>
 
 ## Blockchain Details
 
+This section provides comprehensive information about the blockchain transaction that contains your stamped data:
+
 This section provides detailed information about the blockchain transaction and its associated data.
 
-- **Block Number**
+### Block
 
-  - This is the specific block in the Minima blockchain that contains the transaction. Each block is sequentially numbered and cryptographically linked to the one before it, ensuring immutability.
-  - A direct link to the block is provided to view the full details on the Minima Block Explorer.
+- This is the specific block in the Minima blockchain that contains the transaction. Each block is sequentially numbered and cryptographically linked to the one before it, ensuring immutability.
+- A direct link to the block is provided to view the full details on the Minima Block Explorer.
 
-- **Transaction ID (TxPoW)**
+### Txn ID (TxPoW)
 
-  - This is the unique identifier for the transaction, also known as the TxPoW ID (Transaction Proof of Work). It proves that this transaction was mined and added to the blockchain with the required proof of computational work.
-  - A direct link to the transaction is provided to view the full details on the Minima Block Explorer.
+- This is the unique identifier for the transaction, also known as the TxPoW ID (Transaction Proof of Work). It proves that this transaction was mined and added to the blockchain with the required proof of computational work.
+- A direct link to the transaction is provided to view the full details on the Minima Block Explorer.
 
-- **Timestamp**
+### Date
 
-  - This is the exact time the transaction was confirmed on the network. It serves as a timestamped proof for any time-sensitive records or agreements.
+- This is the exact time the transaction was confirmed on the network. It serves as a stamped proof for any time-sensitive records or agreements.
 
-- **Coin ID**
-  - This refers to the specific coin or token involved in the transaction. It can be used to trace the coin's origin and transaction history, providing full transparency of ownership and flow.
+### Coin ID
+
+- This refers to the specific coin or token involved in the transaction. It can be used to trace the coin's origin and transaction history, providing full transparency of ownership and flow.
+
+<Callout
+  title='Integritas web app - Blockchain Details'
+  type='web'
+  className='w-full overflow-hidden'
+>
+  <ImageZoom
+    width={380}
+    height={200}
+    alt='Integritas web app - blockchain details'
+    src='/guide-web/blockchain-details.png'
+    className='w-full h-auto object-contain'
+  />
+</Callout>
+
+<Callout
+  title='Understanding Blockchain Transparency'
+  type='info'
+>
+  All blockchain details are publicly verifiable, providing complete
+  transparency and trust in the verification process. Anyone can independently
+  verify your data's authenticity using these details.
+</Callout>
