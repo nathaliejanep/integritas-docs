@@ -7,7 +7,7 @@ description: This documentation provides a detailed overview of the Integritas A
 
 ## Base URL
 
-All upload API requests are made to the following base URL:
+All API requests are made to the following base URL:
 
 ```
 https://integritas.minima.global/core
@@ -15,17 +15,7 @@ https://integritas.minima.global/core
 ```
 
 Referenced as:
-`{{BASE_URL_UPLOAD}}`
-
-All verification API requests are made to the following base URL:
-
-```
-https://integritas.minima.global/integritas-api
-
-```
-
-Referenced as:
-`{{BASE_URL_VERIFY}}`
+`{{BASE_URL}}`
 
 ---
 
@@ -39,21 +29,19 @@ Authentication is required and done through the use of API-keys. Get yours at ht
 
 There are four available endpoints.
 
-Three endpoints in `{{BASE_URL_UPLOAD}}`, for hashing data (1), uploading hashed data (2) and retrieving proof of uploaded data (3).
+Three endpoints are used for stamping data. First, preparing data to be stamped by hashing it. Second, stamping data by uploading the hashed data. Third, retrieving proof of stamped data.
 
-One endpoint in `{{BASE_URL_VERIFY}}` for verifying data.
+One endpoint is used for for verifying data.
 
 ---
 
-### Upload endpoints
+### Stamping data
 
-To upload data using the timestamp server, hash it, send it, and ask for proof.
+- Use the first endpoint to send the file. You will receive the SHA3-256 hash of the data in the response.
 
-- Use "Endpoint 1", to send the file. You will receive the SHA3-256 hash of the data in the response.
+- Use the second endpoint to send the hash. You will receive a UID in the response.
 
-- Use "Endpoint 2" to send the hash. You will receive a UID in the response.
-
-- Use "Endpoint 3" to send the UID from the response to retrieve the proof of the time stamping.
+- Use the third endpoint to send the UID from the response to retrieve the proof of the time stamping.
 
 ---
 
