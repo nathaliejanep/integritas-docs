@@ -51,7 +51,7 @@ One endpoint is used for for verifying data.
 | --------------- | ------------------------------------------------------------------------------ |
 | **Method**      | `POST`                                                                         |
 | **Description** | This endpoint is used to submit a file. Send the file as formdata in the body. |
-| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/file/hash`                                             |
+| **Endpoint**    | `{{BASE_URL}}/v1/file/hash`                                                    |
 
 ---
 
@@ -76,7 +76,7 @@ Request Body
 cURL example:
 
 ```
-curl -X POST {{BASE_URL_UPLOAD}}/v1/file/hash \
+curl -X POST {{BASE_URL}}/v1/file/hash \
   -H "x-api-key: your-api-key" \
   -H "x-request-id: test-123" \
   -F "file=@path/to/yourfile.docx"
@@ -114,7 +114,7 @@ Example response:
 | --------------- | ---------------------------------------------------------------------------------------- |
 | **Method**      | `POST`                                                                                   |
 | **Description** | This endpoint is used to submit hashed data. Send the hash as raw JSON data in the body. |
-| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/timestamp/post`                                                  |
+| **Endpoint**    | `{{BASE_URL}}/v1/timestamp/post`                                                         |
 
 ---
 
@@ -174,7 +174,7 @@ Example response:
 | --------------- | ---------------------------------------------------------------------------------------- |
 | **Method**      | `POST`                                                                                   |
 | **Description** | This endpoint is used to collect the proof from one or multiple blockchain transactions. |
-| **Endpoint**    | `{{BASE_URL_UPLOAD}}/v1/timestamp/status`                                                |
+| **Endpoint**    | `{{BASE_URL}}/v1/timestamp/status`                                                       |
 
 ---
 
@@ -301,7 +301,7 @@ When enabled:
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Method**      | `POST`                                                                                                                                                           |
 | **Description** | This endpoint is used to submit a file or raw data for verification against the blockchain. It processes the provided data and returns the verification results. |
-| **Endpoint**    | `{{BASE_URL_VERIFY}}/v1/verify/apidata`                                                                                                                          |
+| **Endpoint**    | `{{BASE_URL}}/v1/verify/apidata`                                                                                                                                 |
 
 ---
 
