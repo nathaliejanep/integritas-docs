@@ -27,7 +27,7 @@ Authentication is required and done through the use of API-keys. Get yours at ht
 
 ## Endpoints
 
-There are four available endpoints.
+There are five available endpoints.
 
 Three endpoints are used for stamping data. First, preparing data to be stamped by hashing it. Second, stamping data by uploading the hashed data. Third, retrieving proof of stamped data.
 
@@ -295,13 +295,13 @@ When enabled:
 
 ---
 
-#### Endpoint 4 - Verify data
+#### Endpoint 4 - Verify hash (Using source data)
 
-| Attribute       | Details                                                                                                                                                          |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Method**      | `POST`                                                                                                                                                           |
-| **Description** | This endpoint is used to submit a file or raw data for verification against the blockchain. It processes the provided data and returns the verification results. |
-| **Endpoint**    | `{{BASE_URL}}/v1/verify/apidata`                                                                                                                                 |
+| Attribute       | Details                                                                                                                                                                                     |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                                                                                                                      |
+| **Description** | This endpoint is used to submit one or two files for data verification against the blockchain. It processes the provided data and proof (if provided) and returns the verification results. |
+| **Endpoint**    | `{{BASE_URL}}/v1/verify/post`                                                                                                                                                               |
 
 ---
 
@@ -318,10 +318,11 @@ Request Headers
 
 Request Body (Choose one)
 
-| Request Type | Content-Type  | Body Type   | Keys                | Description                                                                                                |
-| ------------ | ------------- | ----------- | ------------------- | ---------------------------------------------------------------------------------------------------------- |
-| File upload  | `file`        | `form-data` | `file`              | Validate a source file or `.tar` file. The .tar file should contain the source file and a JSON proof file. |
-| File upload  | `file + file` | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file                                                              |
+| Request Type | Content-Type  | Body Type   | Keys                | Description                                                                                   |
+| ------------ | ------------- | ----------- | ------------------- | --------------------------------------------------------------------------------------------- |
+| File upload  | `file`        | `form-data` | `file`              | Validate a source file.                                                                       |
+| File upload  | `file`        | `form-data` | `file`              | Validate a `.tar` file. The `.tar` file should contain the source file and a JSON proof file. |
+| File upload  | `file + file` | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file.                                                |
 
 ---
 
@@ -361,6 +362,82 @@ Example response:
                 "packetSize": 279151
             }
         ]
+    }
+}
+```
+
+#### Endpoint 5 - Verify hash (Using only proof file)
+
+| Attribute       | Details                                                                                                                                                                 |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                                                                                                  |
+| **Description** | This endpoint is used to submit one proof file for data verification against the blockchain. It processes the proof (if provided) and returns the verification results. |
+| **Endpoint**    | `{{BASE_URL}}/v1/verify/post-lite`                                                                                                                                      |
+
+---
+
+Request Headers
+
+| Header                | Value              | Description                                                             |
+| --------------------- | ------------------ | ----------------------------------------------------------------------- |
+| **Content-Type**      | `application/json` | Specifies the content type as JSON                                      |
+| **x-api-key**         | `your-api-key`     | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-report-required** | `"true"`           | Request NFT trace from the verification process is required.            |
+| **x-request-id**      | `your-choice`      | Add a request id to trace every step of the process                     |
+
+---
+
+Request Body (Choose one)
+
+| Request Type | Content-Type | Body Type   | Keys        | Description                 |
+| ------------ | ------------ | ----------- | ----------- | --------------------------- |
+| File upload  | `file`       | `form-data` | `jsonproof` | Validate a JSON proof file. |
+
+---
+
+API Response
+
+The response from the API contains information about a file and its results from on-chain verification.
+
+Example response:
+
+```
+{
+    "apiVersion": 1,
+    "requestId": "test",
+    "status": "success",
+    "statusCode": 200,
+    "message": "Verification complete",
+    "timestamp": "2025-07-17T16:55:30.123Z",
+    "data": {
+        "api_version": 1,
+        "requestId": "test",
+        "response_time": "29423.18 ms",
+        "response": {
+            "fileHash": "0x96ED06DE42695E3F807B3E58AB6A2938B43CB037CA11F6DDB4AD5E3DC50D5D4B",
+            "nftcoinid": "0x685DFBCF499A0DAF81910B4D1447CF3B992F6B96EB37EE6852445AFA54A8F438",
+            "nfttxnid": "0x00000F81BB25316401F76B45DEBAAA706D1840EB6AEC418FD0F33FB3A148BB85",
+            "data": {
+                "result": "full match",
+                "validationMethod": "timestamplite",
+                "blockchain_data": [
+                    {
+                        "block_number": 1541117,
+                        "block_date": "2025-06-23 13:32:20",
+                        "txpow_id": "0x00000002A52F4DA9370533D0072E32563BEC46A2492AFA5CE6D87E7F6D03B21D",
+                        "transactionid": "0x060EE327ED67558CE0849ECFA0B2C35F426F768FEF98726B23715986ABF4FCAD",
+                        "matched_hash": "0x96ED06DE42695E3F807B3E58AB6A2938B43CB037CA11F6DDB4AD5E3DC50D5D4B"
+                    },
+                    {
+                        "block_number": 1546070,
+                        "block_date": "2025-06-26 10:09:29",
+                        "txpow_id": "0x00000028616DDC21E75F9892C748DD64EBD86A257EE044C2563F2D5425808906",
+                        "transactionid": "0x8B915CCC208D68962DF4C8EE48151B471C1534F42C37A71110B75BCA920AFC57",
+                        "matched_hash": "0x96ED06DE42695E3F807B3E58AB6A2938B43CB037CA11F6DDB4AD5E3DC50D5D4B"
+                    }
+                ]
+            }
+        }
     }
 }
 ```
