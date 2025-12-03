@@ -11,13 +11,13 @@ import {
   HEADER_X_API_KEY,
   HEADER_X_REPORT_REQUIRED,
   HEADER_X_REQUEST_ID,
-  CONTENT_TYPE_JSON,
+  CONTENT_TYPE_MULTIPART,
   PLACEHOLDER_API_KEY,
   PLACEHOLDER_REQUEST_ID,
   DESC_X_API_KEY,
   DESC_X_REQUEST_ID,
   DESC_X_REPORT_REQUIRED,
-  DESC_CONTENT_TYPE_JSON,
+  DESC_CONTENT_TYPE_MULTIPART,
   REQUEST_TYPE_FILE_UPLOAD,
 } from '@/lib/constants';
 
@@ -42,22 +42,22 @@ When enabled:
 
 ## Request Headers
 
-| Header                | Value                                 | Description              |
-| --------------------- | ------------------------------------- | ------------------------ |
-| **Content-Type**      | <code>{CONTENT_TYPE_JSON}</code>      | {DESC_CONTENT_TYPE_JSON} |
-| **x-api-key**         | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY}         |
-| **x-report-required** | `"true"` / `"false"`                  | {DESC_X_REPORT_REQUIRED} |
-| **x-request-id**      | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}      |
+| Header                | Value                                 | Description                   |
+| --------------------- | ------------------------------------- | ----------------------------- |
+| **Content-Type**      | <code>{CONTENT_TYPE_MULTIPART}</code> | {DESC_CONTENT_TYPE_MULTIPART} |
+| **x-api-key**         | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY}              |
+| **x-report-required** | `true` / `false`                  | {DESC_X_REPORT_REQUIRED}      |
+| **x-request-id**      | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}           |
 
 ---
 
 ## Request Body (Choose one)
 
-| Request Type               | Content-Type  | Body Type   | Keys                | Description                                                                                   |
-| -------------------------- | ------------- | ----------- | ------------------- | --------------------------------------------------------------------------------------------- |
-| {REQUEST_TYPE_FILE_UPLOAD} | `file`        | `form-data` | `file`              | Validate a source file.                                                                       |
-| {REQUEST_TYPE_FILE_UPLOAD} | `file`        | `form-data` | `file`              | Validate a `.tar` file. The `.tar` file should contain the source file and a JSON proof file. |
-| {REQUEST_TYPE_FILE_UPLOAD} | `file + file` | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file.                                                |
+| Request Type               | Content-Type                          | Body Type   | Keys                | Description                                                                                   |
+| -------------------------- | ------------------------------------- | ----------- | ------------------- | --------------------------------------------------------------------------------------------- |
+| {REQUEST_TYPE_FILE_UPLOAD} | <code>{CONTENT_TYPE_MULTIPART}</code> | `form-data` | `file`              | Validate a source file.                                                                       |
+| {REQUEST_TYPE_FILE_UPLOAD} | <code>{CONTENT_TYPE_MULTIPART}</code> | `form-data` | `file`              | Validate a `.tar` file. The `.tar` file should contain the source file and a JSON proof file. |
+| {REQUEST_TYPE_FILE_UPLOAD} | <code>{CONTENT_TYPE_MULTIPART}</code> | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file.                                                |
 
 ---
 
