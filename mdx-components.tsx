@@ -3,6 +3,7 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import type { MDXComponents } from 'mdx/types';
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom';
+import { LiveDemoFileUpload } from '@/components/live-demo-file-upload';
 
 // use this function to get MDX components, you will need it for rendering MDX
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
@@ -13,5 +14,6 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ImageZoom,
     Tabs,
     Tab,
+    LiveDemoFileUpload,
   };
 }
