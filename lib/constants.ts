@@ -1,7 +1,5 @@
 // API Constants
 export const API_BASE_URL = 'https://integritas.minima.global/core';
-export const API_VERSION = 'v1';
-export const API_FULL_URL = `${API_BASE_URL}/${API_VERSION}`;
 
 // HTTP Methods
 export const HTTP_METHOD_POST = 'POST';
