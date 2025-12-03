@@ -101,36 +101,7 @@ The response from the API contains information about a file and its results from
 
 ## Response Fields
 
-Below is an explanation of the key fields in the response:
-
-| Field                    | Type     | Description                                                                                                                 |
-| ------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `fileHash`               | `string` | The unique hash value of the file that was submitted for verification. Used to identify it on-chain.                        |
-| `result`                 | `string` | The result of the verification process. Possible values: `exact match`, `partial match`, or `no match`.                     |
-| `nftcoinid`              | `string` | Unique id of the NFT on the blockchain.                                                                                     |
-| `nfttxnid`               | `string` | Unique TxPoW id of the transaction that made the NFT.                                                                       |
-| `method`                 | `string` | The method used to verify the file.                                                                                         |
-| `hash_instances_onchain` | `number` | Number of times this file's hash appears on the blockchain.                                                                 |
-| `unique_hashes`          | `number` | Number of unique hashes related to this file found on the blockchain.                                                       |
-| `blockchain_data`        | `array`  | Array of found blocks related to the file. See [Breakdown of `blockchain_data`](#breakdown-of-blockchain_data) for details. |
-| `fileSegments`           | `array`  | Array of matched segments in the file. See [Breakdown of `fileSegments`](#breakdown-of-filesegments) for details.           |
-
-### Breakdown of `blockchain_data`
-
-| Field           | Type     | Description                                                           |
-| --------------- | -------- | --------------------------------------------------------------------- |
-| `block_number`  | `string` | Block number where the hash was found.                                |
-| `block_date`    | `string` | Timestamp in `YYYY-MM-DD HH:mm:ss` format when the hash was recorded. |
-| `txpow_id`      | `string` | Transaction ID of the Proof-of-Work where the hash was included.      |
-| `transactionid` | `string` | Unique ID of the specific transaction output.                         |
-| `coin_id`       | `string` | Unique ID of the blockchain transaction that contains the root hash.  |
-| `matched_hash`  | `string` | The matched hash value found in the block.                            |
-
-### Breakdown of `fileSegments`
-
-| Field          | Type     | Description                                                  |
-| -------------- | -------- | ------------------------------------------------------------ |
-| `matched_hash` | `string` | Hash value of a specific segment of the file (chunk).        |
-| `index`        | `number` | Index of the chunk within the file.                          |
-| `offset`       | `number` | Offset of the chunk in the file (position in original file). |
-| `packetsize`   | `number` | Length in bytes of the matching chunk.                       |
+For a complete description of the shared verification response schema
+used by this endpoint, including `blockchain_data` and `fileSegments`,
+see
+[API Response Schema &mdash; Verification Response](/docs/technical-docs/api-docs/response-schema#verification-response-verify-data--verify-hash).
