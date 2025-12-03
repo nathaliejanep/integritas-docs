@@ -64,8 +64,9 @@ When enabled:
 ## Request Examples
 
 <Tabs items={['cURL', 'TypeScript', 'Python']}>
+  <Tab value='cURL'>
 
-```bash tab="cURL"
+```bash
 curl -X POST https://integritas.minima.global/core/v1/verify/post \
   -H "x-api-key: your-api-key" \
   -H "x-request-id: test-123" \
@@ -74,14 +75,21 @@ curl -X POST https://integritas.minima.global/core/v1/verify/post \
   -F "jsonproof=@path/to/proof.json"
 ```
 
-```typescript tab="TypeScript"
+  </Tab>
+  <Tab value='TypeScript'>
+
+```typescript
 // TypeScript example coming soon
 ```
 
-```python tab="Python"
+  </Tab>
+  <Tab value='Python'>
+
+```python
 # Python example coming soon
 ```
 
+  </Tab>
 </Tabs>
 
 ---
