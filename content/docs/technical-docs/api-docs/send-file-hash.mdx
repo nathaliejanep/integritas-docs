@@ -49,7 +49,7 @@ import {
 <Tabs items={['cURL', 'TypeScript', 'Python']}>
 
 ```bash tab="cURL"
-curl -X POST {{BASE_URL}}/v1/file/hash \
+curl -X POST https://integritas.minima.global/core/v1/file/hash \
   -H "x-api-key: your-api-key" \
   -H "x-request-id: test-123" \
   -F "file=@path/to/yourfile.docx"
