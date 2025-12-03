@@ -51,6 +51,30 @@ import {
 
 ---
 
+## Request Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+
+```bash tab="cURL"
+curl -X POST https://integritas.minima.global/core/v1/timestamp/post \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: your-api-key" \
+  -H "x-request-id: test-123" \
+  -d '{"hash":"C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427"}'
+```
+
+```typescript tab="TypeScript"
+// TypeScript example coming soon
+```
+
+```python tab="Python"
+# Python example coming soon
+```
+
+</Tabs>
+
+---
+
 ## API Response
 
 The response from the API contains a UID which you will need to retrieve proof of the blockchain transaction that is being done by the stamp server.

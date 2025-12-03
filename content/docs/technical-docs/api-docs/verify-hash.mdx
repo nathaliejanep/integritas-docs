@@ -48,6 +48,30 @@ import {
 
 ---
 
+## Request Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+
+```bash tab="cURL"
+curl -X POST https://integritas.minima.global/core/v1/verify/post-lite \
+  -H "x-api-key: your-api-key" \
+  -H "x-request-id: test-123" \
+  -H "x-report-required: true" \
+  -F "jsonproof=@path/to/proof.json"
+```
+
+```typescript tab="TypeScript"
+// TypeScript example coming soon
+```
+
+```python tab="Python"
+# Python example coming soon
+```
+
+</Tabs>
+
+---
+
 ## API Response
 
 The response from the API contains information about a file and its results from on-chain verification.

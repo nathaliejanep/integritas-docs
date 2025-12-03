@@ -51,6 +51,30 @@ import {
 
 ---
 
+## Request Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+
+```bash tab="cURL"
+curl -X POST https://integritas.minima.global/core/v1/timestamp/status \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: your-api-key" \
+  -H "x-request-id: test-123" \
+  -d '{"uids":["0xFD6C5E119105643FF6DF"]}'
+```
+
+```typescript tab="TypeScript"
+// TypeScript example coming soon
+```
+
+```python tab="Python"
+# Python example coming soon
+```
+
+</Tabs>
+
+---
+
 ## API Response
 
 If the blockchain transaction was not yet completed you will get a response that `"onchain": false` and you need to wait a moment and try again, maximum wait time for a blockchain transaction to be completed is 3 minutes.
