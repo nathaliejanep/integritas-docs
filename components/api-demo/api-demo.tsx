@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, ReactNode } from 'react';
+import { JsonViewer } from './json-viewer';
 
 interface ApiDemoWrapperProps {
   children: ReactNode;
@@ -32,9 +33,7 @@ export function ApiDemoWrapper({
       {response && (
         <div className='mt-4'>
           <h4 className='text-sm font-medium mb-2'>Response:</h4>
-          <pre className='bg-fd-background border rounded-md p-4 overflow-x-auto text-xs'>
-            <code>{response}</code>
-          </pre>
+          <JsonViewer data={response} />
         </div>
       )}
     </div>
