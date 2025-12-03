@@ -19,15 +19,15 @@ Most endpoints return a consistent top-level structure:
 }
 ```
 
-| Field        | Type     | Description                |
-| ------------ | -------- | -------------------------- |
-| `apiVersion` | `number` |                            |
-| `requestId`  | `string` |                            |
-| `status`     | `string` |                            |
-| `statusCode` | `number` |                            |
-| `message`    | `string` |                            |
-| `timestamp`  | `string` | ISO-8601 date-time string. |
-| `data`       | `object` | Endpoint-specific payload. |
+| Field        | Type     | Description                                                    |
+| ------------ | -------- | -------------------------------------------------------------- |
+| `apiVersion` | `number` | API version number used for this response.                     |
+| `requestId`  | `string` | Unique identifier for tracking this specific API request.      |
+| `status`     | `string` | Status of the request (e.g., `success`, `error`).             |
+| `statusCode` | `number` | HTTP status code for the response.                             |
+| `message`    | `string` | Human-readable message describing the result of the operation. |
+| `timestamp`  | `string` | ISO-8601 date-time string.                                     |
+| `data`       | `object` | Endpoint-specific payload.                                     |
 
 ---
 
@@ -45,11 +45,11 @@ Example payload (`data` field):
 }
 ```
 
-| Field      | Type     | Description |
-| ---------- | -------- | ----------- |
-| `hash`     | `string` |             |
-| `filename` | `string` |             |
-| `mimeType` | `string` |             |
+| Field      | Type     | Description                                                       |
+| ---------- | -------- | ----------------------------------------------------------------- |
+| `hash`     | `string` | SHA-256 hash of the file content in hexadecimal format.          |
+| `filename` | `string` | Original name of the uploaded file.                               |
+| `mimeType` | `string` | MIME type of the file (e.g., `application/pdf`, `image/png`).    |
 
 ---
 
@@ -67,11 +67,11 @@ Example payload (`data` field):
 }
 ```
 
-| Field    | Type      | Description |
-| -------- | --------- | ----------- |
-| `status` | `boolean` |             |
-| `data`   | `string`  |             |
-| `uid`    | `string`  |             |
+| Field    | Type      | Description                                                    |
+| -------- | --------- | -------------------------------------------------------------- |
+| `status` | `boolean` | Indicates whether the timestamp request was successful.        |
+| `data`   | `string`  | The hash value that was submitted for timestamping (hex).      |
+| `uid`    | `string`  | Unique identifier assigned to this timestamp request.          |
 
 ---
 
@@ -100,18 +100,18 @@ Example payload (`data` field, when completed):
 
 ### Get Proof Item Fields
 
-| Field         | Type      | Description |
-| ------------- | --------- | ----------- |
-| `status`      | `boolean` |             |
-| `uid`         | `string`  |             |
-| `data`        | `string`  |             |
-| `number`      | `number`  |             |
-| `datecreated` | `string`  |             |
-| `onchain`     | `boolean` |             |
-| `datestamped` | `string`  |             |
-| `root`        | `string`  |             |
-| `proof`       | `string`  |             |
-| `address`     | `string`  |             |
+| Field         | Type      | Description                                                                      |
+| ------------- | --------- | -------------------------------------------------------------------------------- |
+| `status`      | `boolean` | Indicates whether the proof was successfully retrieved.                          |
+| `uid`         | `string`  | Unique identifier for this timestamp request.                                    |
+| `data`        | `string`  | The hash value that was timestamped (hex).                                       |
+| `number`      | `number`  | Sequential batch number for this timestamp in the system.                        |
+| `datecreated` | `string`  | Date and time when the timestamp request was created (`YYYY-MM-DD HH:mm:ss`).   |
+| `onchain`     | `boolean` | Indicates whether the timestamp has been recorded on the blockchain.             |
+| `datestamped` | `string`  | Date and time when the timestamp was recorded on-chain (`YYYY-MM-DD HH:mm:ss`). |
+| `root`        | `string`  | Merkle root hash of the batch containing this timestamp.                         |
+| `proof`       | `string`  | Merkle proof path for verifying this timestamp against the root.                 |
+| `address`     | `string`  | Blockchain address or transaction identifier for the on-chain record.            |
 
 ---
 
