@@ -13,8 +13,13 @@ All API requests are made to the following base URL:
 https://integritas.minima.global/core
 ```
 
-Referenced as:
-`{{BASE_URL}}`
+### Example
+
+To make a request to the "Get file hash" endpoint, you would use:
+
+```text
+https://integritas.minima.global/core/v1/file/hash
+```
 
 ---
 
@@ -45,3 +50,15 @@ Two endpoints are used for verifying data:
 4. **[Verify data (Using source data)](/docs/technical-docs/api-docs/verify-data)** - Verify data by sending the source file and optionally a proof file.
 
 5. **[Verify hashed data (Using only proof file)](/docs/technical-docs/api-docs/verify-hash)** - Verify data using only a proof file.
+
+---
+
+## Quick Reference
+
+| Endpoint                                                       | Method | Path                   | When to Use                                                                  |
+| -------------------------------------------------------------- | ------ | ---------------------- | ---------------------------------------------------------------------------- |
+| [Get file hash](/docs/technical-docs/api-docs/send-file-hash)  | `POST` | `/v1/file/hash`        | Generate the SHA3-256 hash for raw source data prior to stamping.            |
+| [Get UID](/docs/technical-docs/api-docs/send-hash-uid)         | `POST` | `/v1/timestamp/post`   | Submit an already computed hash to receive a UID that represents the stamp.  |
+| [Get proof](/docs/technical-docs/api-docs/get-proof)           | `POST` | `/v1/timestamp/status` | Retrieve on-chain proof for one or more UIDs after stamping.                 |
+| [Verify with file](/docs/technical-docs/api-docs/verify-data)  | `POST` | `/v1/verify/post`      | Validate a source file (and optional proof) directly against the blockchain. |
+| [Verify with proof](/docs/technical-docs/api-docs/verify-hash) | `POST` | `/v1/verify/post-lite` | Validate by sending only the JSON proof file; NFT trace header required.     |
