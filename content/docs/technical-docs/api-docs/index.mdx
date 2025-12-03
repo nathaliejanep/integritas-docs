@@ -72,3 +72,7 @@ Two endpoints are used for verifying data:
 | [Get proof](/docs/technical-docs/api-docs/get-proof)           | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_TIMESTAMP_STATUS}</code> | Retrieve on-chain proof for one or more UIDs after stamping.                 |
 | [Verify with file](/docs/technical-docs/api-docs/verify-data)  | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_VERIFY_POST}</code>      | Validate a source file (and optional proof) directly against the blockchain. |
 | [Verify with proof](/docs/technical-docs/api-docs/verify-hash) | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_VERIFY_POST_LITE}</code> | Validate by sending only the JSON proof file; NFT trace header required.     |
+
+For details on the response envelopes and field structures used by these
+endpoints, see the
+[API Response Schema](/docs/technical-docs/api-docs/response-schema).
