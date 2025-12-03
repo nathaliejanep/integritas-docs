@@ -1,0 +1,75 @@
+---
+title: Send File and Get Hash
+description: Submit a file to receive its SHA3-256 hash. This is the first step in the stamping process.
+---
+
+| Attribute       | Details                                                                        |
+| --------------- | ------------------------------------------------------------------------------ |
+| **Method**      | `POST`                                                                         |
+| **Description** | This endpoint is used to submit a file. Send the file as formdata in the body. |
+| **Endpoint**    | `{{BASE_URL}}/v1/file/hash`                                                    |
+
+---
+
+## Request Headers
+
+| Header           | Value                 | Description                                                             |
+| ---------------- | --------------------- | ----------------------------------------------------------------------- |
+| **Content-Type** | `multipart/form-data` | Specifies the content type as JSON                                      |
+| **x-api-key**    | `your-api-key`        | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-request-id** | `your-choice`         | Add a request id to trace every step of the process                     |
+
+---
+
+## Request Body
+
+| Request Type | Content-Type          | Body Type   | Keys   | Description |
+| ------------ | --------------------- | ----------- | ------ | ----------- |
+| File upload  | `multipart/form-data` | `form-data` | `file` | Send file   |
+
+---
+
+## Request Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+
+```bash tab="cURL"
+curl -X POST {{BASE_URL}}/v1/file/hash \
+  -H "x-api-key: your-api-key" \
+  -H "x-request-id: test-123" \
+  -F "file=@path/to/yourfile.docx"
+```
+
+```typescript tab="TypeScript"
+// TypeScript example coming soon
+```
+
+```python tab="Python"
+# Python example coming soon
+```
+
+</Tabs>
+
+---
+
+## API Response
+
+The response from the API contains the hash of the file.
+
+### Example Response
+
+```json
+{
+  "apiVersion": 1,
+  "requestId": "postman-req-id",
+  "status": "success",
+  "statusCode": 200,
+  "message": "Hash computed",
+  "timestamp": "2025-06-11T08:12:42.654Z",
+  "data": {
+    "hash": "C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+    "filename": "test.docx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  }
+}
+```

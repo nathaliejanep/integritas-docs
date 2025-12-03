@@ -1,0 +1,85 @@
+---
+title: Verify Data (Using Source Data)
+description: Verify data by sending the source file and optionally a proof file. Returns verification results with blockchain validation details.
+---
+
+| Attribute       | Details                                                                                                                                                                                     |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                                                                                                                      |
+| **Description** | This endpoint is used to submit one or two files for data verification against the blockchain. It processes the provided data and proof (if provided) and returns the verification results. |
+| **Endpoint**    | `{{BASE_URL}}/v1/verify/post`                                                                                                                                                               |
+
+---
+
+## NFT Proof Trace (Optional Feature)
+
+The **NFT Proof Trace** is an optional feature in the API that allows you to request an NFT trace of the verification process.
+
+When enabled:
+
+- It provides an **immutable, on-chain record** of the validation.
+- The verification is **linked to a unique NFT**, ensuring transparency and traceability.
+
+---
+
+## Request Headers
+
+| Header                | Value                | Description                                                             |
+| --------------------- | -------------------- | ----------------------------------------------------------------------- |
+| **Content-Type**      | `application/json`   | Specifies the content type as JSON                                      |
+| **x-api-key**         | `your-api-key`       | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-report-required** | `"true"` / `"false"` | Request NFT trace from the verification process                         |
+| **x-request-id**      | `your-choice`        | Add a request id to trace every step of the process                     |
+
+---
+
+## Request Body (Choose one)
+
+| Request Type | Content-Type  | Body Type   | Keys                | Description                                                                                   |
+| ------------ | ------------- | ----------- | ------------------- | --------------------------------------------------------------------------------------------- |
+| File upload  | `file`        | `form-data` | `file`              | Validate a source file.                                                                       |
+| File upload  | `file`        | `form-data` | `file`              | Validate a `.tar` file. The `.tar` file should contain the source file and a JSON proof file. |
+| File upload  | `file + file` | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file.                                                |
+
+---
+
+## API Response
+
+The response from the API contains information about a file and its results from on-chain verification.
+
+### Example Response
+
+```json
+{
+  "api_version": 1,
+  "requestId": "474785f4-4882-41b4-98fd-0d3a5b66001a",
+  "response_time": "3172.47 ms",
+  "response": {
+    "fileHash": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+    "fileName": "test.docx",
+    "fileSize": 279151,
+    "result": "full match",
+    "method": "timestamp",
+    "hash_instances_onchain": 1,
+    "unique_hashes": 1,
+    "blockchain_data": [
+      {
+        "block_number": "1520036",
+        "block_date": "2025-06-11 08:15:33",
+        "txpow_id": "0x0000000FFA25BBEEA02D0F6ABF7F70A54E7C43792C1DBB0C2F766C5497587243",
+        "transactionid": "0x3CC2C3B62A4953BEF539F420C879974977BA76222A353DCD5BE6D6246227607A",
+        "matched_hash": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427"
+      }
+    ],
+    "fileSegments": [
+      {
+        "matched_hash": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+        "index": 0,
+        "offset": 0,
+        "packetSize": 279151
+      }
+    ]
+  }
+}
+```
+

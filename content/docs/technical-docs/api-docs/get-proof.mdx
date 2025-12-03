@@ -1,0 +1,110 @@
+---
+title: Get Proof
+description: Retrieve proof of stamped data by sending the UID from the previous response. This is the third step in the stamping process.
+---
+
+| Attribute       | Details                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                   |
+| **Description** | This endpoint is used to collect the proof from one or multiple blockchain transactions. |
+| **Endpoint**    | `{{BASE_URL}}/v1/timestamp/status`                                                       |
+
+---
+
+## Request Headers
+
+| Header           | Value              | Description                                                             |
+| ---------------- | ------------------ | ----------------------------------------------------------------------- |
+| **Content-Type** | `application/json` | Specifies the content type as JSON                                      |
+| **x-api-key**    | `your-api-key`     | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-request-id** | `your-choice`      | Add a request id to trace every step of the process                     |
+
+---
+
+## Request Body
+
+| Request Type | Content-Type       | Body Type | Keys   | Description          |
+| ------------ | ------------------ | --------- | ------ | -------------------- |
+| Raw data     | `application/json` | `JSON`    | `uids` | Input array of uids. |
+
+### Example
+
+```json
+{ "uids": ["0xFD6C5E119105643FF6DF"] }
+```
+
+---
+
+## API Response
+
+If the blockchain transaction was not yet completed you will get a response that `"onchain": false` and you need to wait a moment and try again, maximum wait time for a blockchain transaction to be completed is 3 minutes.
+
+### Example Response (Pending)
+
+```json
+{
+  "apiVersion": 1,
+  "requestId": "my-test-reqest-id",
+  "status": "success",
+  "statusCode": 200,
+  "message": "UID statuses fetched",
+  "timestamp": "2025-06-11T08:14:54.183Z",
+  "data": [
+    {
+      "status": true,
+      "uid": "0x4A5AF1550313DAAF728A",
+      "data": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+      "number": 124,
+      "datecreated": "2025-06-11 08:14:18",
+      "onchain": false
+    }
+  ]
+}
+```
+
+### Example Response (Completed)
+
+The response from the API contains everything needed to verify that the data was sent to the blockchain. These fields are used in the verification process: "data", "root", "proof", "address". Save them in a json file, see example below the response example.
+
+```json
+{
+  "apiVersion": 1,
+  "requestId": "my-test-reqest-id",
+  "status": "success",
+  "statusCode": 200,
+  "message": "UID statuses fetched",
+  "timestamp": "2025-06-11T08:15:08.584Z",
+  "data": [
+    {
+      "status": true,
+      "uid": "0x4A5AF1550313DAAF728A",
+      "data": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+      "number": 124,
+      "datecreated": "2025-06-11 08:14:18",
+      "onchain": true,
+      "datestamped": "2025-06-11 08:15:03",
+      "root": "0x894D4D9B47C622BAD8D77A78871B25FA699523D9BE3B0AA70485814A00A90BD6",
+      "proof": "0x000100000100",
+      "address": "0xFFEEDD"
+    }
+  ]
+}
+```
+
+---
+
+## Fields and Format to Save
+
+Fields and format to be saved for verification in a json file:
+
+```json
+[
+  {
+    "address": "0xFFEEDD",
+    "data": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+    "proof": "0x000100000100",
+    "root": "0x894D4D9B47C622BAD8D77A78871B25FA699523D9BE3B0AA70485814A00A90BD6"
+  }
+]
+```
+

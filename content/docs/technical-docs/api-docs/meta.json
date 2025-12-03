@@ -1,0 +1,12 @@
+{
+  "title": "API Documentation",
+  "root": false,
+  "defaultOpen": true,
+  "pages": [
+    "send-file-hash",
+    "send-hash-uid",
+    "get-proof",
+    "verify-data",
+    "verify-hash"
+  ]
+}

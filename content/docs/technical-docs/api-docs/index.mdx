@@ -1,0 +1,47 @@
+---
+title: API Documentation
+description: This documentation provides a detailed overview of the Integritas API, which enables both uploading and verification of data hashes against the blockchain. It supports optional NFT traceability and returns structured results that include on-chain validation details. Use this guide to understand endpoints, request formats, and how to interpret the verification responses.
+---
+
+---
+
+## Base URL
+
+All API requests are made to the following base URL:
+
+```text
+https://integritas.minima.global/core
+```
+
+Referenced as:
+`{{BASE_URL}}`
+
+---
+
+## Authentication
+
+Authentication is required and done through the use of API-keys. Get yours at https://integritas.minima.global/.
+
+---
+
+## Endpoints Overview
+
+There are five available endpoints.
+
+### Stamping Data
+
+Three endpoints are used for stamping data:
+
+1. **[Send file and get hash](/docs/technical-docs/api-docs/send-file-hash)** - Prepare data to be stamped by hashing it. You will receive the SHA3-256 hash of the data in the response.
+
+2. **[Send hash and get UID](/docs/technical-docs/api-docs/send-hash-uid)** - Stamp data by uploading the hashed data. You will receive a UID in the response.
+
+3. **[Get proof](/docs/technical-docs/api-docs/get-proof)** - Retrieve proof of stamped data by sending the UID from the previous response.
+
+### Verification
+
+Two endpoints are used for verifying data:
+
+4. **[Verify data (Using source data)](/docs/technical-docs/api-docs/verify-data)** - Verify data by sending the source file and optionally a proof file.
+
+5. **[Verify hashed data (Using only proof file)](/docs/technical-docs/api-docs/verify-hash)** - Verify data using only a proof file.

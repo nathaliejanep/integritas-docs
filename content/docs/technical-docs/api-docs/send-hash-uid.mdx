@@ -1,0 +1,59 @@
+---
+title: Send Hash and Get UID
+description: Submit hashed data to receive a UID. This is the second step in the stamping process.
+---
+
+| Attribute       | Details                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| **Method**      | `POST`                                                                                   |
+| **Description** | This endpoint is used to submit hashed data. Send the hash as raw JSON data in the body. |
+| **Endpoint**    | `{{BASE_URL}}/v1/timestamp/post`                                                         |
+
+---
+
+## Request Headers
+
+| Header           | Value              | Description                                                             |
+| ---------------- | ------------------ | ----------------------------------------------------------------------- |
+| **Content-Type** | `application/json` | Specifies the content type as JSON                                      |
+| **x-api-key**    | `your-api-key`     | Add your API-key from your profile at https://integritas.minima.global/ |
+| **x-request-id** | `your-choice`      | Add a request id to trace every step of the process                     |
+
+---
+
+## Request Body
+
+| Request Type | Content-Type       | Body Type | Keys   | Description        |
+| ------------ | ------------------ | --------- | ------ | ------------------ |
+| Raw data     | `application/json` | `JSON`    | `hash` | Input hash of data |
+
+### Example
+
+```json
+{ "hash": "C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427" }
+```
+
+---
+
+## API Response
+
+The response from the API contains a UID which you will need to retrieve proof of the blockchain transaction that is being done by the stamp server.
+
+### Example Response
+
+```json
+{
+  "apiVersion": 1,
+  "requestId": "my-test-reqest-id",
+  "status": "success",
+  "statusCode": 200,
+  "message": "Hash forwarded successfully",
+  "timestamp": "2025-06-11T08:14:18.227Z",
+  "data": {
+    "status": true,
+    "data": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
+    "uid": "0x4A5AF1550313DAAF728A"
+  }
+}
+```
+
