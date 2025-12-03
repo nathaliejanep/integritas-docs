@@ -3,11 +3,29 @@ title: Verify Data (Using Source Data)
 description: Verify data by sending the source file and optionally a proof file. Returns verification results with blockchain validation details.
 ---
 
+import {
+  API_BASE_URL,
+  ENDPOINT_VERIFY_POST,
+  HTTP_METHOD_POST,
+  HEADER_CONTENT_TYPE,
+  HEADER_X_API_KEY,
+  HEADER_X_REPORT_REQUIRED,
+  HEADER_X_REQUEST_ID,
+  CONTENT_TYPE_JSON,
+  PLACEHOLDER_API_KEY,
+  PLACEHOLDER_REQUEST_ID,
+  DESC_X_API_KEY,
+  DESC_X_REQUEST_ID,
+  DESC_X_REPORT_REQUIRED,
+  DESC_CONTENT_TYPE_JSON,
+  REQUEST_TYPE_FILE_UPLOAD,
+} from '@/lib/constants';
+
 | Attribute       | Details                                                                                                                                                                                     |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Method**      | `POST`                                                                                                                                                                                      |
+| **Method**      | <code>{HTTP_METHOD_POST}</code>                                                                                                                                                             |
 | **Description** | This endpoint is used to submit one or two files for data verification against the blockchain. It processes the provided data and proof (if provided) and returns the verification results. |
-| **Endpoint**    | `{{BASE_URL}}/v1/verify/post`                                                                                                                                                               |
+| **Endpoint**    | <code>{API_BASE_URL}{ENDPOINT_VERIFY_POST}</code>                                                                                                                                           |
 
 ---
 
@@ -24,22 +42,22 @@ When enabled:
 
 ## Request Headers
 
-| Header                | Value                | Description                                                             |
-| --------------------- | -------------------- | ----------------------------------------------------------------------- |
-| **Content-Type**      | `application/json`   | Specifies the content type as JSON                                      |
-| **x-api-key**         | `your-api-key`       | Add your API-key from your profile at https://integritas.minima.global/ |
-| **x-report-required** | `"true"` / `"false"` | Request NFT trace from the verification process                         |
-| **x-request-id**      | `your-choice`        | Add a request id to trace every step of the process                     |
+| Header                | Value                                 | Description              |
+| --------------------- | ------------------------------------- | ------------------------ |
+| **Content-Type**      | <code>{CONTENT_TYPE_JSON}</code>      | {DESC_CONTENT_TYPE_JSON} |
+| **x-api-key**         | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY}         |
+| **x-report-required** | `"true"` / `"false"`                  | {DESC_X_REPORT_REQUIRED} |
+| **x-request-id**      | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}      |
 
 ---
 
 ## Request Body (Choose one)
 
-| Request Type | Content-Type  | Body Type   | Keys                | Description                                                                                   |
-| ------------ | ------------- | ----------- | ------------------- | --------------------------------------------------------------------------------------------- |
-| File upload  | `file`        | `form-data` | `file`              | Validate a source file.                                                                       |
-| File upload  | `file`        | `form-data` | `file`              | Validate a `.tar` file. The `.tar` file should contain the source file and a JSON proof file. |
-| File upload  | `file + file` | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file.                                                |
+| Request Type               | Content-Type  | Body Type   | Keys                | Description                                                                                   |
+| -------------------------- | ------------- | ----------- | ------------------- | --------------------------------------------------------------------------------------------- |
+| {REQUEST_TYPE_FILE_UPLOAD} | `file`        | `form-data` | `file`              | Validate a source file.                                                                       |
+| {REQUEST_TYPE_FILE_UPLOAD} | `file`        | `form-data` | `file`              | Validate a `.tar` file. The `.tar` file should contain the source file and a JSON proof file. |
+| {REQUEST_TYPE_FILE_UPLOAD} | `file + file` | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file.                                                |
 
 ---
 
@@ -82,4 +100,3 @@ The response from the API contains information about a file and its results from
   }
 }
 ```
-

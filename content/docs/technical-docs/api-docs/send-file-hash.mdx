@@ -3,29 +3,44 @@ title: Send File and Get Hash
 description: Submit a file to receive its SHA3-256 hash. This is the first step in the stamping process.
 ---
 
+import {
+  API_BASE_URL,
+  ENDPOINT_FILE_HASH,
+  HTTP_METHOD_POST,
+  HEADER_CONTENT_TYPE,
+  HEADER_X_API_KEY,
+  HEADER_X_REQUEST_ID,
+  CONTENT_TYPE_MULTIPART,
+  PLACEHOLDER_API_KEY,
+  PLACEHOLDER_REQUEST_ID,
+  DESC_X_API_KEY,
+  DESC_X_REQUEST_ID,
+  REQUEST_TYPE_FILE_UPLOAD,
+} from '@/lib/constants';
+
 | Attribute       | Details                                                                        |
 | --------------- | ------------------------------------------------------------------------------ |
-| **Method**      | `POST`                                                                         |
+| **Method**      | <code>{HTTP_METHOD_POST}</code>                                                |
 | **Description** | This endpoint is used to submit a file. Send the file as formdata in the body. |
-| **Endpoint**    | `{{BASE_URL}}/v1/file/hash`                                                    |
+| **Endpoint**    | <code>{API_BASE_URL}{ENDPOINT_FILE_HASH}</code>                                |
 
 ---
 
 ## Request Headers
 
-| Header           | Value                 | Description                                                             |
-| ---------------- | --------------------- | ----------------------------------------------------------------------- |
-| **Content-Type** | `multipart/form-data` | Specifies the content type as JSON                                      |
-| **x-api-key**    | `your-api-key`        | Add your API-key from your profile at https://integritas.minima.global/ |
-| **x-request-id** | `your-choice`         | Add a request id to trace every step of the process                     |
+| Header           | Value                                 | Description                        |
+| ---------------- | ------------------------------------- | ---------------------------------- |
+| **Content-Type** | <code>{CONTENT_TYPE_MULTIPART}</code> | Specifies the content type as JSON |
+| **x-api-key**    | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY}                   |
+| **x-request-id** | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}                |
 
 ---
 
 ## Request Body
 
-| Request Type | Content-Type          | Body Type   | Keys   | Description |
-| ------------ | --------------------- | ----------- | ------ | ----------- |
-| File upload  | `multipart/form-data` | `form-data` | `file` | Send file   |
+| Request Type               | Content-Type                          | Body Type   | Keys   | Description |
+| -------------------------- | ------------------------------------- | ----------- | ------ | ----------- |
+| {REQUEST_TYPE_FILE_UPLOAD} | <code>{CONTENT_TYPE_MULTIPART}</code> | `form-data` | `file` | Send file   |
 
 ---
 
