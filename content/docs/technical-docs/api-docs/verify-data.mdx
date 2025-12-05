@@ -59,8 +59,8 @@ When enabled:
 | {REQUEST_TYPE_FILE_UPLOAD} | <code>{CONTENT_TYPE_MULTIPART}</code> | `form-data` | `file`              | Validate a `.tar` file. The `.tar` file should contain the source file and a JSON proof file. |
 | {REQUEST_TYPE_FILE_UPLOAD} | <code>{CONTENT_TYPE_MULTIPART}</code> | `form-data` | `file`, `jsonproof` | Validate a source file with a JSON proof file.                                                |
 
-<Callout type='info' title='Note: Hash Must Exist on Blockchain'>
-When verifying with only a source file (without a proof file), the file's hash must already exist on the blockchain for verification to succeed.
+<Callout type='info' title='Note: Uploading Hash to Blockchain'>
+When verifying with only a source file (without a proof file), the file's hash must already exist on the blockchain to receive a match result.
 
 To upload a hash to the blockchain, you can send it directly from your own Minima node using this terminal command:
 
