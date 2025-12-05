@@ -5,7 +5,7 @@ interface JsonViewerProps {
 }
 
 export function JsonViewer({ data }: JsonViewerProps) {
-  // Simple JSON syntax highlighter
+  // Simple JSON syntax highlighter using Shiki-style colors
   const highlightJson = (json: string) => {
     // Try to format if it's valid JSON
     let formatted = json;
@@ -17,7 +17,7 @@ export function JsonViewer({ data }: JsonViewerProps) {
       formatted = json;
     }
 
-    // Apply syntax highlighting
+    // Apply syntax highlighting with Shiki color scheme (GitHub style)
     return formatted
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -25,35 +25,59 @@ export function JsonViewer({ data }: JsonViewerProps) {
       .replace(
         /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
         (match) => {
-          let cls = 'text-fd-foreground';
+          let lightColor = '#24292E'; // Default text color
+          let darkColor = '#E1E4E8';
 
           if (/^"/.test(match)) {
             if (/:$/.test(match)) {
-              // Key
-              cls = 'text-blue-600 dark:text-blue-400 font-medium';
+              // Key - blue
+              lightColor = '#005CC5';
+              darkColor = '#79B8FF';
             } else {
-              // String value
-              cls = 'text-green-600 dark:text-green-400';
+              // String value - green/cyan
+              lightColor = '#032F62';
+              darkColor = '#9ECBFF';
             }
           } else if (/true|false/.test(match)) {
-            // Boolean
-            cls = 'text-purple-600 dark:text-purple-400';
+            // Boolean - blue
+            lightColor = '#005CC5';
+            darkColor = '#79B8FF';
           } else if (/null/.test(match)) {
-            // Null
-            cls = 'text-red-600 dark:text-red-400';
+            // Null - blue
+            lightColor = '#005CC5';
+            darkColor = '#79B8FF';
           } else if (/^-?\d/.test(match)) {
-            // Number
-            cls = 'text-orange-600 dark:text-orange-400';
+            // Number - blue
+            lightColor = '#005CC5';
+            darkColor = '#79B8FF';
           }
 
-          return `<span class="${cls}">${match}</span>`;
+          return `<span style="--shiki-light:${lightColor};--shiki-dark:${darkColor}">${match}</span>`;
         }
       );
   };
 
   return (
     <div className='relative'>
-      <pre className='bg-fd-background border rounded-md p-4 overflow-x-auto text-xs leading-relaxed'>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+          .json-viewer-shiki {
+            color: #24292E;
+          }
+          .json-viewer-shiki span {
+            color: var(--shiki-light);
+          }
+          .dark .json-viewer-shiki {
+            color: #E1E4E8;
+          }
+          .dark .json-viewer-shiki span {
+            color: var(--shiki-dark);
+          }
+        `,
+        }}
+      />
+      <pre className='json-viewer-shiki bg-fd-background border rounded-md p-4 overflow-x-auto text-xs leading-relaxed'>
         <code
           className='bg-transparent border-none'
           dangerouslySetInnerHTML={{ __html: highlightJson(data) }}
