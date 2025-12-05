@@ -46,7 +46,7 @@ When enabled:
 | --------------------- | ------------------------------------- | ----------------------------- |
 | **Content-Type**      | <code>{CONTENT_TYPE_MULTIPART}</code> | {DESC_CONTENT_TYPE_MULTIPART} |
 | **x-api-key**         | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY}              |
-| **x-report-required** | `true` / `false`                  | {DESC_X_REPORT_REQUIRED}      |
+| **x-report-required** | `true` / `false`                      | {DESC_X_REPORT_REQUIRED}      |
 | **x-request-id**      | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}           |
 
 ---
@@ -79,14 +79,101 @@ curl -X POST https://integritas.minima.global/core/v1/verify/post \
   <Tab value='TypeScript'>
 
 ```typescript
-// TypeScript example coming soon
+// Using fetch API
+const API_KEY = 'your-api-key';
+const REQUEST_ID = 'test-123';
+
+async function verifyData(
+  filePath: string,
+  proofPath?: string,
+  reportRequired: boolean = true
+) {
+  const formData = new FormData();
+
+  // For browser: use file inputs
+  // const fileInput = document.querySelector('input[name="file"]');
+  // formData.append('file', fileInput.files[0]);
+
+  // For Node.js: use fs
+  const fs = await import('fs');
+  const file = fs.readFileSync(filePath);
+  const fileBlob = new Blob([file]);
+  formData.append('file', fileBlob, 'yourfile.docx');
+
+  // Optional: add proof file
+  if (proofPath) {
+    const proofFile = fs.readFileSync(proofPath);
+    const proofBlob = new Blob([proofFile]);
+    formData.append('jsonproof', proofBlob, 'proof.json');
+  }
+
+  const response = await fetch(
+    'https://integritas.minima.global/core/v1/verify/post',
+    {
+      method: 'POST',
+      headers: {
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+        'x-report-required': reportRequired.toString(),
+      },
+      body: formData,
+    }
+  );
+
+  const data = await response.json();
+  console.log('Response:', data);
+  return data;
+}
+
+// Usage
+// Verify with source file only
+verifyData('./path/to/yourfile.docx');
+
+// Verify with source file and proof
+verifyData('./path/to/yourfile.docx', './path/to/proof.json');
 ```
 
   </Tab>
   <Tab value='Python'>
 
 ```python
-# Python example coming soon
+import requests
+
+API_KEY = 'your-api-key'
+REQUEST_ID = 'test-123'
+
+def verify_data(file_path, proof_path=None, report_required=True):
+    url = 'https://integritas.minima.global/core/v1/verify/post'
+
+    headers = {
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+        'x-report-required': str(report_required).lower(),
+    }
+
+    files = {}
+
+    with open(file_path, 'rb') as file:
+        files['file'] = file
+
+        # Optional: add proof file
+        if proof_path:
+            with open(proof_path, 'rb') as proof_file:
+                files['jsonproof'] = proof_file
+                response = requests.post(url, headers=headers, files=files)
+        else:
+            response = requests.post(url, headers=headers, files=files)
+
+    data = response.json()
+    print('Response:', data)
+    return data
+
+# Usage
+# Verify with source file only
+verify_data('./path/to/yourfile.docx')
+
+# Verify with source file and proof
+verify_data('./path/to/yourfile.docx', './path/to/proof.json')
 ```
 
   </Tab>

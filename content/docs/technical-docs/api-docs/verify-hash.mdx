@@ -65,14 +65,73 @@ curl -X POST https://integritas.minima.global/core/v1/verify/post-lite \
   <Tab value='TypeScript'>
 
 ```typescript
-// TypeScript example coming soon
+// Using fetch API
+const API_KEY = 'your-api-key';
+const REQUEST_ID = 'test-123';
+
+async function verifyHash(proofPath: string) {
+  const formData = new FormData();
+
+  // For browser: use file input
+  // const proofInput = document.querySelector('input[name="jsonproof"]');
+  // formData.append('jsonproof', proofInput.files[0]);
+
+  // For Node.js: use fs
+  const fs = await import('fs');
+  const proofFile = fs.readFileSync(proofPath);
+  const proofBlob = new Blob([proofFile]);
+  formData.append('jsonproof', proofBlob, 'proof.json');
+
+  const response = await fetch(
+    'https://integritas.minima.global/core/v1/verify/post-lite',
+    {
+      method: 'POST',
+      headers: {
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+        'x-report-required': 'true',
+      },
+      body: formData,
+    }
+  );
+
+  const data = await response.json();
+  console.log('Response:', data);
+  return data;
+}
+
+// Usage
+verifyHash('./path/to/proof.json');
 ```
 
   </Tab>
   <Tab value='Python'>
 
 ```python
-# Python example coming soon
+import requests
+
+API_KEY = 'your-api-key'
+REQUEST_ID = 'test-123'
+
+def verify_hash(proof_path):
+    url = 'https://integritas.minima.global/core/v1/verify/post-lite'
+
+    headers = {
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+        'x-report-required': 'true',
+    }
+
+    with open(proof_path, 'rb') as proof_file:
+        files = {'jsonproof': proof_file}
+        response = requests.post(url, headers=headers, files=files)
+
+    data = response.json()
+    print('Response:', data)
+    return data
+
+# Usage
+verify_hash('./path/to/proof.json')
 ```
 
   </Tab>

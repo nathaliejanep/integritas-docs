@@ -70,14 +70,63 @@ curl -X POST https://integritas.minima.global/core/v1/timestamp/post \
   <Tab value='TypeScript'>
 
 ```typescript
-// TypeScript example coming soon
+// Using fetch API
+const API_KEY = 'your-api-key';
+const REQUEST_ID = 'test-123';
+
+async function sendHash(hash: string) {
+  const response = await fetch(
+    'https://integritas.minima.global/core/v1/timestamp/post',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+      },
+      body: JSON.stringify({ hash }),
+    }
+  );
+
+  const data = await response.json();
+  console.log('Response:', data);
+  return data;
+}
+
+// Usage
+const hash = 'C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427';
+sendHash(hash);
 ```
 
   </Tab>
   <Tab value='Python'>
 
 ```python
-# Python example coming soon
+import requests
+import json
+
+API_KEY = 'your-api-key'
+REQUEST_ID = 'test-123'
+
+def send_hash(hash_value):
+    url = 'https://integritas.minima.global/core/v1/timestamp/post'
+
+    headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+    }
+
+    payload = {'hash': hash_value}
+    response = requests.post(url, headers=headers, json=payload)
+
+    data = response.json()
+    print('Response:', data)
+    return data
+
+# Usage
+hash_value = 'C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427'
+send_hash(hash_value)
 ```
 
   </Tab>

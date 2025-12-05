@@ -70,14 +70,103 @@ curl -X POST https://integritas.minima.global/core/v1/timestamp/status \
   <Tab value='TypeScript'>
 
 ```typescript
-// TypeScript example coming soon
+// Using fetch API
+const API_KEY = 'your-api-key';
+const REQUEST_ID = 'test-123';
+
+async function getProof(uids: string[]) {
+  const response = await fetch(
+    'https://integritas.minima.global/core/v1/timestamp/status',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+      },
+      body: JSON.stringify({ uids }),
+    }
+  );
+
+  const data = await response.json();
+  console.log('Response:', data);
+
+  // Extract and save proof data if transaction is complete
+  if (data.data && Array.isArray(data.data)) {
+    const proofs = data.data
+      .filter((item: any) => item.onchain === true)
+      .map((item: any) => ({
+        address: item.address,
+        data: item.data,
+        proof: item.proof,
+        root: item.root,
+      }));
+
+    if (proofs.length > 0) {
+      console.log('Proof data ready:', proofs);
+      // Optionally save to file in Node.js:
+      // const fs = await import('fs');
+      // fs.writeFileSync('proof.json', JSON.stringify(proofs, null, 2));
+    }
+  }
+
+  return data;
+}
+
+// Usage
+const uids = ['0xFD6C5E119105643FF6DF'];
+getProof(uids);
 ```
 
   </Tab>
   <Tab value='Python'>
 
 ```python
-# Python example coming soon
+import requests
+import json
+
+API_KEY = 'your-api-key'
+REQUEST_ID = 'test-123'
+
+def get_proof(uids):
+    url = 'https://integritas.minima.global/core/v1/timestamp/status'
+
+    headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+    }
+
+    payload = {'uids': uids}
+    response = requests.post(url, headers=headers, json=payload)
+
+    data = response.json()
+    print('Response:', data)
+
+    # Extract and save proof data if transaction is complete
+    if 'data' in data and isinstance(data['data'], list):
+        proofs = [
+            {
+                'address': item['address'],
+                'data': item['data'],
+                'proof': item['proof'],
+                'root': item['root']
+            }
+            for item in data['data']
+            if item.get('onchain') is True
+        ]
+
+        if proofs:
+            print('Proof data ready:', proofs)
+            # Optionally save to file:
+            # with open('proof.json', 'w') as f:
+            #     json.dump(proofs, f, indent=2)
+
+    return data
+
+# Usage
+uids = ['0xFD6C5E119105643FF6DF']
+get_proof(uids)
 ```
 
   </Tab>
