@@ -1,0 +1,13 @@
+{
+  "title": "Version 1",
+  "root": false,
+  "defaultOpen": true,
+  "pages": [
+    "send-file-hash",
+    "send-hash-uid",
+    "get-proof",
+    "verify-data",
+    "verify-hash",
+    "response-schema"
+  ]
+}
