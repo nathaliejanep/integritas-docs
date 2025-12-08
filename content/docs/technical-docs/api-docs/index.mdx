@@ -11,6 +11,7 @@ import {
   ENDPOINT_VERIFY_POST,
   ENDPOINT_VERIFY_POST_LITE,
   HTTP_METHOD_POST,
+  INTEGRITAS_URL,
 } from '@/lib/constants';
 
 ---
@@ -35,7 +36,7 @@ https://integritas.minima.global/core/v1/file/hash
 
 ## Authentication
 
-Authentication is required and done through the use of API-keys. Get yours at https://integritas.minima.global/.
+Authentication is required and done through the use of API-keys. Get yours at <a href={INTEGRITAS_URL} target="_blank" rel="noopener noreferrer">{INTEGRITAS_URL}</a>.
 
 ---
 
@@ -65,8 +66,8 @@ Two endpoints are used for verifying data:
 
 ## Quick Reference
 
-| Endpoint                                                       | Method                        | Path                               | When to Use                                                                  |
-| -------------------------------------------------------------- | ----------------------------- | ---------------------------------- | ---------------------------------------------------------------------------- |
+| Endpoint                                                       | Method                          | Path                                     | When to Use                                                                  |
+| -------------------------------------------------------------- | ------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------- |
 | [Get file hash](/docs/technical-docs/api-docs/send-file-hash)  | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_FILE_HASH}</code>        | Generate the SHA3-256 hash for raw source data prior to stamping.            |
 | [Get UID](/docs/technical-docs/api-docs/send-hash-uid)         | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_TIMESTAMP_POST}</code>   | Submit an already computed hash to receive a UID that represents the stamp.  |
 | [Get proof](/docs/technical-docs/api-docs/get-proof)           | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_TIMESTAMP_STATUS}</code> | Retrieve on-chain proof for one or more UIDs after stamping.                 |
