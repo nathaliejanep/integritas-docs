@@ -2,6 +2,7 @@
 
 import { useState, ReactNode } from 'react';
 import { JsonViewer } from './json-viewer';
+import { INTEGRITAS_URL, INTEGRITAS_DISPLAY_NAME } from '@/lib/constants';
 
 interface ApiDemoWrapperProps {
   children: ReactNode;
@@ -71,12 +72,12 @@ export function ApiKeyFields({
         <p className='text-xs text-fd-muted-foreground mt-1'>
           Get your API key from{' '}
           <a
-            href='https://integritas.minima.global/'
+            href={INTEGRITAS_URL}
             target='_blank'
             rel='noopener noreferrer'
             className='text-fd-primary hover:underline'
           >
-            integritas.minima.global
+            {INTEGRITAS_DISPLAY_NAME}
           </a>
         </p>
       </div>

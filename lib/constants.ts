@@ -24,6 +24,7 @@ export const PLACEHOLDER_REQUEST_ID = 'your-choice';
 
 // Header Descriptions
 export const INTEGRITAS_URL = 'https://integritas.minima.global/';
+export const INTEGRITAS_DISPLAY_NAME = 'integritas.minima.global';
 export const DESC_X_API_KEY = 'Add your API-key from your profile at';
 export const DESC_X_REQUEST_ID =
   'Add a request id to trace every step of the process';
