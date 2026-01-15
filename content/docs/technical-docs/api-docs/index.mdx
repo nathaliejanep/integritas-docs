@@ -1,79 +1,36 @@
 ---
 title: API Documentation
-description: This documentation provides a detailed overview of the Integritas API, which enables both uploading and verification of data hashes against the blockchain. It supports optional NFT traceability and returns structured results that include on-chain validation details. Use this guide to understand endpoints, request formats, and how to interpret the verification responses.
+description: The Integritas API provides a comprehensive set of endpoints for stamping and verifying data on the blockchain.
 ---
 
-import {
-  API_BASE_URL,
-  ENDPOINT_FILE_HASH,
-  ENDPOINT_TIMESTAMP_POST,
-  ENDPOINT_TIMESTAMP_STATUS,
-  ENDPOINT_VERIFY_POST,
-  ENDPOINT_VERIFY_POST_LITE,
-  HTTP_METHOD_POST,
-  INTEGRITAS_URL,
-} from '@/lib/constants';
+import { INTEGRITAS_URL } from '@/lib/constants';
 
 ---
 
-## Base URL
+## Key capabilities
 
-All API requests are made to the following base URL:
+- **Stamping Data**: Hash and timestamp your data on the blockchain
+- **Verification**: Verify data authenticity and integrity against blockchain records
+- **NFT Traceability**: Optional support for NFT-based tracking
 
-```text
-https://integritas.minima.global/core
-```
-
-### Example
-
-To make a request to the "Get file hash" endpoint, you would use:
-
-```text
-https://integritas.minima.global/core/v1/file/hash
-```
+All endpoints return structured JSON responses with detailed on-chain validation information.
 
 ---
 
-## Authentication
+## API Versions
 
-Authentication is required and done through the use of API-keys. Get yours at <a href={INTEGRITAS_URL} target="_blank" rel="noopener noreferrer">{INTEGRITAS_URL}</a>.
+Select the version you want to work with:
 
----
+### Version 1 (Current)
 
-## Endpoints Overview
+The stable production API with full support for data stamping and verification.
 
-There are five available endpoints.
-
-### Stamping Data
-
-Three endpoints are used for stamping data:
-
-1. **[Send file and get hash](/docs/technical-docs/api-docs/send-file-hash)** - Prepare data to be stamped by hashing it. You will receive the SHA3-256 hash of the data in the response.
-
-2. **[Send hash and get UID](/docs/technical-docs/api-docs/send-hash-uid)** - Stamp data by uploading the hashed data. You will receive a UID in the response.
-
-3. **[Get proof](/docs/technical-docs/api-docs/get-proof)** - Retrieve proof of stamped data by sending the UID from the previous response.
-
-### Verification
-
-Two endpoints are used for verifying data:
-
-4. **[Verify data (Using source data)](/docs/technical-docs/api-docs/verify-data)** - Verify data by sending the source file and optionally a proof file.
-
-5. **[Verify hashed data (Using only proof file)](/docs/technical-docs/api-docs/verify-hash)** - Verify data using only a proof file.
+**[View v1 Documentation →](/docs/technical-docs/api-docs/v1)**
 
 ---
 
-## Quick Reference
+## Getting Started
 
-| Endpoint                                                       | Method                          | Path                                     | When to Use                                                                  |
-| -------------------------------------------------------------- | ------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------- |
-| [Get file hash](/docs/technical-docs/api-docs/send-file-hash)  | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_FILE_HASH}</code>        | Generate the SHA3-256 hash for raw source data prior to stamping.            |
-| [Get UID](/docs/technical-docs/api-docs/send-hash-uid)         | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_TIMESTAMP_POST}</code>   | Submit an already computed hash to receive a UID that represents the stamp.  |
-| [Get proof](/docs/technical-docs/api-docs/get-proof)           | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_TIMESTAMP_STATUS}</code> | Retrieve on-chain proof for one or more UIDs after stamping.                 |
-| [Verify with file](/docs/technical-docs/api-docs/verify-data)  | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_VERIFY_POST}</code>      | Validate a source file (and optional proof) directly against the blockchain. |
-| [Verify with proof](/docs/technical-docs/api-docs/verify-hash) | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_VERIFY_POST_LITE}</code> | Validate by sending only the JSON proof file; NFT trace header required.     |
-
-For details on the response envelopes and field structures used by these
-endpoints, see the
-[API Response Schema](/docs/technical-docs/api-docs/response-schema).
+1. **Get your API key** from <a href={INTEGRITAS_URL} target="_blank" rel="noopener noreferrer">{INTEGRITAS_URL}</a>
+2. **Choose your API version** from the links above
+3. **Follow the version-specific documentation** for detailed endpoint information, request formats, and examples

@@ -1,5 +1,5 @@
 // API Constants
-export const API_BASE_URL = 'https://integritas.minima.global/core';
+export const API_BASE_URL = 'https://integritas.technology/core';
 
 // HTTP Methods
 export const HTTP_METHOD_POST = 'POST';
@@ -23,8 +23,8 @@ export const PLACEHOLDER_API_KEY = 'your-api-key';
 export const PLACEHOLDER_REQUEST_ID = 'your-choice';
 
 // Header Descriptions
-export const INTEGRITAS_URL = 'https://integritas.minima.global/';
-export const INTEGRITAS_DISPLAY_NAME = 'integritas.minima.global';
+export const INTEGRITAS_URL = 'https://integritas.technology/';
+export const INTEGRITAS_DISPLAY_NAME = 'integritas.technology';
 export const DESC_X_API_KEY = 'Add your API-key from your profile at';
 export const DESC_X_REQUEST_ID =
   'Add a request id to trace every step of the process';
