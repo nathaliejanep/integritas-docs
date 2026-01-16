@@ -1,0 +1,267 @@
+---
+title: Get Proof
+description: Retrieve proof of stamped data by sending the UID from the previous response. This is the third step in the stamping process.
+---
+
+import {
+  API_BASE_URL,
+  ENDPOINT_TIMESTAMP_STATUS,
+  HTTP_METHOD_POST,
+  HEADER_CONTENT_TYPE,
+  HEADER_X_API_KEY,
+  HEADER_X_REQUEST_ID,
+  CONTENT_TYPE_JSON,
+  PLACEHOLDER_API_KEY,
+  PLACEHOLDER_REQUEST_ID,
+  INTEGRITAS_URL,
+  DESC_X_API_KEY,
+  DESC_X_REQUEST_ID,
+  DESC_CONTENT_TYPE_JSON,
+  REQUEST_TYPE_RAW_DATA,
+} from '@/lib/constants';
+
+| Attribute       | Details                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| **Method**      | <code>{HTTP_METHOD_POST}</code>                                                          |
+| **Description** | This endpoint is used to collect the proof from one or multiple blockchain transactions. |
+| **Endpoint**    | <code>{API_BASE_URL}{ENDPOINT_TIMESTAMP_STATUS}</code>                                   |
+
+---
+
+## Request Headers
+
+| Header           | Value                                 | Description                                                                                              |
+| ---------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Content-Type** | <code>{CONTENT_TYPE_JSON}</code>      | {DESC_CONTENT_TYPE_JSON}                                                                                 |
+| **x-api-key**    | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY} <a href={INTEGRITAS_URL} target="_blank" rel="noopener noreferrer">{INTEGRITAS_URL}</a> |
+| **x-request-id** | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}                                                                                      |
+
+---
+
+## Request Body
+
+| Request Type            | Content-Type                     | Body Type | Keys   | Description          |
+| ----------------------- | -------------------------------- | --------- | ------ | -------------------- |
+| {REQUEST_TYPE_RAW_DATA} | <code>{CONTENT_TYPE_JSON}</code> | `JSON`    | `uids` | Input array of uids. |
+
+### Example
+
+```json
+{
+  "uids": ["0x3B18508ABF8B0120CFEC"]
+}
+```
+
+---
+
+## Request Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+  <Tab value='cURL'>
+
+```bash
+curl -X POST https://integritas.technology/core/v1/timestamp/status \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: your-api-key" \
+  -H "x-request-id: your-choice" \
+  -d '{"uids":["0x3B18508ABF8B0120CFEC"]}'
+```
+
+  </Tab>
+  <Tab value='TypeScript'>
+
+```typescript
+// Using fetch API
+const API_KEY = 'your-api-key';
+const REQUEST_ID = 'your-choice';
+
+async function getProof(uids: string[]) {
+  const response = await fetch(
+    'https://integritas.technology/core/v1/timestamp/status',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+      },
+      body: JSON.stringify({ uids }),
+    }
+  );
+
+  const data = await response.json();
+  console.log('Response:', data);
+
+  // Extract and save proof data if transaction is complete
+  if (data.data && Array.isArray(data.data)) {
+    const proofs = data.data
+      .filter((item: any) => item.onchain === true)
+      .map((item: any) => ({
+        address: item.address,
+        data: item.data,
+        proof: item.proof,
+        root: item.root,
+      }));
+
+    if (proofs.length > 0) {
+      console.log('Proof data ready:', proofs);
+      // Optionally save to file in Node.js:
+      // const fs = await import('fs');
+      // fs.writeFileSync('proof.json', JSON.stringify(proofs, null, 2));
+    }
+  }
+
+  return data;
+}
+
+// Usage
+const uids = ['0x3B18508ABF8B0120CFEC'];
+getProof(uids);
+```
+
+  </Tab>
+  <Tab value='Python'>
+
+```python
+import requests
+import json
+
+API_KEY = 'your-api-key'
+REQUEST_ID = 'your-choice'
+
+def get_proof(uids):
+    url = 'https://integritas.technology/core/v1/timestamp/status'
+
+    headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+    }
+
+    payload = {'uids': uids}
+    response = requests.post(url, headers=headers, json=payload)
+
+    data = response.json()
+    print('Response:', data)
+
+    # Extract and save proof data if transaction is complete
+    if 'data' in data and isinstance(data['data'], list):
+        proofs = [
+            {
+                'address': item['address'],
+                'data': item['data'],
+                'proof': item['proof'],
+                'root': item['root']
+            }
+            for item in data['data']
+            if item.get('onchain') is True
+        ]
+
+        if proofs:
+            print('Proof data ready:', proofs)
+            # Optionally save to file:
+            # with open('proof.json', 'w') as f:
+            #     json.dump(proofs, f, indent=2)
+
+    return data
+
+# Usage
+uids = ['0x3B18508ABF8B0120CFEC']
+get_proof(uids)
+```
+
+  </Tab>
+</Tabs>
+
+---
+
+## API Demo
+
+Try the endpoint with your own API key and UID(s). The request is sent directly to the API, and the response is displayed below.
+
+<ApiDemoJsonUids />
+
+---
+
+## API Response
+
+If the blockchain transaction was not yet completed you will get a response that `"onchain": false` and you need to wait a moment and try again, maximum wait time for a blockchain transaction to be completed is 3 minutes.
+
+### Example Response (Pending)
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 1,
+  "requestId": "get-proof-pending",
+  "status": "success",
+  "statusCode": 200,
+  "message": "UID statuses fetched",
+  "timestamp": "2026-01-16T14:31:08.511Z",
+  "data": [
+    {
+      "status": true,
+      "uid": "0x3B18508ABF8B0120CFEC",
+      "data": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+      "number": 4831,
+      "datecreated": "2026-01-16 14:31:03",
+      "onchain": false
+    }
+  ]
+}
+```
+
+### Example Response (Completed)
+
+The response from the API contains everything needed to verify that the data was sent to the blockchain. These fields are used in the verification process: "data", "root", "proof", "address". Save them in a json file, see example below the response example.
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 1,
+  "requestId": "get-proof-completed",
+  "status": "success",
+  "statusCode": 200,
+  "message": "UID statuses fetched",
+  "timestamp": "2026-01-16T14:32:18.793Z",
+  "data": [
+    {
+      "status": true,
+      "uid": "0x3B18508ABF8B0120CFEC",
+      "data": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+      "number": 4831,
+      "datecreated": "2026-01-16 14:31:03",
+      "datestamped": "2026-01-16 14:32:03",
+      "root": "0x1384FA6242E0D750FFA9366EFC7A0AC226E7EFD14EC5DF70DD50E36188AC0EA6",
+      "proof": "0x000100000100",
+      "address": "0xFFEEDD",
+      "onchain": true
+    }
+  ]
+}
+```
+
+---
+
+## Fields and Format to Save
+
+Fields and format to be saved for verification in a json file:
+
+```json
+[
+  {
+    "address": "0xFFEEDD",
+    "data": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+    "proof": "0x000100000100",
+    "root": "0x1384FA6242E0D750FFA9366EFC7A0AC226E7EFD14EC5DF70DD50E36188AC0EA6"
+  }
+]
+```
+
+---
+
+## Response Fields
+
+For a complete description of the response envelope and proof item
+fields used by this endpoint, see
+[API Response Schema &mdash; Get Proof](/docs/technical-docs/api-docs/v1/response-schema#get-proof-response).

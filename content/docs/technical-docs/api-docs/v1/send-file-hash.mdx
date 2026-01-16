@@ -1,0 +1,173 @@
+---
+title: Send File and Get Hash
+description: Submit a file to receive its SHA3-256 hash. This is the first step in the stamping process.
+---
+
+import {
+  API_BASE_URL,
+  ENDPOINT_FILE_HASH,
+  HTTP_METHOD_POST,
+  HEADER_CONTENT_TYPE,
+  HEADER_X_API_KEY,
+  HEADER_X_REQUEST_ID,
+  CONTENT_TYPE_MULTIPART,
+  PLACEHOLDER_API_KEY,
+  PLACEHOLDER_REQUEST_ID,
+  INTEGRITAS_URL,
+  DESC_X_API_KEY,
+  DESC_X_REQUEST_ID,
+  REQUEST_TYPE_FILE_UPLOAD,
+} from '@/lib/constants';
+
+| Attribute       | Details                                                                        |
+| --------------- | ------------------------------------------------------------------------------ |
+| **Method**      | <code>{HTTP_METHOD_POST}</code>                                                |
+| **Description** | This endpoint is used to submit a file. Send the file as formdata in the body. |
+| **Endpoint**    | <code>{API_BASE_URL}{ENDPOINT_FILE_HASH}</code>                                |
+
+---
+
+## Request Headers
+
+| Header           | Value                                 | Description                                                                                              |
+| ---------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Content-Type** | <code>{CONTENT_TYPE_MULTIPART}</code> | Specifies the content type as JSON                                                                       |
+| **x-api-key**    | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY} <a href={INTEGRITAS_URL} target="_blank" rel="noopener noreferrer">{INTEGRITAS_URL}</a> |
+| **x-request-id** | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}                                                                                      |
+
+---
+
+## Request Body
+
+| Request Type               | Content-Type                          | Body Type   | Keys   | Description |
+| -------------------------- | ------------------------------------- | ----------- | ------ | ----------- |
+| {REQUEST_TYPE_FILE_UPLOAD} | <code>{CONTENT_TYPE_MULTIPART}</code> | `form-data` | `file` | Send file   |
+
+---
+
+## Request Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+  <Tab value='cURL'>
+
+```bash
+curl -X POST https://integritas.technology/core/v1/file/hash \
+  -H "x-api-key: your-api-key" \
+  -H "x-request-id: your-choice" \
+  -F "file=@path/to/yourfile.pdf"
+```
+
+  </Tab>
+  <Tab value='TypeScript'>
+
+```typescript
+// Using fetch API
+const API_KEY = 'your-api-key';
+const REQUEST_ID = 'your-choice';
+
+async function sendFile(filePath: string) {
+  const formData = new FormData();
+
+  // For browser: use file input
+  // const fileInput = document.querySelector('input[type="file"]');
+  // formData.append('file', fileInput.files[0]);
+
+  // For Node.js: use fs
+  const fs = await import('fs');
+  const file = fs.readFileSync(filePath);
+  const blob = new Blob([file]);
+  formData.append('file', blob, 'yourfile.pdf');
+
+  const response = await fetch(
+    'https://integritas.technology/core/v1/file/hash',
+    {
+      method: 'POST',
+      headers: {
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+      },
+      body: formData,
+    }
+  );
+
+  const data = await response.json();
+  console.log('Response:', data);
+  return data;
+}
+
+// Usage
+sendFile('./path/to/yourfile.pdf');
+```
+
+  </Tab>
+  <Tab value='Python'>
+
+```python
+import requests
+
+API_KEY = 'your-api-key'
+REQUEST_ID = 'your-choice'
+
+def send_file(file_path):
+    url = 'https://integritas.technology/core/v1/file/hash'
+
+    headers = {
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+    }
+
+    with open(file_path, 'rb') as file:
+        files = {'file': file}
+        response = requests.post(url, headers=headers, files=files)
+
+    data = response.json()
+    print('Response:', data)
+    return data
+
+# Usage
+send_file('./path/to/yourfile.pdf')
+```
+
+  </Tab>
+</Tabs>
+
+---
+
+## API Demo
+
+Try the endpoint with your own API key and file. The request is sent directly to the API, and the response is displayed below.
+
+<ApiDemoFileUpload />
+
+---
+
+## API Response
+
+The response from the API contains the hash of the file.
+
+### Example Response
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 1,
+  "requestId": "send-file-hash",
+  "status": "success",
+  "statusCode": 200,
+  "message": "Hash computed",
+  "timestamp": "2026-01-16T14:15:01.308Z",
+  "data": {
+    "hash": "E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+    "filename": "source_256kb.pdf",
+    "mimeType": "application/pdf"
+  }
+}
+```
+
+---
+
+## Response Fields
+
+For a complete description of the response envelope and fields used by
+this endpoint, see
+[API Response Schema &mdash; Send File and Get Hash](/docs/technical-docs/api-docs/v1/response-schema#send-file-and-get-hash-response).

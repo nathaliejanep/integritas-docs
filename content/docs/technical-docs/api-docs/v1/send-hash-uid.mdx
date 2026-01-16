@@ -1,0 +1,175 @@
+---
+title: Send Hash and Get UID
+description: Submit hashed data to receive a UID. This is the second step in the stamping process.
+---
+
+import {
+  API_BASE_URL,
+  ENDPOINT_TIMESTAMP_POST,
+  HTTP_METHOD_POST,
+  HEADER_CONTENT_TYPE,
+  HEADER_X_API_KEY,
+  HEADER_X_REQUEST_ID,
+  CONTENT_TYPE_JSON,
+  PLACEHOLDER_API_KEY,
+  PLACEHOLDER_REQUEST_ID,
+  INTEGRITAS_URL,
+  DESC_X_API_KEY,
+  DESC_X_REQUEST_ID,
+  DESC_CONTENT_TYPE_JSON,
+  REQUEST_TYPE_RAW_DATA,
+} from '@/lib/constants';
+
+| Attribute       | Details                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| **Method**      | <code>{HTTP_METHOD_POST}</code>                                                          |
+| **Description** | This endpoint is used to submit hashed data. Send the hash as raw JSON data in the body. |
+| **Endpoint**    | <code>{API_BASE_URL}{ENDPOINT_TIMESTAMP_POST}</code>                                     |
+
+---
+
+## Request Headers
+
+| Header           | Value                                 | Description                                                                                              |
+| ---------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Content-Type** | <code>{CONTENT_TYPE_JSON}</code>      | {DESC_CONTENT_TYPE_JSON}                                                                                 |
+| **x-api-key**    | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY} <a href={INTEGRITAS_URL} target="_blank" rel="noopener noreferrer">{INTEGRITAS_URL}</a> |
+| **x-request-id** | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}                                                                                      |
+
+---
+
+## Request Body
+
+| Request Type            | Content-Type                     | Body Type | Keys   | Description        |
+| ----------------------- | -------------------------------- | --------- | ------ | ------------------ |
+| {REQUEST_TYPE_RAW_DATA} | <code>{CONTENT_TYPE_JSON}</code> | `JSON`    | `hash` | Input hash of data |
+
+### Example
+
+```json
+{
+  "hash": "E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F"
+}
+```
+
+---
+
+## Request Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+  <Tab value='cURL'>
+
+```bash
+curl -X POST https://integritas.technology/core/v1/timestamp/post \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: your-api-key" \
+  -H "x-request-id: your-choice" \
+  -d '{"hash":"E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F"}'
+```
+
+  </Tab>
+  <Tab value='TypeScript'>
+
+```typescript
+// Using fetch API
+const API_KEY = 'your-api-key';
+const REQUEST_ID = 'your-choice';
+
+async function sendHash(hash: string) {
+  const response = await fetch(
+    'https://integritas.technology/core/v1/timestamp/post',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+      },
+      body: JSON.stringify({ hash }),
+    }
+  );
+
+  const data = await response.json();
+  console.log('Response:', data);
+  return data;
+}
+
+// Usage
+const hash = 'E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F';
+sendHash(hash);
+```
+
+  </Tab>
+  <Tab value='Python'>
+
+```python
+import requests
+import json
+
+API_KEY = 'your-api-key'
+REQUEST_ID = 'your-choice'
+
+def send_hash(hash_value):
+    url = 'https://integritas.technology/core/v1/timestamp/post'
+
+    headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+    }
+
+    payload = {'hash': hash_value}
+    response = requests.post(url, headers=headers, json=payload)
+
+    data = response.json()
+    print('Response:', data)
+    return data
+
+# Usage
+hash_value = 'E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F'
+send_hash(hash_value)
+```
+
+  </Tab>
+</Tabs>
+
+---
+
+## API Demo
+
+Try the endpoint with your own API key and hash. The request is sent directly to the API, and the response is displayed below.
+
+<ApiDemoJsonHash />
+
+---
+
+## API Response
+
+The response from the API contains a UID which you will need to retrieve proof of the blockchain transaction that is being done by the stamp server.
+
+### Example Response
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 1,
+  "requestId": "send-hash-uid",
+  "status": "success",
+  "statusCode": 200,
+  "message": "Hash forwarded successfully",
+  "timestamp": "2026-01-16T14:31:03.573Z",
+  "data": {
+    "status": true,
+    "data": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+    "uid": "0x3B18508ABF8B0120CFEC"
+  }
+}
+```
+
+---
+
+## Response Fields
+
+For a complete description of the response envelope and fields used by
+this endpoint, see
+[API Response Schema &mdash; Send Hash and Get UID](/docs/technical-docs/api-docs/v1/response-schema#send-hash-and-get-uid-response).

@@ -1,0 +1,231 @@
+---
+title: API Response Schema
+description: Shared response structure for Integritas API endpoints, including stamping, proof, and verification responses.
+---
+
+## Top-Level Envelope
+
+Most endpoints return a consistent top-level structure:
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 1,
+  "requestId": "string",
+  "status": "success",
+  "statusCode": 200,
+  "message": "string",
+  "timestamp": "ISO-8601 timestamp",
+  "data": {}
+}
+```
+
+| Field        | Type     | Description                                                    |
+| ------------ | -------- | -------------------------------------------------------------- |
+| `service`    | `string` | Name of the service that processed the request.                |
+| `apiVersion` | `number` | API version number used for this response.                     |
+| `requestId`  | `string` | Unique identifier for tracking this specific API request.      |
+| `status`     | `string` | Status of the request (e.g., `success`, `error`).              |
+| `statusCode` | `number` | HTTP status code for the response.                             |
+| `message`    | `string` | Human-readable message describing the result of the operation. |
+| `timestamp`  | `string` | ISO-8601 date-time string.                                     |
+| `data`       | `object` | Endpoint-specific payload.                                     |
+
+---
+
+## Send File and Get Hash Response
+
+`/v1/file/hash`
+
+Example payload (`data` field):
+
+```json
+{
+  "hash": "E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+  "filename": "source_256kb.pdf",
+  "mimeType": "application/pdf"
+}
+```
+
+| Field      | Type     | Description                                                   |
+| ---------- | -------- | ------------------------------------------------------------- |
+| `hash`     | `string` | SHA-256 hash of the file content in hexadecimal format.       |
+| `filename` | `string` | Original name of the uploaded file.                           |
+| `mimeType` | `string` | MIME type of the file (e.g., `application/pdf`, `image/png`). |
+
+---
+
+## Send Hash and Get UID Response
+
+`/v1/timestamp/post`
+
+Example payload (`data` field):
+
+```json
+{
+  "status": true,
+  "data": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+  "uid": "0x3B18508ABF8B0120CFEC"
+}
+```
+
+| Field    | Type      | Description                                               |
+| -------- | --------- | --------------------------------------------------------- |
+| `status` | `boolean` | Indicates whether the timestamp request was successful.   |
+| `data`   | `string`  | The hash value that was submitted for timestamping (hex). |
+| `uid`    | `string`  | Unique identifier assigned to this timestamp request.     |
+
+---
+
+## Get Proof Response
+
+`/v1/timestamp/status`
+
+Example payload (`data` field, when completed):
+
+```json
+// Pending
+[
+  {
+    "status": true,
+    "uid": "0x3B18508ABF8B0120CFEC",
+    "data": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+    "number": 4831,
+    "datecreated": "2026-01-16 14:31:03",
+    "onchain": false
+  }
+]
+
+// Completed
+[
+  {
+    "status": true,
+    "uid": "0x3B18508ABF8B0120CFEC",
+    "data": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+    "number": 4831,
+    "datecreated": "2026-01-16 14:31:03",
+    "datestamped": "2026-01-16 14:32:03",
+    "root": "0x1384FA6242E0D750FFA9366EFC7A0AC226E7EFD14EC5DF70DD50E36188AC0EA6",
+    "proof": "0x000100000100",
+    "address": "0xFFEEDD",
+    "onchain": true
+  }
+]
+```
+
+### Get Proof Item Fields
+
+| Field         | Type      | Description                                                                     |
+| ------------- | --------- | ------------------------------------------------------------------------------- |
+| `status`      | `boolean` | Indicates whether the proof was successfully retrieved.                         |
+| `uid`         | `string`  | Unique identifier for this timestamp request.                                   |
+| `data`        | `string`  | The hash value that was timestamped (hex).                                      |
+| `number`      | `number`  | Sequential batch number for this timestamp in the system.                       |
+| `datecreated` | `string`  | Date and time when the timestamp request was created (`YYYY-MM-DD HH:mm:ss`).   |
+| `datestamped` | `string`  | Date and time when the timestamp was recorded on-chain (`YYYY-MM-DD HH:mm:ss`). |
+| `root`        | `string`  | Merkle root hash of the batch containing this timestamp.                        |
+| `proof`       | `string`  | Merkle proof path for verifying this timestamp against the root.                |
+| `address`     | `string`  | Blockchain address or transaction identifier for the on-chain record.           |
+| `onchain`     | `boolean` | Indicates whether the timestamp has been recorded on the blockchain.            |
+
+---
+
+## Verification Response (`verify-data` / `verify-hash`)
+
+`/v1/verify/post` and `/v1/verify/post-lite`
+
+Both verification endpoints ultimately return the same verification result structure inside `data.response`.
+
+Example (`data.response`):
+
+```json
+// No Match
+{
+  "fileHash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+  "fileName": "source_256kb.pdf",
+  "fileSize": 262144,
+  "result": "no match",
+  "nftcoinid": "0xDC080F44E554B85E5663D1F1BED2F83DB8F3BCD995ED22713198238096C713A3",
+  "nfttxnid": "0x000009C453D5CD4E70A45099BD8958F8427E60B8DA3D9C10F2BDB754430ABA6E",
+  "method": "all tested",
+  "hash_instances_onchain": 0,
+  "unique_hashes": 0,
+  "blockchain_data": [],
+  "fileSegments": []
+}
+
+// Full Match
+{
+  "fileHash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+  "fileName": "source_256kb.pdf",
+  "fileSize": 262144,
+  "result": "full match",
+  "nftcoinid": "0xE037730318B921420FB757EFCD56544DF7AB4C49A078015221446950C0C57CD5",
+  "nfttxnid": "0x000011F540D77A200E692D458421D434CF1D846D8E3491C897E99E08CC931377",
+  "method": "timestamp",
+  "hash_instances_onchain": 1,
+  "unique_hashes": 1,
+  "blockchain_data": [
+    {
+      "block_number": 1898484,
+      "block_date": "2026-01-16 14:26:12",
+      "txpow_id": "0x000000389FDEEAF4537124C1BE40A352065A7E945FDCF3261EBF328828934D81",
+      "transactionid": "0x00002738DD716B9B89FECDDE97677CDC628B40542930269D18FEEEF245CBC689",
+      "coin_id": "0x907671CF2F571DAAB8C720E1C89711E0568AE13638CAF307BDB7371D1DBAA5DD",
+      "matched_hash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F"
+    }
+  ],
+  "fileSegments": [
+    {
+      "matched_hash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+      "offset": 0,
+      "packetSize": 262144
+    }
+  ]
+}
+```
+
+### Verification Response Fields
+
+Below is an explanation of the key fields in the response:
+
+| Field                    | Type     | Description                                                                                                                 |
+| ------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `fileHash`               | `string` | The unique hash value of the file that was submitted for verification. Used to identify it on-chain.                        |
+| `fileName`               | `string` | The name of the file that was submitted for verification.                                                                   |
+| `fileSize`               | `number` | The size of the file in bytes.                                                                                              |
+| `result`                 | `string` | The result of the verification process. Possible values: `exact match`, `partial match`, or `no match`.                     |
+| `nftcoinid`              | `string` | Unique id of the NFT on the blockchain.                                                                                     |
+| `nfttxnid`               | `string` | Unique TxPoW id of the transaction that made the NFT.                                                                       |
+| `method`                 | `string` | The method used to verify the file.                                                                                         |
+| `hash_instances_onchain` | `number` | Number of times this file’s hash appears on the blockchain.                                                                 |
+| `unique_hashes`          | `number` | Number of unique hashes related to this file found on the blockchain.                                                       |
+| `blockchain_data`        | `array`  | Array of found blocks related to the file. See [Breakdown of `blockchain_data`](#breakdown-of-blockchain_data) for details. |
+| `fileSegments`           | `array`  | Array of matched segments in the file. See [Breakdown of `fileSegments`](#breakdown-of-filesegments) for details.           |
+
+### Breakdown of `blockchain_data`
+
+| Field           | Type     | Description                                                           |
+| --------------- | -------- | --------------------------------------------------------------------- |
+| `block_number`  | `string` | Block number where the hash was found.                                |
+| `block_date`    | `string` | Timestamp in `YYYY-MM-DD HH:mm:ss` format when the hash was recorded. |
+| `txpow_id`      | `string` | Transaction ID of the Proof-of-Work where the hash was included.      |
+| `transactionid` | `string` | Unique ID of the specific transaction output.                         |
+| `coin_id`       | `string` | Unique ID of the blockchain transaction that contains the root hash.  |
+| `matched_hash`  | `string` | The matched hash value found in the block.                            |
+
+### Breakdown of `fileSegments`
+
+| Field          | Type     | Description                                                  |
+| -------------- | -------- | ------------------------------------------------------------ |
+| `matched_hash` | `string` | Hash value of a specific segment of the file (chunk).        |
+| `offset`       | `number` | Offset of the chunk in the file (position in original file). |
+| `packetSize`   | `number` | Length in bytes of the matching chunk.                       |
+
+---
+
+## Response Fields
+
+For a complete description of the response envelope and proof item
+fields used by this endpoint, see
+[API Response Schema &mdash; Get Proof](/docs/technical-docs/api-docs/v1/get-proof#get-proof-item-fields).
