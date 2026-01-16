@@ -48,7 +48,7 @@ import {
 
 ```json
 {
-  "hash": "C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427"
+  "hash": "E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F"
 }
 ```
 
@@ -63,8 +63,8 @@ import {
 curl -X POST https://integritas.technology/core/v1/timestamp/post \
   -H "Content-Type: application/json" \
   -H "x-api-key: your-api-key" \
-  -H "x-request-id: test-123" \
-  -d '{"hash":"C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427"}'
+  -H "x-request-id: your-choice" \
+  -d '{"hash":"E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F"}'
 ```
 
   </Tab>
@@ -73,7 +73,7 @@ curl -X POST https://integritas.technology/core/v1/timestamp/post \
 ```typescript
 // Using fetch API
 const API_KEY = 'your-api-key';
-const REQUEST_ID = 'test-123';
+const REQUEST_ID = 'your-choice';
 
 async function sendHash(hash: string) {
   const response = await fetch(
@@ -95,7 +95,7 @@ async function sendHash(hash: string) {
 }
 
 // Usage
-const hash = 'C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427';
+const hash = 'E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F';
 sendHash(hash);
 ```
 
@@ -107,7 +107,7 @@ import requests
 import json
 
 API_KEY = 'your-api-key'
-REQUEST_ID = 'test-123'
+REQUEST_ID = 'your-choice'
 
 def send_hash(hash_value):
     url = 'https://integritas.technology/core/v1/timestamp/post'
@@ -126,7 +126,7 @@ def send_hash(hash_value):
     return data
 
 # Usage
-hash_value = 'C74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427'
+hash_value = 'E630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F'
 send_hash(hash_value)
 ```
 
@@ -151,16 +151,17 @@ The response from the API contains a UID which you will need to retrieve proof o
 
 ```json
 {
+  "service": "CORE_API",
   "apiVersion": 1,
-  "requestId": "my-test-reqest-id",
+  "requestId": "send-hash-uid",
   "status": "success",
   "statusCode": 200,
   "message": "Hash forwarded successfully",
-  "timestamp": "2025-06-11T08:14:18.227Z",
+  "timestamp": "2026-01-16T14:31:03.573Z",
   "data": {
     "status": true,
-    "data": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
-    "uid": "0x4A5AF1550313DAAF728A"
+    "data": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+    "uid": "0x3B18508ABF8B0120CFEC"
   }
 }
 ```

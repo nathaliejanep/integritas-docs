@@ -57,9 +57,9 @@ import {
 ```bash
 curl -X POST https://integritas.technology/core/v1/verify/post-lite \
   -H "x-api-key: your-api-key" \
-  -H "x-request-id: test-123" \
+  -H "x-request-id: your-choice" \
   -H "x-report-required: true" \
-  -F "jsonproof=@path/to/proof.json"
+  -F "jsonproof=@path/to/yourproof.json"
 ```
 
   </Tab>
@@ -68,7 +68,7 @@ curl -X POST https://integritas.technology/core/v1/verify/post-lite \
 ```typescript
 // Using fetch API
 const API_KEY = 'your-api-key';
-const REQUEST_ID = 'test-123';
+const REQUEST_ID = 'your-choice';
 
 async function verifyHash(proofPath: string) {
   const formData = new FormData();
@@ -81,7 +81,7 @@ async function verifyHash(proofPath: string) {
   const fs = await import('fs');
   const proofFile = fs.readFileSync(proofPath);
   const proofBlob = new Blob([proofFile]);
-  formData.append('jsonproof', proofBlob, 'proof.json');
+  formData.append('jsonproof', proofBlob, 'yourproof.json');
 
   const response = await fetch(
     'https://integritas.technology/core/v1/verify/post-lite',
@@ -102,7 +102,7 @@ async function verifyHash(proofPath: string) {
 }
 
 // Usage
-verifyHash('./path/to/proof.json');
+verifyHash('./path/to/yourproof.json');
 ```
 
   </Tab>
@@ -112,7 +112,7 @@ verifyHash('./path/to/proof.json');
 import requests
 
 API_KEY = 'your-api-key'
-REQUEST_ID = 'test-123'
+REQUEST_ID = 'your-choice'
 
 def verify_hash(proof_path):
     url = 'https://integritas.technology/core/v1/verify/post-lite'
@@ -132,7 +132,7 @@ def verify_hash(proof_path):
     return data
 
 # Usage
-verify_hash('./path/to/proof.json')
+verify_hash('./path/to/yourproof.json')
 ```
 
   </Tab>
@@ -152,43 +152,37 @@ Try the endpoint with your own API key and proof file. The request is sent direc
 
 The response from the API contains information about a file and its results from on-chain verification.
 
-### Example Response
+### Example Response (Full Match)
 
 ```json
 {
+  "service": "CORE_API",
   "apiVersion": 1,
-  "requestId": "test",
+  "requestId": "verify-hash-full-match",
   "status": "success",
   "statusCode": 200,
   "message": "Verification complete",
-  "timestamp": "2025-07-17T16:55:30.123Z",
+  "timestamp": "2026-01-16T14:52:10.655Z",
   "data": {
+    "service": "SEARCH_API",
     "api_version": 1,
-    "requestId": "test",
-    "response_time": "29423.18 ms",
+    "requestId": "verify-hash",
+    "response_time": "6180.00 ms",
     "response": {
-      "fileHash": "0x96ED06DE42695E3F807B3E58AB6A2938B43CB037CA11F6DDB4AD5E3DC50D5D4B",
-      "nftcoinid": "0x685DFBCF499A0DAF81910B4D1447CF3B992F6B96EB37EE6852445AFA54A8F438",
-      "nfttxnid": "0x00000F81BB25316401F76B45DEBAAA706D1840EB6AEC418FD0F33FB3A148BB85",
+      "fileHash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+      "nftcoinid": "0xC55AF5704F1F47306A3964DB34366C7415D1590B1B948B40B1340FFD10E8EFD5",
+      "nfttxnid": "0x000016208F633E7BB875B494A36B15CCCD518715B43C487FB1E5A5CD9FC7C780",
       "data": {
         "result": "full match",
         "validationMethod": "timestamplite",
         "blockchain_data": [
           {
-            "block_number": 1541117,
-            "block_date": "2025-06-23 13:32:20",
-            "txpow_id": "0x00000002A52F4DA9370533D0072E32563BEC46A2492AFA5CE6D87E7F6D03B21D",
-            "transactionid": "0x060EE327ED67558CE0849ECFA0B2C35F426F768FEF98726B23715986ABF4FCAD",
-            "coin_id": "0x49C8FDE9238C6188264EEBC339B95B77368D593F08396CE9A1EDE3F18F620EC3",
-            "matched_hash": "0x96ED06DE42695E3F807B3E58AB6A2938B43CB037CA11F6DDB4AD5E3DC50D5D4B"
-          },
-          {
-            "block_number": 1546070,
-            "block_date": "2025-06-26 10:09:29",
-            "txpow_id": "0x00000028616DDC21E75F9892C748DD64EBD86A257EE044C2563F2D5425808906",
-            "transactionid": "0x8B915CCC208D68962DF4C8EE48151B471C1534F42C37A71110B75BCA920AFC57",
-            "coin_id": "0x8B473DCB93E6729EFB2F206E150A2B07AE4F4405DCC10AC8B9AFD5F50B2B806B",
-            "matched_hash": "0x96ED06DE42695E3F807B3E58AB6A2938B43CB037CA11F6DDB4AD5E3DC50D5D4B"
+            "block_number": 1898484,
+            "block_date": "2026-01-16 14:26:12",
+            "txpow_id": "0x000000389FDEEAF4537124C1BE40A352065A7E945FDCF3261EBF328828934D81",
+            "transactionid": "0x00002738DD716B9B89FECDDE97677CDC628B40542930269D18FEEEF245CBC689",
+            "coin_id": "0x907671CF2F571DAAB8C720E1C89711E0568AE13638CAF307BDB7371D1DBAA5DD",
+            "matched_hash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F"
           }
         ]
       }

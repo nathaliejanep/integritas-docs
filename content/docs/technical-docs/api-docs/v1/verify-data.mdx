@@ -83,10 +83,10 @@ Replace `[YOUR_HASH]` with your actual file hash. This sends the transaction fro
 ```bash
 curl -X POST https://integritas.technology/core/v1/verify/post \
   -H "x-api-key: your-api-key" \
-  -H "x-request-id: test-123" \
+  -H "x-request-id: your-choice" \
   -H "x-report-required: true" \
-  -F "file=@path/to/yourfile.docx" \
-  -F "jsonproof=@path/to/proof.json"
+  -F "file=@path/to/yourfile.pdf" \
+  -F "jsonproof=@path/to/yourproof.json"
 ```
 
   </Tab>
@@ -95,7 +95,7 @@ curl -X POST https://integritas.technology/core/v1/verify/post \
 ```typescript
 // Using fetch API
 const API_KEY = 'your-api-key';
-const REQUEST_ID = 'test-123';
+const REQUEST_ID = 'your-choice';
 
 async function verifyData(
   filePath: string,
@@ -112,13 +112,13 @@ async function verifyData(
   const fs = await import('fs');
   const file = fs.readFileSync(filePath);
   const fileBlob = new Blob([file]);
-  formData.append('file', fileBlob, 'yourfile.docx');
+  formData.append('file', fileBlob, 'yourfile.pdf');
 
   // Optional: add proof file
   if (proofPath) {
     const proofFile = fs.readFileSync(proofPath);
     const proofBlob = new Blob([proofFile]);
-    formData.append('jsonproof', proofBlob, 'proof.json');
+    formData.append('jsonproof', proofBlob, 'yourproof.json');
   }
 
   const response = await fetch(
@@ -141,10 +141,10 @@ async function verifyData(
 
 // Usage
 // Verify with source file only
-verifyData('./path/to/yourfile.docx');
+verifyData('./path/to/yourfile.pdf');
 
 // Verify with source file and proof
-verifyData('./path/to/yourfile.docx', './path/to/proof.json');
+verifyData('./path/to/yourfile.pdf', './path/to/yourproof.json');
 ```
 
   </Tab>
@@ -154,7 +154,7 @@ verifyData('./path/to/yourfile.docx', './path/to/proof.json');
 import requests
 
 API_KEY = 'your-api-key'
-REQUEST_ID = 'test-123'
+REQUEST_ID = 'your-choice'
 
 def verify_data(file_path, proof_path=None, report_required=True):
     url = 'https://integritas.technology/core/v1/verify/post'
@@ -184,10 +184,10 @@ def verify_data(file_path, proof_path=None, report_required=True):
 
 # Usage
 # Verify with source file only
-verify_data('./path/to/yourfile.docx')
+verify_data('./path/to/yourfile.pdf')
 
 # Verify with source file and proof
-verify_data('./path/to/yourfile.docx', './path/to/proof.json')
+verify_data('./path/to/yourfile.pdf', './path/to/yourproof.json')
 ```
 
   </Tab>
@@ -207,38 +207,83 @@ Try the endpoint with your own API key, source file, and optional proof file. Th
 
 The response from the API contains information about a file and its results from on-chain verification.
 
-### Example Response
+### Example Response (No Match)
 
 ```json
 {
-  "api_version": 1,
-  "requestId": "474785f4-4882-41b4-98fd-0d3a5b66001a",
-  "response_time": "3172.47 ms",
-  "response": {
-    "fileHash": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
-    "fileName": "test.docx",
-    "fileSize": 279151,
-    "result": "full match",
-    "method": "timestamp",
-    "hash_instances_onchain": 1,
-    "unique_hashes": 1,
-    "blockchain_data": [
-      {
-        "block_number": "1520036",
-        "block_date": "2025-06-11 08:15:33",
-        "txpow_id": "0x0000000FFA25BBEEA02D0F6ABF7F70A54E7C43792C1DBB0C2F766C5497587243",
-        "transactionid": "0x3CC2C3B62A4953BEF539F420C879974977BA76222A353DCD5BE6D6246227607A",
-        "matched_hash": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427"
-      }
-    ],
-    "fileSegments": [
-      {
-        "matched_hash": "0xC74C4DDE95A49EAFDBA139568E9955C65E017B55662132FA824AF58E6E782427",
-        "index": 0,
-        "offset": 0,
-        "packetSize": 279151
-      }
-    ]
+  "service": "CORE_API",
+  "apiVersion": 1,
+  "requestId": "verify-data-no-match",
+  "status": "success",
+  "statusCode": 200,
+  "message": "Verification complete",
+  "timestamp": "2026-01-16T14:46:32.657Z",
+  "data": {
+    "service": "SEARCH_API",
+    "api_version": 1,
+    "requestId": "verify-data",
+    "response_time": "56118.07 ms",
+    "response": {
+      "fileHash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+      "fileName": "source_256kb.pdf",
+      "fileSize": 262144,
+      "result": "no match",
+      "nftcoinid": "0xDC080F44E554B85E5663D1F1BED2F83DB8F3BCD995ED22713198238096C713A3",
+      "nfttxnid": "0x000009C453D5CD4E70A45099BD8958F8427E60B8DA3D9C10F2BDB754430ABA6E",
+      "method": "all tested",
+      "hash_instances_onchain": 0,
+      "unique_hashes": 0,
+      "blockchain_data": [],
+      "fileSegments": []
+    }
+  }
+}
+```
+
+### Example Response (Full Match)
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 1,
+  "requestId": "verify-data-full-match",
+  "status": "success",
+  "statusCode": 200,
+  "message": "Verification complete",
+  "timestamp": "2026-01-16T14:48:45.654Z",
+  "data": {
+    "service": "SEARCH_API",
+    "api_version": 1,
+    "requestId": "verify-data",
+    "response_time": "8643.46 ms",
+    "response": {
+      "fileHash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+      "fileName": "source_256kb.pdf",
+      "fileSize": 262144,
+      "result": "full match",
+      "nftcoinid": "0xE037730318B921420FB757EFCD56544DF7AB4C49A078015221446950C0C57CD5",
+      "nfttxnid": "0x000011F540D77A200E692D458421D434CF1D846D8E3491C897E99E08CC931377",
+      "method": "timestamp",
+      "hash_instances_onchain": 1,
+      "unique_hashes": 1,
+      "blockchain_data": [
+        {
+          "block_number": 1898484,
+          "block_date": "2026-01-16 14:26:12",
+          "txpow_id": "0x000000389FDEEAF4537124C1BE40A352065A7E945FDCF3261EBF328828934D81",
+          "transactionid": "0x00002738DD716B9B89FECDDE97677CDC628B40542930269D18FEEEF245CBC689",
+          "coin_id": "0x907671CF2F571DAAB8C720E1C89711E0568AE13638CAF307BDB7371D1DBAA5DD",
+          "matched_hash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F"
+        }
+      ],
+      "fileSegments": [
+        {
+          "matched_hash": "0xE630FCDE204036E93323AE99843BF0EC6D03CAEB51CBBEA11E03D6739F8E9C3F",
+          "offset": 0,
+          "packetSize": 262144
+        }
+      ]
+    }
   }
 }
 ```
