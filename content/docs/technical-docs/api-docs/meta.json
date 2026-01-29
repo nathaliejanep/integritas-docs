@@ -2,5 +2,5 @@
   "title": "API Documentation",
   "root": false,
   "defaultOpen": true,
-  "pages": ["v1"]
+  "pages": ["v1", "v2"]
 }

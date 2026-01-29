@@ -1,0 +1,194 @@
+---
+title: API Response Schema
+description: Shared response structure for Integritas API v2 endpoints, including stamp file, file check, and verify file responses.
+---
+
+## Top-Level Envelope
+
+All v2 endpoints return a consistent top-level structure:
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 2,
+  "requestId": "string",
+  "status": "success",
+  "statusCode": 200,
+  "message": "string",
+  "timestamp": "ISO-8601 timestamp",
+  "data": {}
+}
+```
+
+| Field        | Type     | Description                                                    |
+| ------------ | -------- | -------------------------------------------------------------- |
+| `service`    | `string` | Name of the service that processed the request.                |
+| `apiVersion` | `number` | API version number used for this response (2).                 |
+| `requestId`  | `string` | Unique identifier for tracking this specific API request.      |
+| `status`     | `string` | Status of the request (e.g., `success`, `error`).              |
+| `statusCode` | `number` | HTTP status code for the response.                             |
+| `message`    | `string` | Human-readable message describing the result of the operation. |
+| `timestamp`  | `string` | ISO-8601 date-time string.                                     |
+| `data`       | `object` | Endpoint-specific payload.                                     |
+
+---
+
+## Stamp File Response
+
+`/v2/timestamp/post`
+
+When a hash is anchored successfully, the `data` field contains the Minima node send command and parameters.
+
+Example payload (`data` field):
+
+```json
+{
+  "service": "MINIMA_NODE",
+  "command": "send",
+  "params": {
+    "amount": "1e-22",
+    "address": "0x29f774d99ae3e3494ee4a69f3a11a8248362506a9b9bc526f8c98ab6deca68f5",
+    "state": {
+      "99": "0xa1b2c3d4e5f67890abcdef5234567890abcdef1234567890abcdef1234567891"
+    }
+  },
+  "status": true
+}
+```
+
+| Field            | Type      | Description                                          |
+| ---------------- | --------- | ---------------------------------------------------- |
+| `service`        | `string`  | Name of the service `MINIMA_NODE`.                   |
+| `command`        | `string`  | Command sent to the Minima node (e.g., `send`).      |
+| `params`         | `object`  | Parameters for the send command.                     |
+| `params.amount`  | `string`  | Amount sent.                                         |
+| `params.address` | `string`  | Destination address.                                 |
+| `params.state`   | `object`  | State data; key `99` holds the anchored hash.        |
+| `status`         | `boolean` | Indicates whether the anchor request was successful. |
+
+---
+
+## File Check Response
+
+`/v2/file/check`
+
+The `data` field contains the search result indicating whether the hash was found.
+
+Example payload (`data` field):
+
+```json
+{
+  "service": "SEARCH_API",
+  "apiVersion": 2,
+  "requestId": "POSTMAN",
+  "responseTime": "11.89 ms",
+  "hash": "a1b2c3d4e5f67890abcdef1234567890abcdef1234567890abcdef1234567890",
+  "data": "Hash found."
+}
+```
+
+| Field          | Type     | Description                                          |
+| -------------- | -------- | ---------------------------------------------------- |
+| `service`      | `string` | Name of the service `SEARCH_API`.                    |
+| `apiVersion`   | `number` | API version of the search service.                   |
+| `requestId`    | `string` | Request identifier.                                  |
+| `responseTime` | `string` | Time taken for the search (e.g., `"11.89 ms"`).      |
+| `hash`         | `string` | The hash that was checked.                           |
+| `data`         | `string` | Result message (e.g., `"Hash found."` or not found). |
+
+---
+
+## Verify File Response
+
+`/v2/verify/file`
+
+The top-level `data` field wraps a SEARCH_API response. When `x-report-required` is set, `data` may also include a `file` object with the PDF report download details.
+
+Example (`data` field):
+
+```json
+{
+  "service": "SEARCH_API",
+  "apiVersion": 2,
+  "requestId": "POSTMAN",
+  "responseTime": "3346.43 ms",
+  "data": {
+    "fileHash": "106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B",
+    "fileName": "",
+    "fileSize": 0,
+    "result": "full match",
+    "nftCoinId": "0xB2E182C1AA0635BDD1154EEB9C6512CA73568D09B59DE3E1831517241ABC5A96",
+    "nftTxnId": "0x00000370B400925F2B5F196D212ACCCF6A8E993A28F90AACAC2520A5C3CCFCF4",
+    "method": "file",
+    "uniqueHashes": 1,
+    "blockchainData": [
+      {
+        "blockNumber": 1906787,
+        "blockDate": "2026-01-21T09:55:48.726Z",
+        "txpowId": "0x00000019299334C6E083683292728F7F1459FCF14A16623F3CE2A77BA343E57F",
+        "transactionId": "0x000011381DB9843340378BE44167704EC286BC2A7B63693CD945E619781AF48E",
+        "matchedHash": "106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B"
+      }
+    ],
+    "fileSegments": [
+      {
+        "matchedHash": "106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B",
+        "offset": 0,
+        "packetSize": 0
+      }
+    ]
+  },
+  "file": {
+    "fileName": "verification-report-2026-01-29T13-54-50-415Z.pdf",
+    "downloadUrl": "https://...",
+    "fileSize": 78082,
+    "expiresIn": "1 hour",
+    "bucket": "reports"
+  }
+}
+```
+
+### Verification `data.data` Fields
+
+| Field            | Type     | Description                                                                                  |
+| ---------------- | -------- | -------------------------------------------------------------------------------------------- |
+| `fileHash`       | `string` | Hash of the file that was verified.                                                          |
+| `fileName`       | `string` | File name (optional; from request body when provided).                                       |
+| `fileSize`       | `number` | File size in bytes (optional; from request body when provided).                              |
+| `result`         | `string` | Verification result (e.g., `full match`, `no match`).                                        |
+| `nftCoinId`      | `string` | NFT coin ID on the blockchain (when report has been requested).                              |
+| `nftTxnId`       | `string` | NFT transaction ID (when report has been requested).                                         |
+| `method`         | `string` | Method used for verification `file`.                                                         |
+| `uniqueHashes`   | `number` | Number of unique hashes found on-chain.                                                      |
+| `blockchainData` | `array`  | List of on-chain records. See [Breakdown of `blockchainData`](#breakdown-of-blockchaindata). |
+| `fileSegments`   | `array`  | Matched segments. See [Breakdown of `fileSegments`](#breakdown-of-filesegments).             |
+
+### Optional `data.file` (PDF Report)
+
+When `x-report-required` is set, `data.file` is present with the report download details:
+
+| Field         | Type     | Description                                            |
+| ------------- | -------- | ------------------------------------------------------ |
+| `fileName`    | `string` | Name of the generated PDF report file.                 |
+| `downloadUrl` | `string` | URL to download the report.                            |
+| `fileSize`    | `number` | Size of the report file in bytes.                      |
+| `expiresIn`   | `string` | How long the download URL is valid (e.g., `"1 hour"`). |
+| `bucket`      | `string` | Storage bucket `"reports"`.                            |
+
+### Breakdown of `blockchainData`
+
+| Field           | Type     | Description                                    |
+| --------------- | -------- | ---------------------------------------------- |
+| `blockNumber`   | `number` | Block number where the hash was found.         |
+| `blockDate`     | `string` | ISO-8601 timestamp when the hash was recorded. |
+| `txpowId`       | `string` | TxPoW ID of the block.                         |
+| `transactionId` | `string` | Transaction ID.                                |
+| `matchedHash`   | `string` | The matched hash value found in the block.     |
+
+### Breakdown of `fileSegments`
+
+| Field         | Type     | Description                                                    |
+| ------------- | -------- | -------------------------------------------------------------- |
+| `matchedHash` | `string` | Hash value of the matched segment.                             |
+| `offset`      | `number` | Offset of the segment in the file (position in original file). |
+| `packetSize`  | `number` | Length in bytes of the matching segment.                       |
