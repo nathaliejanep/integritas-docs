@@ -1,6 +1,6 @@
 {
   "title": "v2",
   "root": false,
-  "defaultOpen": true,
+  "defaultOpen": false,
   "pages": ["stamp-file", "file-check", "verify-file", "response-schema"]
 }

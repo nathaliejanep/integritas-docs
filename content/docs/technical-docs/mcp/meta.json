@@ -1,0 +1,11 @@
+{
+  "title": "MCP",
+  "root": false,
+  "defaultOpen": false,
+  "pages": [
+    "connecting-claude",
+    "connecting-gpt",
+    "using-tools-in-chat",
+    "mcp-tools"
+  ]
+}
