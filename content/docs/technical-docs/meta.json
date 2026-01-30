@@ -9,6 +9,7 @@
     "blockchain-integration",
     "stamping",
     "api-docs",
+    "mcp",
     "report-generation"
   ]
 }

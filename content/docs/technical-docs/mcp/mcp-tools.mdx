@@ -1,0 +1,99 @@
+---
+title: MCP Tool Reference
+description: Parameters, response formats, and API alignment for Integritas MCP tools (stamp_hash, verify_hash, check_hash).
+---
+
+## Overview
+
+The Integritas MCP server exposes tools that map to the **Integritas API v2**. Once you have connected your assistant (Claude or ChatGPT), you can use these tools to stamp file hashes on the Minima blockchain, verify files, and check whether a hash already exists.
+
+#### All tools expect file hashes as **SHA3-256** (64 lowercase hex characters).
+
+---
+
+## stamp_hash
+
+**Purpose:** Stamp a file hash on the Minima blockchain. Use when the user says things like “stamp”, “stamp this file”, or “anchor the file”.
+
+### How it works
+
+- **Agent** — Calls MCP tool `stamp_hash` with the `file_hash`.
+- **MCP** — Calls API: **POST** [**/v2/timestamp/post**](/docs/technical-docs/api-docs/v2/stamp-file) (Stamp file).
+- **Agent** — Presents the stamp result to the user.
+
+### Input
+
+| Parameter   | Type   | Required | Description                                |
+| ----------- | ------ | -------- | ------------------------------------------ |
+| `file_hash` | string | Yes      | SHA3-256 hash of the file to stamp.        |
+| `filename`  | string | No       | File name (if available).                  |
+| `filesize`  | int    | No       | File size in bytes (if available).         |
+| `api_key`   | string | No       | Override API key (otherwise from context). |
+
+### Output
+
+- **summary:** Human-readable summary.
+- **structuredContent** (ToolResultEnvelopeV1):
+  - `kind`: `"integritas/stamp_result@v2"`
+  - `status`: `"pending"` \| `"finalized"` \| `"failed"` \| `"unknown"`
+  - `data`: Stamp result (e.g. “full match”), method, unique_hashes, blockchainData, fileSegments, etc.
+  - `error`: Present only if `status === "failed"`.
+
+---
+
+## check_hash
+
+**Purpose:** Check whether a file hash already exists in the system (already stamped). Use when the user says “check hash”, “already exists”, or “has this been stamped?”.
+
+### How it works
+
+- **Agent** — Calls MCP tool `check_hash` with the `file_hash`.
+- **MCP** — Calls API: **POST** [**/v2/file/check**](/docs/technical-docs/api-docs/v2/file-check) (File check).
+- **Agent** — Presents the result to the user (whether the hash has been stamped or not).
+
+### Input
+
+| Parameter   | Type   | Required | Description                                |
+| ----------- | ------ | -------- | ------------------------------------------ |
+| `file_hash` | string | Yes      | SHA3-256 hash to check if already stamped. |
+| `api_key`   | string | No       | Override API key (otherwise from context). |
+
+### Output
+
+- **summary:** Human-readable summary (e.g. “Hash found.” / “Hash not found.”).
+- **structuredContent** (ToolResultEnvelopeV1):
+  - `kind`: `"integritas/check_hash_result@v2"`
+  - `status`: `"finalized"` \| `"failed"` \| `"unknown"`
+  - `data`: e.g. `found` (boolean), message, \_raw.
+  - `error`: Present only if `status === "failed"`.
+
+---
+
+## verify_hash
+
+**Purpose:** Verify a file hash and get a verification result (including optional PDF report). Use when the user says “verify”, “verify this file”, or “authenticate the file”.
+
+### How it works
+
+- **Agent** — Calls MCP tool `verify_hash` with the `file_hash` (and optionally `filename` and `filesize`).
+- **MCP** — Calls API: **POST** [**/v2/verify/file**](/docs/technical-docs/api-docs/v2/verify-file) (Verify file).
+- **Agent** — Presents the verification results and the PDF report download link to the user.
+
+### Input
+
+| Parameter   | Type   | Required | Description                                |
+| ----------- | ------ | -------- | ------------------------------------------ |
+| `file_hash` | string | Yes      | SHA3-256 hash of the file to verify.       |
+| `filename`  | string | No       | Name of the file.                          |
+| `filesize`  | int    | No       | Size of the file in bytes.                 |
+| `api_key`   | string | No       | Override API key (otherwise from context). |
+
+### Output
+
+- **summary:** Human-readable summary (message, service, date).
+- **structuredContent** (ToolResultEnvelopeV1):
+  - `kind`: `"integritas/verify_result@v2"`
+  - `status`: `"finalized"` \| `"pending"` \| `"failed"` \| `"unknown"`
+  - `links`: e.g. `{ rel: "report", href: <url>, label: <user-friendly label> }` for the PDF.
+  - `data`: Verification result (e.g. “full match”, “no match”), method, blockchainData, fileSegments, reportFile, etc.
+  - `error`: Present only if `status === "failed"`.

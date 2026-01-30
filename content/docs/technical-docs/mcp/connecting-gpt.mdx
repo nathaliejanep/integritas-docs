@@ -1,0 +1,87 @@
+---
+title: Connecting with ChatGPT
+description: Connect ChatGPT to the Integritas Remote MCP Server.
+---
+
+**Requirements:**
+
+- ChatGPT Pro subscription
+- Developer mode enabled
+- Access via web version
+
+---
+
+### 1. Enable Developer Mode in ChatGPT
+
+You need Developer Mode enabled before you can create an app.
+
+**How to activate:**
+
+1. Go to **ChatGPT settings**
+2. Select **Settings → Apps → Advanced Settings**
+3. Enable **Developer mode**
+
+---
+
+### 2. Create an app
+
+Open **ChatGPT Settings** → **Apps** → **Create app**.
+
+---
+
+### 3. Enter the connector details
+
+Enter the following:
+
+| Field              | Value                               |
+| ------------------ | ----------------------------------- |
+| **Name**           | Integritas                          |
+| **MCP Server URL** | `https://integritas.technology/sse` |
+| **Authentication** | OAuth                               |
+
+Click **Create**.
+
+---
+
+### 4. Authorize the connection
+
+After you click **Create**, ChatGPT will redirect you to the Integritas authentication page. Log in, then authorize access to complete the connection.
+
+<Callout
+  title='Integritas authorization page'
+  type='info'
+  className='max-w-lg overflow-hidden'
+>
+  <ImageZoom
+    width={280}
+    height={110}
+    alt='Integritas authorization page in ChatGPT'
+    src='/guide-mcp/authorize-mcp.png'
+    className='w-full h-auto object-contain'
+  />
+</Callout>
+
+---
+
+### 5. Use the connector app in ChatGPT
+
+1. Open a **new chat**.
+2. In the message box, click the **➕ (plus)** button.
+3. Select **More**.
+4. Choose **Integritas**.
+
+<Callout
+  title='Add Integritas connector app in ChatGPT'
+  type='info'
+  className='overflow-hidden'
+>
+  <ImageZoom
+    width={280}
+    height={110}
+    alt='Add Integritas connector app in ChatGPT'
+    src='/guide-mcp/integritas-connector.png'
+    className='w-full h-auto object-contain'
+  />
+</Callout>
+
+Once selected, ChatGPT can use Integritas tools directly in the conversation.

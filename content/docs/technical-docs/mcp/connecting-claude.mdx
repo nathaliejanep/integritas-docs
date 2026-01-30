@@ -1,0 +1,49 @@
+---
+title: Connecting with Claude
+description: Connect Claude to the Integritas Remote MCP Server.
+---
+
+**Requirements:**
+
+- Claude Pro subscription.
+
+---
+
+### 1. Add the Integritas connector
+
+Open **Settings** → **Connectors** → **Add Custom Connector**.
+
+---
+
+### 2. Enter the connector details
+
+Enter the following:
+
+| Field          | Value                               |
+| -------------- | ----------------------------------- |
+| **Name**       | Integritas                          |
+| **Server URL** | `https://integritas.technology/sse` |
+
+Click **Add**.
+
+---
+
+### 3. Authorize the connection
+
+After you click **Add**, Claude will redirect you to the Integritas authentication page. Log in, then authorize access to complete the connection.
+
+Once authorized, the Integritas Remote MCP connector will be available for Claude to use.
+
+<Callout
+  title='Integritas authorization page'
+  type='info'
+  className='max-w-lg overflow-hidden'
+>
+  <ImageZoom
+    width={280}
+    height={110}
+    alt='Integritas authorization page in ChatGPT'
+    src='/guide-mcp/authorize-mcp.png'
+    className='w-full h-auto object-contain'
+  />
+</Callout>
