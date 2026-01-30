@@ -1,0 +1,73 @@
+---
+title: ChatGPT Agent
+description: Use the Integritas Audit Compliance & Proof Custom GPT for stamping, verification, and duplicate detection.
+---
+
+## Overview
+
+**Integritas Audit Compliance & Proof** is a specialized GPT that creates, verifies, and checks blockchain-anchored proofs for digital files using Integritas Technology.
+
+It is designed for audit, compliance, legal, and evidentiary workflows where file integrity and timestamped proof are required.
+
+**[Go to Integritas Audit Compliance & Proof →](https://chatgpt.com/g/g-6945145f77408191a71f15531ec35054-integritas-audit-compliance-proof)**
+
+---
+
+## Core capabilities
+
+The GPT supports three actions:
+
+| Action     | Description                                                                           |
+| ---------- | ------------------------------------------------------------------------------------- |
+| **Stamp**  | Create a new blockchain timestamp proof for a file                                    |
+| **Verify** | Verify a file against an existing blockchain proof and generate a signed audit report |
+| **Check**  | Check whether a file has already been registered (duplicate detection)                |
+
+---
+
+## How to use
+
+#### Step 1: Attach a file
+
+Upload the file you want to process directly in the chat.
+
+#### Step 2: Choose an action
+
+After uploading the file explicitly say what you want to do
+
+**Available commands:**
+
+| Action | Example prompts                                               |
+| ------ | ------------------------------------------------------------- |
+| Stamp  | "Stamp this file", "Create proof", "Timestamp this file"      |
+| Verify | "Verify this file", "Audit this file", "Confirm integrity"    |
+| Check  | "Check if this already exists", "Is this already registered?" |
+
+---
+
+## What happens internally
+
+The GPT computes a **SHA3-256 hash** of the file:
+
+- Exact file bytes
+- No modification
+- No encoding changes
+- Output is a 64-character lowercase hexadecimal string
+
+Depending on your request:
+
+- **Stamp** → Hash is anchored on blockchain
+- **Verify** → Hash, file size, and filename are verified against blockchain records
+- **Check** → Hash is checked for prior existence
+
+---
+
+## Verification reports
+
+Verification produces a **signed PDF audit report** that includes:
+
+- Verification result (match / no match)
+- Blockchain transaction references
+- Timestamp and integrity metadata
+
+A download link is provided.
