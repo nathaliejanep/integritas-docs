@@ -1,7 +1,7 @@
 {
   "title": "v1",
   "root": false,
-  "defaultOpen": true,
+  "defaultOpen": false,
   "pages": [
     "send-file-hash",
     "send-hash-uid",
