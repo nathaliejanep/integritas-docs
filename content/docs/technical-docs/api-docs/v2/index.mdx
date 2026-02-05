@@ -1,0 +1,61 @@
+---
+title: Overview (v2)
+description: This documentation provides an overview of the Integritas API v2, which enables both uploading and verification of data file hashes against the blockchain. It supports optional NFT traceability and returns structured results that include on-chain validation details. Use this guide to understand endpoints, request formats, and how to interpret the verification responses.
+---
+
+import {
+  API_BASE_URL,
+  ENDPOINT_V2_VERIFY_FILE,
+  ENDPOINT_V2_FILE_CHECK,
+  ENDPOINT_V2_TIMESTAMP_POST,
+  HTTP_METHOD_POST,
+  INTEGRITAS_URL,
+} from '@/lib/constants';
+
+---
+
+## Base URL
+
+All v2 API requests are made to the following base URL:
+
+```text
+https://integritas.minima.global/core/v2
+```
+
+### Example
+
+To make a request to the "Verify file" endpoint, you would use:
+
+```text
+https://integritas.minima.global/core/v2/verify/file
+```
+
+---
+
+## Authentication
+
+Authentication is required and done through the use of API keys. Get yours at <a href={INTEGRITAS_URL} target="_blank" rel="noopener noreferrer">{INTEGRITAS_URL}</a>.
+
+---
+
+## Endpoints Overview
+
+There are three available v2 endpoints.
+
+1. **[Stamp file](/docs/technical-docs/api-docs/v2/stamp-file)** - Submit a hash (or check if it already exists). Returns verification data when the hash is already on-chain.
+
+2. **[File check](/docs/technical-docs/api-docs/v2/file-check)** - Check whether a hash exists on the blockchain. Returns a simple found/not-found result.
+
+3. **[Verify file](/docs/technical-docs/api-docs/v2/verify-file)** - Verify a file by sending its hash. Returns verification results and optionally a PDF report when `x-report-required` is set.
+
+---
+
+## Quick Reference
+
+| Endpoint                                                    | Method                          | Path                                      | When to Use                                                                 |
+| ----------------------------------------------------------- | ------------------------------- | ----------------------------------------- | --------------------------------------------------------------------------- |
+| [Stamp file](/docs/technical-docs/api-docs/v2/stamp-file)   | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_V2_TIMESTAMP_POST}</code> | Submit a hash or get verification data if the hash already exists on-chain. |
+| [File check](/docs/technical-docs/api-docs/v2/file-check)   | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_V2_FILE_CHECK}</code>     | Check if a hash exists on the blockchain.                                   |
+| [Verify file](/docs/technical-docs/api-docs/v2/verify-file) | <code>{HTTP_METHOD_POST}</code> | <code>{ENDPOINT_V2_VERIFY_FILE}</code>    | Verify a file by hash; optionally request a PDF verification report.        |
+
+For details on the response envelopes and field structures used by these endpoints, see the [API Response Schema](/docs/technical-docs/api-docs/v2/response-schema).

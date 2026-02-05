@@ -40,3 +40,8 @@ export const ENDPOINT_TIMESTAMP_POST = '/v1/timestamp/post';
 export const ENDPOINT_TIMESTAMP_STATUS = '/v1/timestamp/status';
 export const ENDPOINT_VERIFY_POST = '/v1/verify/post';
 export const ENDPOINT_VERIFY_POST_LITE = '/v1/verify/post-lite';
+
+// API v2 (integritas.minima.global)
+export const ENDPOINT_V2_VERIFY_FILE = '/v2/verify/file';
+export const ENDPOINT_V2_FILE_CHECK = '/v2/file/check';
+export const ENDPOINT_V2_TIMESTAMP_POST = '/v2/timestamp/post';

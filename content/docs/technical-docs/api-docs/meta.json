@@ -1,6 +1,6 @@
 {
   "title": "API Documentation",
   "root": false,
-  "defaultOpen": true,
-  "pages": ["v1"]
+  "defaultOpen": false,
+  "pages": ["v1", "v2"]
 }

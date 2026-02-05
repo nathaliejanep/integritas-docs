@@ -1,0 +1,158 @@
+---
+title: File Check
+description: Check whether a hash exists on the blockchain. Returns a simple found or not-found result.
+---
+
+import {
+  API_BASE_URL,
+  ENDPOINT_V2_FILE_CHECK,
+  HTTP_METHOD_POST,
+  CONTENT_TYPE_JSON,
+  PLACEHOLDER_API_KEY,
+  PLACEHOLDER_REQUEST_ID,
+  INTEGRITAS_URL,
+  DESC_X_API_KEY,
+  DESC_X_REQUEST_ID,
+  DESC_CONTENT_TYPE_JSON,
+  REQUEST_TYPE_RAW_DATA,
+} from '@/lib/constants';
+
+| Attribute       | Details                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------ |
+| **Method**      | <code>{HTTP_METHOD_POST}</code>                                                                  |
+| **Description** | This endpoint checks whether a hash exists on the blockchain. Send the hash as JSON in the body. |
+| **Endpoint**    | <code>{API_BASE_URL}{ENDPOINT_V2_FILE_CHECK}</code>                                              |
+
+---
+
+## Request Headers
+
+| Header           | Value                                 | Description                                                                                              |
+| ---------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Content-Type** | <code>{CONTENT_TYPE_JSON}</code>      | {DESC_CONTENT_TYPE_JSON}                                                                                 |
+| **x-api-key**    | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY} <a href={INTEGRITAS_URL} target="_blank" rel="noopener noreferrer">{INTEGRITAS_URL}</a> |
+| **x-request-id** | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}                                                                                      |
+
+---
+
+## Request Body
+
+| Request Type            | Content-Type                     | Body Type | Keys   | Description         |
+| ----------------------- | -------------------------------- | --------- | ------ | ------------------- |
+| {REQUEST_TYPE_RAW_DATA} | <code>{CONTENT_TYPE_JSON}</code> | `JSON`    | `hash` | Input hash to check |
+
+### Example
+
+```json
+{
+  "hash": "a1b2c3d4e5f67890abcdef1234567890abcdef1234567890abcdef1234567890"
+}
+```
+
+---
+
+## Request Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+  <Tab value='cURL'>
+
+```bash
+curl -X POST https://integritas.minima.global/core/v2/file/check \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: your-api-key" \
+  -H "x-request-id: your-choice" \
+  -d '{"hash":"a1b2c3d4e5f67890abcdef1234567890abcdef1234567890abcdef1234567890"}'
+```
+
+  </Tab>
+  <Tab value='TypeScript'>
+
+```typescript
+const API_KEY = 'your-api-key';
+const REQUEST_ID = 'your-choice';
+
+async function fileCheck(hash: string) {
+  const response = await fetch(
+    'https://integritas.minima.global/core/v2/file/check',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+      },
+      body: JSON.stringify({ hash }),
+    },
+  );
+
+  const data = await response.json();
+  console.log('Response:', data);
+  return data;
+}
+
+fileCheck('a1b2c3d4e5f67890abcdef1234567890abcdef1234567890abcdef1234567890');
+```
+
+  </Tab>
+  <Tab value='Python'>
+
+```python
+import requests
+
+API_KEY = 'your-api-key'
+REQUEST_ID = 'your-choice'
+
+def file_check(hash_value):
+    url = 'https://integritas.minima.global/core/v2/file/check'
+    headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-request-id': REQUEST_ID,
+    }
+    payload = {'hash': hash_value}
+    response = requests.post(url, headers=headers, json=payload)
+    data = response.json()
+    print('Response:', data)
+    return data
+
+file_check('a1b2c3d4e5f67890abcdef1234567890abcdef1234567890abcdef1234567890')
+```
+
+  </Tab>
+</Tabs>
+
+---
+
+## API Demo
+
+Try the endpoint with your own API key and hash. The request is sent directly to the API, and the response is displayed below.
+
+<ApiDemoV2FileCheck />
+
+---
+
+## API Response
+
+The response indicates whether the hash was found on the blockchain.
+
+### Example Response (Hash Found)
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 2,
+  "requestId": "POSTMAN",
+  "status": "success",
+  "statusCode": 200,
+  "message": "Hash checked",
+  "timestamp": "2026-01-29T13:56:21.580Z",
+  "data": {
+    "service": "SEARCH_API",
+    "apiVersion": 2,
+    "requestId": "POSTMAN",
+    "responseTime": "11.89 ms",
+    "hash": "a1b2c3d4e5f67890abcdef1234567890abcdef1234567890abcdef1234567890",
+    "data": "Hash found."
+  }
+}
+```

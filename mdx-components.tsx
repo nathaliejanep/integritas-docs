@@ -9,6 +9,9 @@ import {
   ApiDemoJsonUids,
   ApiDemoVerifyData,
   ApiDemoVerifyHash,
+  ApiDemoV2VerifyFile,
+  ApiDemoV2FileCheck,
+  ApiDemoV2StampFile,
 } from '@/components/api-demo';
 
 // use this function to get MDX components, you will need it for rendering MDX
@@ -25,5 +28,8 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ApiDemoJsonUids,
     ApiDemoVerifyData,
     ApiDemoVerifyHash,
+    ApiDemoV2VerifyFile,
+    ApiDemoV2FileCheck,
+    ApiDemoV2StampFile,
   };
 }

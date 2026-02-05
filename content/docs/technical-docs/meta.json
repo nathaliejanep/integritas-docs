@@ -9,6 +9,8 @@
     "blockchain-integration",
     "stamping",
     "api-docs",
+    "mcp",
+    "chatgpt-agent",
     "report-generation"
   ]
 }

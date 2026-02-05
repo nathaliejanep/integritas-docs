@@ -1,0 +1,207 @@
+---
+title: Verify File
+description: Verify a file by sending its hash. Returns verification results and optionally a PDF report when x-report-required is set.
+---
+
+import {
+  API_BASE_URL,
+  ENDPOINT_V2_VERIFY_FILE,
+  HTTP_METHOD_POST,
+  CONTENT_TYPE_JSON,
+  PLACEHOLDER_API_KEY,
+  PLACEHOLDER_REQUEST_ID,
+  INTEGRITAS_URL,
+  DESC_X_API_KEY,
+  DESC_X_REQUEST_ID,
+  DESC_X_REPORT_REQUIRED,
+  DESC_CONTENT_TYPE_JSON,
+  REQUEST_TYPE_RAW_DATA,
+} from '@/lib/constants';
+
+| Attribute       | Details                                                                                                                           |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Method**      | <code>{HTTP_METHOD_POST}</code>                                                                                                   |
+| **Description** | This endpoint verifies a file by hash against the blockchain. Send the hash as JSON in the body. Optionally request a PDF report. |
+| **Endpoint**    | <code>{API_BASE_URL}{ENDPOINT_V2_VERIFY_FILE}</code>                                                                              |
+
+---
+
+## Request Headers
+
+| Header                | Value                                 | Description                                                                                              |
+| --------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Content-Type**      | <code>{CONTENT_TYPE_JSON}</code>      | {DESC_CONTENT_TYPE_JSON}                                                                                 |
+| **x-api-key**         | <code>{PLACEHOLDER_API_KEY}</code>    | {DESC_X_API_KEY} <a href={INTEGRITAS_URL} target="_blank" rel="noopener noreferrer">{INTEGRITAS_URL}</a> |
+| **x-report-required** | `true` / `false`                      | {DESC_X_REPORT_REQUIRED}                                                                                 |
+| **x-request-id**      | <code>{PLACEHOLDER_REQUEST_ID}</code> | {DESC_X_REQUEST_ID}                                                                                      |
+
+---
+
+## Request Body
+
+| Request Type            | Content-Type                     | Body Type | Keys       | Description                 |
+| ----------------------- | -------------------------------- | --------- | ---------- | --------------------------- |
+| {REQUEST_TYPE_RAW_DATA} | <code>{CONTENT_TYPE_JSON}</code> | `JSON`    | `hash`     | Input hash of file          |
+| {REQUEST_TYPE_RAW_DATA} | <code>{CONTENT_TYPE_JSON}</code> | `JSON`    | `filename` | Optional. File name         |
+| {REQUEST_TYPE_RAW_DATA} | <code>{CONTENT_TYPE_JSON}</code> | `JSON`    | `filesize` | Optional. File size (bytes) |
+
+When provided, `filename` and `filesize` are used in the PDF report and in matched segments (the full file will be treated as one segment).
+
+### Example
+
+```json
+{
+  "hash": "106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B",
+  "filename": "test",
+  "filesize": 5
+}
+```
+
+---
+
+## Request Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+  <Tab value='cURL'>
+
+```bash
+curl -X POST https://integritas.minima.global/core/v2/verify/file \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: your-api-key" \
+  -H "x-report-required: true" \
+  -H "x-request-id: your-choice" \
+  -d '{"hash":"106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B"}'
+```
+
+  </Tab>
+  <Tab value='TypeScript'>
+
+```typescript
+const API_KEY = 'your-api-key';
+const REQUEST_ID = 'your-choice';
+
+async function verifyFile(hash: string, reportRequired = true) {
+  const response = await fetch(
+    'https://integritas.minima.global/core/v2/verify/file',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-report-required': reportRequired.toString(),
+        'x-request-id': REQUEST_ID,
+      },
+      body: JSON.stringify({ hash }),
+    },
+  );
+
+  const data = await response.json();
+  console.log('Response:', data);
+  return data;
+}
+
+verifyFile('106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B');
+```
+
+  </Tab>
+  <Tab value='Python'>
+
+```python
+import requests
+
+API_KEY = 'your-api-key'
+REQUEST_ID = 'your-choice'
+
+def verify_file(hash_value, report_required=True):
+    url = 'https://integritas.minima.global/core/v2/verify/file'
+    headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'x-report-required': str(report_required).lower(),
+        'x-request-id': REQUEST_ID,
+    }
+    payload = {'hash': hash_value}
+    response = requests.post(url, headers=headers, json=payload)
+    data = response.json()
+    print('Response:', data)
+    return data
+
+verify_file('106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B')
+```
+
+  </Tab>
+</Tabs>
+
+---
+
+## API Demo
+
+Try the endpoint with your own API key and hash. The request is sent directly to the API, and the response is displayed below.
+
+<ApiDemoV2VerifyFile />
+
+---
+
+## API Response
+
+The response contains verification results and optionally a PDF report download when `x-report-required` is set.
+
+### Example Response (Full Match with Report)
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 2,
+  "requestId": "POSTMAN",
+  "status": "success",
+  "statusCode": 200,
+  "message": "Verification complete - PDF uploaded",
+  "timestamp": "2026-01-29T13:54:50.427Z",
+  "data": {
+    "service": "SEARCH_API",
+    "apiVersion": 2,
+    "requestId": "POSTMAN",
+    "responseTime": "3346.43 ms",
+    "data": {
+      "fileHash": "106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B",
+      "fileName": "",
+      "fileSize": 0,
+      "result": "full match",
+      "nftCoinId": "0xB2E182C1AA0635BDD1154EEB9C6512CA73568D09B59DE3E1831517241ABC5A96",
+      "nftTxnId": "0x00000370B400925F2B5F196D212ACCCF6A8E993A28F90AACAC2520A5C3CCFCF4",
+      "method": "file",
+      "uniqueHashes": 1,
+      "blockchainData": [
+        {
+          "blockNumber": 1906787,
+          "blockDate": "2026-01-21T09:55:48.726Z",
+          "txpowId": "0x00000019299334C6E083683292728F7F1459FCF14A16623F3CE2A77BA343E57F",
+          "transactionId": "0x000011381DB9843340378BE44167704EC286BC2A7B63693CD945E619781AF48E",
+          "matchedHash": "106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B"
+        },
+        {
+          "blockNumber": 1903587,
+          "blockDate": "2026-01-19T13:39:24.252Z",
+          "txpowId": "0x0000000B72C97E1F756F29078F481ED8ABED2398F7D0E614A1ECC17C81B4C1D2",
+          "transactionId": "0x000016C4EBCB9F50D6C7DAF8B6A74B388B7AA841378B1CA234499486EA9BC372",
+          "matchedHash": "106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B"
+        }
+      ],
+      "fileSegments": [
+        {
+          "matchedHash": "106F1589B5818A400679A87A19214C43605DEC3EBFDD61E45A776A81C120DD9B",
+          "offset": 0,
+          "packetSize": 0
+        }
+      ]
+    },
+    "file": {
+      "fileName": "verification-report-2026-01-29T13-54-50-415Z.pdf",
+      "downloadUrl": "https://integritas.technology/files/reports/verification-report-2026-01-29T13-54-50-415Z.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=integritas%2F20260129%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260129T135450Z&X-Amz-Expires=3600&X-Amz-Signature=0c2563cf51198ca36db2a00c575f1aba9fef8e354d253653fd95e627658af2db&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22verification-report-2026-01-29T13-54-50-415Z.pdf%22&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+      "fileSize": 78082,
+      "expiresIn": "1 hour",
+      "bucket": "reports"
+    }
+  }
+}
+```
