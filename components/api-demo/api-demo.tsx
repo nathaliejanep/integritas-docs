@@ -57,7 +57,10 @@ export function ApiKeyFields({
   return (
     <>
       <div>
-        <label htmlFor='apiKey' className='block text-sm font-medium mb-1'>
+        <label
+          htmlFor='apiKey'
+          className='block text-sm font-medium mb-1'
+        >
           API Key <span className='text-red-500'>*</span>
         </label>
         <input
@@ -66,6 +69,7 @@ export function ApiKeyFields({
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
           placeholder='your-api-key'
+          autoComplete='off'
           className='w-full px-3 py-2 border rounded-md bg-fd-background focus:outline-none focus:ring-2 focus:ring-fd-primary'
           required
         />
@@ -83,7 +87,10 @@ export function ApiKeyFields({
       </div>
 
       <div>
-        <label htmlFor='requestId' className='block text-sm font-medium mb-1'>
+        <label
+          htmlFor='requestId'
+          className='block text-sm font-medium mb-1'
+        >
           Request ID{' '}
           <span className='text-fd-muted-foreground'>(optional)</span>
         </label>
