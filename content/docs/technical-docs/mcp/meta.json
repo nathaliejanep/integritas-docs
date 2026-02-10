@@ -5,6 +5,7 @@
   "pages": [
     "connecting-claude",
     "connecting-gpt",
+    "connecting-cursor",
     "using-tools-in-chat",
     "mcp-tools"
   ]

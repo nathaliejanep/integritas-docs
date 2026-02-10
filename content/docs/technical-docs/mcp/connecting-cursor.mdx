@@ -1,0 +1,67 @@
+---
+title: Connecting with Cursor
+description: Connect Cursor to the Integritas Remote MCP Server.
+---
+
+### 1. Open MCP settings
+
+Open **Settings** → **Cursor Settings** → **Tools & MCP** → **New MCP Server**.
+
+---
+
+### 2. Add the server config (without headers)
+
+Paste the following JSON config:
+
+```json
+{
+  "integritas": {
+    "url": "https://integritas.technology/mcp"
+  }
+}
+```
+
+**Save** the mcp.json file.
+
+Go back to **Cursor Settings** and click **Authorize** on the Integritas server.
+
+---
+
+### 3. Authorize the connection
+
+Cursor will redirect you to the Integritas authentication page. Log in, then authorize access to complete the connection.
+
+<Callout
+  title='Integritas authorization page'
+  type='info'
+  className='max-w-lg overflow-hidden'
+>
+  <ImageZoom
+    width={280}
+    height={110}
+    alt='Integritas authorization page in Cursor'
+    src='/guide-mcp/authorize-mcp.png'
+    className='w-full h-auto object-contain'
+  />
+</Callout>
+
+---
+
+### 4. With API key (alternative)
+
+If you want to authenticate with an API key, include the `Authorization` header:
+
+```json
+{
+  "integritas-mcp": {
+    "url": "https://integritas.technology/mcp",
+    "headers": {
+      "Authorization": "Bearer your-api-key"
+    }
+  }
+}
+```
+
+Replace `your-api-key` with your actual Integritas API key.
+
+Once saved, the Integritas MCP tools will be available in Cursor.
