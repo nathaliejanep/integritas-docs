@@ -100,7 +100,7 @@ const REQUEST_ID = 'your-choice';
 async function verifyData(
   filePath: string,
   proofPath?: string,
-  reportRequired: boolean = true
+  reportRequired: boolean = true,
 ) {
   const formData = new FormData();
 
@@ -131,7 +131,7 @@ async function verifyData(
         'x-report-required': reportRequired.toString(),
       },
       body: formData,
-    }
+    },
   );
 
   const data = await response.json();
@@ -205,7 +205,7 @@ Try the endpoint with your own API key, source file, and optional proof file. Th
 
 ## API Response
 
-The response from the API contains information about a file and its results from on-chain verification.
+The response from the API contains information about a file and its results from on-chain verification. To learn more about the difference between the `no match`, `partial match`, and `full match` results, see [Blockchain Integration &mdash; Validation Process](/docs/technical-docs/blockchain-integration/#validation-process).
 
 ### Example Response (No Match)
 
@@ -235,6 +235,148 @@ The response from the API contains information about a file and its results from
       "unique_hashes": 0,
       "blockchain_data": [],
       "fileSegments": []
+    }
+  }
+}
+```
+
+### Example Response (Partial Match)
+
+```json
+{
+  "service": "CORE_API",
+  "apiVersion": 1,
+  "requestId": "POSTMAN",
+  "status": "success",
+  "statusCode": 200,
+  "message": "Verification complete",
+  "timestamp": "2026-02-13T10:24:51.619Z",
+  "data": {
+    "service": "SEARCH_API",
+    "api_version": 1,
+    "requestId": "POSTMAN",
+    "response_time": "467275.72 ms",
+    "response": {
+      "fileHash": "0x50D75C68F5198499FA0F4EDBBFED538FF7686E634CC844FA68D4A1B30CAF141F",
+      "fileName": "512kb.md",
+      "fileSize": 524288,
+      "result": "partial match",
+      "method": "random",
+      "hash_instances_onchain": 12,
+      "unique_hashes": 5,
+      "blockchain_data": [
+        {
+          "block_number": 1837572,
+          "block_date": "2025-12-12 07:35",
+          "txpow_id": "0x0000003AB642EC95DE59207FD55F5651A02D2BBC09F40E2C81599D5F5D473630",
+          "transactionid": "0x000003780E0DD385FFBD6E6A8866BC225A907B908DCFBF1B27BBAE1B3AA56E59",
+          "matched_hash": "0xDA8DB27052B9FC3F8933EB274A6091790C27A37D5B472EC4218251FFB112D636"
+        },
+        {
+          "block_number": 1917625,
+          "block_date": "2026-01-27 16:29",
+          "txpow_id": "0x00000023491D65FE2FF1F181EC7B28462F703B5FCD0D239EBA26F5AAD3687BE3",
+          "transactionid": "0x00001968ACA2FF4218C0EF68C46D2D82A0303D3ED9388081E904D7B4EFF2D98B",
+          "matched_hash": "0xDABED81A1F9058991AE976F52B3A0287FB0B18681D6EEB1B195A8E85D4AA5A3A"
+        },
+        {
+          "block_number": 1917470,
+          "block_date": "2026-01-27 14:18",
+          "txpow_id": "0x00000012EEF78DAB83E1275B6E0AD7D7168A25FBD6D21BBFEDB53E1FF652A6A3",
+          "transactionid": "0x0000118D139370EE77F79296534EA08DD9FC129FF29EA9943309A45B9733CBBF",
+          "matched_hash": "0xDABED81A1F9058991AE976F52B3A0287FB0B18681D6EEB1B195A8E85D4AA5A3A"
+        },
+        {
+          "block_number": 1917261,
+          "block_date": "2026-01-27 11:51",
+          "txpow_id": "0x0000002F7730CA87B3770557027DA9F5D0BBAB7D2619D0C7673580AEAE746D8F",
+          "transactionid": "0x000005DEA79756D07C470B33FC5C9C964D0004D3D8380130D488E94A728EA3F4",
+          "matched_hash": "0xDABED81A1F9058991AE976F52B3A0287FB0B18681D6EEB1B195A8E85D4AA5A3A"
+        },
+        {
+          "block_number": 1846789,
+          "block_date": "2025-12-17 15:37",
+          "txpow_id": "0x00000010BF6CBA75C4FDE7C74E561C9B7C120D0EF9518C88D41A453B7B6827E6",
+          "transactionid": "0x00000F988E30A775D56C54608F8A8A0101EDD4E9D3D792F28C19A1CABD1BCE9C",
+          "matched_hash": "0xDABED81A1F9058991AE976F52B3A0287FB0B18681D6EEB1B195A8E85D4AA5A3A"
+        },
+        {
+          "block_number": 1917470,
+          "block_date": "2026-01-27 14:18",
+          "txpow_id": "0x00000012EEF78DAB83E1275B6E0AD7D7168A25FBD6D21BBFEDB53E1FF652A6A3",
+          "transactionid": "0x000021B04C365DC2744E203593CC717AC68C6DF47ACD67383D4184EECA5B5D01",
+          "matched_hash": "0x06C155390288402D49757EC82DACB0458934ACCAF467AF80272A1E42C008E809"
+        },
+        {
+          "block_number": 1917261,
+          "block_date": "2026-01-27 11:50",
+          "txpow_id": "0x0000002F7730CA87B3770557027DA9F5D0BBAB7D2619D0C7673580AEAE746D8F",
+          "transactionid": "0x000017A949F5B06ADB781E950A90F2B1212F7FD7BB0376F981DF3C354BD53008",
+          "matched_hash": "0x06C155390288402D49757EC82DACB0458934ACCAF467AF80272A1E42C008E809"
+        },
+        {
+          "block_number": 1846789,
+          "block_date": "2025-12-17 15:37",
+          "txpow_id": "0x00000010BF6CBA75C4FDE7C74E561C9B7C120D0EF9518C88D41A453B7B6827E6",
+          "transactionid": "0x00001542A604E6E39DC15D7E175C6A74C0B9D559E185A127F0A561E59F63F0FB",
+          "matched_hash": "0x06C155390288402D49757EC82DACB0458934ACCAF467AF80272A1E42C008E809"
+        },
+        {
+          "block_number": 1945224,
+          "block_date": "2026-02-12 16:23",
+          "txpow_id": "0x0000000ECD57090BE67A91492D8980157F08AD1E34431EAC1DDC58E9432A25CB",
+          "transactionid": "0x00001748600CB9C278337F22D63D2132893663560D13859DDE3890DBDFC17013",
+          "matched_hash": "0x4D9F653CDFF09886A357D3D013AC2D0099BDABF8C278FC2405A6D0F5A7F3F5A5"
+        },
+        {
+          "block_number": 1917465,
+          "block_date": "2026-01-27 14:16",
+          "txpow_id": "0x0000001277C591BA1A073B3B71DF61EAC9B3AF991F3C6EFBE6B1F16C6CDBC2CD",
+          "transactionid": "0x00001FCBFCA260C303A56B9A09F9DFC7B3F6BE1B0FF81C8C7CC166E9DA17BA30",
+          "matched_hash": "0x0AEA56D1297E22772868D1CCCFFD111E2764D4093FA5FA487C270959BE14FAE5"
+        },
+        {
+          "block_number": 1917260,
+          "block_date": "2026-01-27 11:50",
+          "txpow_id": "0x0000000A1456A5DCB21B746C5DBFA324B1E1441A499C51D2BC51EE4ED1533C21",
+          "transactionid": "0x00000AC0451BE63023D9BC3DF8EF3BF9BB6AC94E7F30E5DD6309E5B601412836",
+          "matched_hash": "0x0AEA56D1297E22772868D1CCCFFD111E2764D4093FA5FA487C270959BE14FAE5"
+        },
+        {
+          "block_number": 1846789,
+          "block_date": "2025-12-17 15:37",
+          "txpow_id": "0x00000010BF6CBA75C4FDE7C74E561C9B7C120D0EF9518C88D41A453B7B6827E6",
+          "transactionid": "0x00002AC6FCDBAF70911B53896FEBA12F3C4DFAFEFBB60B02D5A13F2AE085D653",
+          "matched_hash": "0x0AEA56D1297E22772868D1CCCFFD111E2764D4093FA5FA487C270959BE14FAE5"
+        }
+      ],
+      "fileSegments": [
+        {
+          "matched_hash": "0xDA8DB27052B9FC3F8933EB274A6091790C27A37D5B472EC4218251FFB112D636",
+          "offset": 311376,
+          "packetSize": 3
+        },
+        {
+          "matched_hash": "0xDABED81A1F9058991AE976F52B3A0287FB0B18681D6EEB1B195A8E85D4AA5A3A",
+          "offset": 398535,
+          "packetSize": 27
+        },
+        {
+          "matched_hash": "0x06C155390288402D49757EC82DACB0458934ACCAF467AF80272A1E42C008E809",
+          "offset": 245842,
+          "packetSize": 33
+        },
+        {
+          "matched_hash": "0x4D9F653CDFF09886A357D3D013AC2D0099BDABF8C278FC2405A6D0F5A7F3F5A5",
+          "offset": 44,
+          "packetSize": 41
+        },
+        {
+          "matched_hash": "0x0AEA56D1297E22772868D1CCCFFD111E2764D4093FA5FA487C270959BE14FAE5",
+          "offset": 37,
+          "packetSize": 44
+        }
+      ]
     }
   }
 }
